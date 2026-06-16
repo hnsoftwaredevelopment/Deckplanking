@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
 using DeckPlanking.Core.Preview;
@@ -22,6 +23,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     private string segmentLengthText = string.Empty;
     private string imperialDisplayText = string.Empty;
     private string validationMessage = string.Empty;
+    private decimal segmentLengthMillimeters;
+    private bool isSeamTableVisible;
     private bool isDecimalScale = true;
 
     public ScaleInputViewModel()
@@ -50,6 +53,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         selectedScaleMode = ScaleModes[0];
         selectedPattern = Patterns[3];
 
+        ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
         Recalculate();
     }
 
@@ -60,6 +64,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; }
 
     public ObservableCollection<PatternPreviewRow> PatternRows { get; } = [];
+
+    public IRelayCommand ToggleSeamTableCommand { get; }
 
     public double RealPlankLength
     {
@@ -140,6 +146,12 @@ public sealed class ScaleInputViewModel : ObservableObject
         private set => SetProperty(ref segmentLengthText, value);
     }
 
+    public decimal SegmentLengthMillimeters
+    {
+        get => segmentLengthMillimeters;
+        private set => SetProperty(ref segmentLengthMillimeters, value);
+    }
+
     public string ImperialDisplayText
     {
         get => imperialDisplayText;
@@ -159,6 +171,20 @@ public sealed class ScaleInputViewModel : ObservableObject
     }
 
     public bool IsImperialScale => !IsDecimalScale;
+
+    public bool IsSeamTableVisible
+    {
+        get => isSeamTableVisible;
+        private set
+        {
+            if (SetProperty(ref isSeamTableVisible, value))
+            {
+                OnPropertyChanged(nameof(SeamTableToggleText));
+            }
+        }
+    }
+
+    public string SeamTableToggleText => IsSeamTableVisible ? "Hide seam details" : "Show seam details";
 
     private void SetAndRecalculate<T>(ref T field, T value)
     {
@@ -189,6 +215,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             RawScaleLengthText = $"{result.RawScaleLengthMillimeters:0.###} mm";
             CutLengthText = $"{result.CutLengthMillimeters:0.#} mm";
             SegmentLengthText = $"{result.SegmentLengthMillimeters:0.###} mm";
+            SegmentLengthMillimeters = result.SegmentLengthMillimeters;
             ImperialDisplayText = $"{result.DisplayLengthInches:0.####} in";
             UpdatePatternRows(result.CutLengthMillimeters);
             ValidationMessage = string.Empty;
@@ -198,10 +225,16 @@ public sealed class ScaleInputViewModel : ObservableObject
             RawScaleLengthText = "-";
             CutLengthText = "-";
             SegmentLengthText = "-";
+            SegmentLengthMillimeters = 0;
             ImperialDisplayText = "-";
             PatternRows.Clear();
             ValidationMessage = "Enter positive values for length and scale.";
         }
+    }
+
+    private void ToggleSeamTable()
+    {
+        IsSeamTableVisible = !IsSeamTableVisible;
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)

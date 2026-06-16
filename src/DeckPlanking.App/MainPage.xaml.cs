@@ -32,12 +32,18 @@ public partial class MainPage : ContentPage
         {
             UpdatePatternPreview();
         }
+
+        if (e.PropertyName is nameof(ScaleInputViewModel.SegmentLengthMillimeters))
+        {
+            UpdatePatternPreview();
+        }
     }
 
     private void UpdatePatternPreview()
     {
         patternPreviewDrawable.Rows = viewModel.PatternRows.ToArray();
         patternPreviewDrawable.DeckLengthMillimeters = viewModel.DeckLengthMillimeters;
+        patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
         PatternGraphics.Invalidate();
     }
 }

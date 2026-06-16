@@ -187,8 +187,15 @@
                                           HeightRequest="260" />
                         </Border>
 
+                        <Button Text="{Binding SeamTableToggleText}"
+                                Command="{Binding ToggleSeamTableCommand}"
+                                HorizontalOptions="Start"
+                                Padding="12,8"
+                                MinimumHeightRequest="36" />
+
                         <Grid ColumnDefinitions="70,90,*"
-                              ColumnSpacing="10">
+                              ColumnSpacing="10"
+                              IsVisible="{Binding IsSeamTableVisible}">
                             <Label Text="Row"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource AppSecondaryTextColor}" />
@@ -203,7 +210,8 @@
                         </Grid>
 
                         <CollectionView ItemsSource="{Binding PatternRows}"
-                                        HeightRequest="220">
+                                        HeightRequest="220"
+                                        IsVisible="{Binding IsSeamTableVisible}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="70,90,*"
