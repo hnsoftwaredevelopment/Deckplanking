@@ -181,10 +181,10 @@
                         <Border Padding="0"
                                 Stroke="{StaticResource AppAccentColor}"
                                 StrokeThickness="1"
-                                HeightRequest="260"
+                                HeightRequest="340"
                                 BackgroundColor="#FFF7EC">
                             <GraphicsView x:Name="PatternGraphics"
-                                          HeightRequest="260" />
+                                          HeightRequest="340" />
                         </Border>
 
                         <Button Text="{Binding SeamTableToggleText}"
