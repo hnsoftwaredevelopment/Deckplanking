@@ -23,6 +23,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private string segmentLengthText = string.Empty;
     private string imperialDisplayText = string.Empty;
     private string validationMessage = string.Empty;
+    private decimal cutLengthMillimeters;
     private decimal segmentLengthMillimeters;
     private bool isSeamTableVisible;
     private bool useKingPlank;
@@ -147,6 +148,12 @@ public sealed class ScaleInputViewModel : ObservableObject
         private set => SetProperty(ref cutLengthText, value);
     }
 
+    public decimal CutLengthMillimeters
+    {
+        get => cutLengthMillimeters;
+        private set => SetProperty(ref cutLengthMillimeters, value);
+    }
+
     public string SegmentLengthText
     {
         get => segmentLengthText;
@@ -221,6 +228,7 @@ public sealed class ScaleInputViewModel : ObservableObject
 
             RawScaleLengthText = $"{result.RawScaleLengthMillimeters:0.###} mm";
             CutLengthText = $"{result.CutLengthMillimeters:0.#} mm";
+            CutLengthMillimeters = result.CutLengthMillimeters;
             SegmentLengthText = $"{result.SegmentLengthMillimeters:0.###} mm";
             SegmentLengthMillimeters = result.SegmentLengthMillimeters;
             ImperialDisplayText = $"{result.DisplayLengthInches:0.####} in";
@@ -231,6 +239,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         {
             RawScaleLengthText = "-";
             CutLengthText = "-";
+            CutLengthMillimeters = 0;
             SegmentLengthText = "-";
             SegmentLengthMillimeters = 0;
             ImperialDisplayText = "-";

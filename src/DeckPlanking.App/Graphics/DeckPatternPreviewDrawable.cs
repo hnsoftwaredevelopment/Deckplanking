@@ -1,4 +1,5 @@
 using DeckPlanking.Core.Preview;
+using DeckPlanking.Core.Patterns;
 
 namespace DeckPlanking.App.Graphics;
 
@@ -13,6 +14,14 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
     private const float MinimumRulerLabelSpacing = 30;
 
     public IReadOnlyList<PatternPreviewRow> Rows { get; set; } = [];
+
+    public ShiftPatternKind PatternKind { get; set; } = ShiftPatternKind.Every5;
+
+    public int RowsPerSide { get; set; }
+
+    public int StartPoint { get; set; }
+
+    public double PlankLengthMillimeters { get; set; }
 
     public double DeckLengthMillimeters { get; set; }
 
@@ -35,14 +44,20 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
         var deckLength = DeckLengthMillimeters > 0 ? (float)DeckLengthMillimeters : DetermineFallbackDeckLength();
         var drawingWidth = Math.Max(1, dirtyRect.Width - LeftMargin - RightMargin);
-        var mirroredRows = MirroredPatternPreviewBuilder.Build(Rows, UseKingPlank);
-        var upperRows = mirroredRows.Where(row => row.Side == PatternPreviewSide.Upper).ToArray();
-        var lowerRows = mirroredRows.Where(row => row.Side == PatternPreviewSide.Lower).ToArray();
-        var kingPlankRow = mirroredRows.FirstOrDefault(row => row.Side == PatternPreviewSide.KingPlank);
+        var centerlineRows = BuildCenterlineRows(deckLength);
+        var upperRows = centerlineRows.Where(row => row.Side == PatternPreviewSide.Upper).ToArray();
+        var lowerRows = centerlineRows.Where(row => row.Side == PatternPreviewSide.Lower).ToArray();
+        var kingPlankRow = centerlineRows.FirstOrDefault(row => row.Side == PatternPreviewSide.KingPlank);
+        if (centerlineRows.Count == 0)
+        {
+            canvas.RestoreState();
+            return;
+        }
+
         var drawingHeight = Math.Max(1, dirtyRect.Height - TopMargin - BottomMargin);
         var internalRowGaps = Math.Max(0, (upperRows.Length - 1) + (lowerRows.Length - 1)) * RowGap;
         var centerGapTotal = UseKingPlank ? CenterlineGap * 2 : CenterlineGap;
-        var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / mirroredRows.Count);
+        var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / centerlineRows.Count);
         var deckRect = new RectF(LeftMargin, TopMargin, drawingWidth, drawingHeight);
         var currentY = TopMargin;
 
@@ -58,6 +73,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
             var kingRect = new RectF(LeftMargin, currentY, drawingWidth, rowHeight);
             DrawKingPlank(canvas, kingRect);
+            DrawSeams(canvas, kingPlankRow.SourceRow, deckLength, kingRect);
             DrawRowLabel(canvas, "K", currentY, rowHeight);
 
             currentY += rowHeight;
@@ -77,25 +93,41 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         canvas.RestoreState();
     }
 
+    private IReadOnlyList<CenterlinePatternPreviewRow> BuildCenterlineRows(float deckLength)
+    {
+        if (PlankLengthMillimeters <= 0 || deckLength <= 0 || RowsPerSide <= 0)
+        {
+            return [];
+        }
+
+        return CenterlinePatternPreviewBuilder.Build(
+            (decimal)PlankLengthMillimeters,
+            (decimal)deckLength,
+            PatternKind,
+            RowsPerSide,
+            StartPoint,
+            UseKingPlank);
+    }
+
     private static void DrawRows(
         ICanvas canvas,
-        IReadOnlyList<MirroredPatternPreviewRow> mirroredRows,
+        IReadOnlyList<CenterlinePatternPreviewRow> centerlineRows,
         float deckLength,
         float drawingWidth,
         float rowHeight,
         ref float currentY)
     {
-        for (var index = 0; index < mirroredRows.Count; index++)
+        for (var index = 0; index < centerlineRows.Count; index++)
         {
-            var row = mirroredRows[index].SourceRow;
+            var row = centerlineRows[index].SourceRow;
             var plankRect = new RectF(LeftMargin, currentY, drawingWidth, rowHeight);
 
             DrawRow(canvas, plankRect, row.RowNumber);
             DrawSeams(canvas, row, deckLength, plankRect);
-            DrawRowLabel(canvas, row.RowNumber.ToString(), currentY, rowHeight);
+            DrawRowLabel(canvas, row.Phase.ToString(), currentY, rowHeight);
 
             currentY += rowHeight;
-            if (index < mirroredRows.Count - 1)
+            if (index < centerlineRows.Count - 1)
             {
                 currentY += RowGap;
             }

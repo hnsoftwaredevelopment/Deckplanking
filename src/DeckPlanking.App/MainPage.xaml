@@ -132,10 +132,10 @@
                                    Text="King plank"
                                    VerticalOptions="Center"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
-                            <CheckBox Grid.Row="8"
-                                      Grid.Column="1"
-                                      IsChecked="{Binding UseKingPlank, Mode=TwoWay}"
-                                      HorizontalOptions="Start" />
+                            <Switch Grid.Row="8"
+                                    Grid.Column="1"
+                                    IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
+                                    HorizontalOptions="Start" />
                         </Grid>
 
                         <Label Text="{Binding ValidationMessage}"
