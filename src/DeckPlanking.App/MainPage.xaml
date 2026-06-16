@@ -1,35 +1,136 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              x:Class="DeckPlanking.App.MainPage">
 
-    <Grid Padding="24"
-          RowDefinitions="Auto,*"
-          BackgroundColor="{StaticResource AppBackgroundColor}">
-        <VerticalStackLayout Spacing="6">
-            <Label Text="Modelboat Deckplanking"
-                   Style="{StaticResource Headline}"
-                   TextColor="{StaticResource AppPrimaryTextColor}"
-                   SemanticProperties.HeadingLevel="Level1" />
-            <Label Text="Project foundation ready for scale and planking calculations."
-                   Style="{StaticResource SubHeadline}"
-                   TextColor="{StaticResource AppSecondaryTextColor}"
-                   SemanticProperties.HeadingLevel="Level2" />
-        </VerticalStackLayout>
-
-        <Border Grid.Row="1"
-                Margin="0,24,0,0"
-                Padding="18"
-                Stroke="{StaticResource AppAccentColor}"
-                StrokeThickness="1"
-                BackgroundColor="{StaticResource AppSurfaceColor}">
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Core engine"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource AppPrimaryTextColor}" />
-                <Label Text="Standard shift patterns, scale conversion, and seam generation live in DeckPlanking.Core."
-                       TextColor="{StaticResource AppSecondaryTextColor}" />
+    <ScrollView BackgroundColor="{StaticResource AppBackgroundColor}">
+        <Grid Padding="24"
+              RowDefinitions="Auto,Auto"
+              RowSpacing="18"
+              MaximumWidthRequest="980">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Modelboat Deckplanking"
+                       Style="{StaticResource Headline}"
+                       TextColor="{StaticResource AppPrimaryTextColor}"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Scale a full-size plank and prepare the cut length for the selected butt-shift pattern."
+                       Style="{StaticResource SubHeadline}"
+                       TextColor="{StaticResource AppSecondaryTextColor}"
+                       SemanticProperties.HeadingLevel="Level2" />
             </VerticalStackLayout>
-        </Border>
-    </Grid>
+
+            <Grid Grid.Row="1"
+                  RowDefinitions="Auto,Auto"
+                  RowSpacing="16">
+                <Border Padding="16"
+                        Stroke="{StaticResource AppAccentColor}"
+                        StrokeThickness="1"
+                        BackgroundColor="{StaticResource AppSurfaceColor}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Inputs"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="{StaticResource AppPrimaryTextColor}" />
+
+                        <Label Text="Full-size plank length"
+                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                        <inputs:SfNumericEntry Value="{Binding RealPlankLength, Mode=TwoWay}"
+                                               Minimum="0"
+                                               AllowNull="False"
+                                               CustomFormat="0.###" />
+
+                        <Picker Title="Length unit"
+                                ItemsSource="{Binding LengthUnits}"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedItem="{Binding SelectedLengthUnit}" />
+
+                        <Picker Title="Scale mode"
+                                ItemsSource="{Binding ScaleModes}"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedItem="{Binding SelectedScaleMode}" />
+
+                        <VerticalStackLayout IsVisible="{Binding IsDecimalScale}"
+                                             Spacing="6">
+                            <Label Text="Scale 1:N"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <inputs:SfNumericEntry Value="{Binding DecimalScale, Mode=TwoWay}"
+                                                   Minimum="1"
+                                                   AllowNull="False"
+                                                   CustomFormat="0.###" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout IsVisible="{Binding IsImperialScale}"
+                                             Spacing="6">
+                            <Label Text="Inches per real foot"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <inputs:SfNumericEntry Value="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
+                                                   Minimum="0.001"
+                                                   AllowNull="False"
+                                                   CustomFormat="0.###" />
+                        </VerticalStackLayout>
+
+                        <Picker Title="Shift pattern"
+                                ItemsSource="{Binding Patterns}"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedItem="{Binding SelectedPattern}" />
+
+                        <Label Text="{Binding ValidationMessage}"
+                               TextColor="#B3261E" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="1"
+                        Padding="16"
+                        Stroke="{StaticResource AppAccentColor}"
+                        StrokeThickness="1"
+                        BackgroundColor="{StaticResource AppSurfaceColor}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Calculated plank length"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="{StaticResource AppPrimaryTextColor}" />
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto"
+                              RowSpacing="12">
+                            <Label Text="Raw scale length"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding RawScaleLengthText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+
+                            <Label Grid.Row="1"
+                                   Text="Cut length"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding CutLengthText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+
+                            <Label Grid.Row="2"
+                                   Text="Segment length"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                            <Label Grid.Row="2"
+                                   Grid.Column="1"
+                                   Text="{Binding SegmentLengthText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+
+                            <Label Grid.Row="3"
+                                   Text="Imperial display"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                            <Label Grid.Row="3"
+                                   Grid.Column="1"
+                                   Text="{Binding ImperialDisplayText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>
