@@ -116,39 +116,21 @@
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
                         <Grid ColumnDefinitions="*,Auto"
-                              RowDefinitions="Auto,Auto,Auto,Auto"
+                              RowDefinitions="Auto,Auto"
                               RowSpacing="12">
-                            <Label Text="Raw scale length"
+                            <Label Text="Cut length"
                                    TextColor="{StaticResource AppSecondaryTextColor}" />
                             <Label Grid.Column="1"
-                                   Text="{Binding RawScaleLengthText}"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
-
-                            <Label Grid.Row="1"
-                                   Text="Cut length"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
-                            <Label Grid.Row="1"
-                                   Grid.Column="1"
                                    Text="{Binding CutLengthText}"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
 
-                            <Label Grid.Row="2"
+                            <Label Grid.Row="1"
                                    Text="Segment length"
                                    TextColor="{StaticResource AppSecondaryTextColor}" />
-                            <Label Grid.Row="2"
+                            <Label Grid.Row="1"
                                    Grid.Column="1"
                                    Text="{Binding SegmentLengthText}"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
-
-                            <Label Grid.Row="3"
-                                   Text="Imperial display"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
-                            <Label Grid.Row="3"
-                                   Grid.Column="1"
-                                   Text="{Binding ImperialDisplayText}"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
                         </Grid>
