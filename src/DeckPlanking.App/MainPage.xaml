@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              x:Class="DeckPlanking.App.MainPage">
 
     <ScrollView BackgroundColor="{StaticResource AppBackgroundColor}">
@@ -35,10 +34,9 @@
 
                         <Label Text="Full-size plank length"
                                TextColor="{StaticResource AppPrimaryTextColor}" />
-                        <inputs:SfNumericEntry Value="{Binding RealPlankLength, Mode=TwoWay}"
-                                               Minimum="0"
-                                               AllowNull="False"
-                                               CustomFormat="0.###" />
+                        <Entry Text="{Binding RealPlankLength, Mode=TwoWay}"
+                               Keyboard="Numeric"
+                               ClearButtonVisibility="WhileEditing" />
 
                         <Picker Title="Length unit"
                                 ItemsSource="{Binding LengthUnits}"
@@ -54,20 +52,18 @@
                                              Spacing="6">
                             <Label Text="Scale 1:N"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
-                            <inputs:SfNumericEntry Value="{Binding DecimalScale, Mode=TwoWay}"
-                                                   Minimum="1"
-                                                   AllowNull="False"
-                                                   CustomFormat="0.###" />
+                            <Entry Text="{Binding DecimalScale, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout IsVisible="{Binding IsImperialScale}"
                                              Spacing="6">
                             <Label Text="Inches per real foot"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
-                            <inputs:SfNumericEntry Value="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
-                                                   Minimum="0.001"
-                                                   AllowNull="False"
-                                                   CustomFormat="0.###" />
+                            <Entry Text="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
                         </VerticalStackLayout>
 
                         <Picker Title="Shift pattern"
