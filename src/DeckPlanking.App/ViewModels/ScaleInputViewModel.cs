@@ -25,6 +25,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private string validationMessage = string.Empty;
     private decimal segmentLengthMillimeters;
     private bool isSeamTableVisible;
+    private bool useKingPlank;
     private bool isDecimalScale = true;
 
     public ScaleInputViewModel()
@@ -101,6 +102,12 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         get => startPoint;
         set => SetAndRecalculate(ref startPoint, value);
+    }
+
+    public bool UseKingPlank
+    {
+        get => useKingPlank;
+        set => SetProperty(ref useKingPlank, value);
     }
 
     public OptionItem<LengthUnit> SelectedLengthUnit

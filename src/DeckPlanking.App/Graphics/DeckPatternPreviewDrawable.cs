@@ -18,6 +18,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public double SegmentLengthMillimeters { get; set; }
 
+    public bool UseKingPlank { get; set; }
+
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
         canvas.SaveState();
@@ -33,35 +35,71 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
         var deckLength = DeckLengthMillimeters > 0 ? (float)DeckLengthMillimeters : DetermineFallbackDeckLength();
         var drawingWidth = Math.Max(1, dirtyRect.Width - LeftMargin - RightMargin);
-        var mirroredRows = MirroredPatternPreviewBuilder.Build(Rows);
+        var mirroredRows = MirroredPatternPreviewBuilder.Build(Rows, UseKingPlank);
+        var upperRows = mirroredRows.Where(row => row.Side == PatternPreviewSide.Upper).ToArray();
+        var lowerRows = mirroredRows.Where(row => row.Side == PatternPreviewSide.Lower).ToArray();
+        var kingPlankRow = mirroredRows.FirstOrDefault(row => row.Side == PatternPreviewSide.KingPlank);
         var drawingHeight = Math.Max(1, dirtyRect.Height - TopMargin - BottomMargin);
-        var sideGapTotal = Math.Max(0, (Rows.Count - 1) * RowGap * 2);
-        var rowHeight = Math.Max(4, (drawingHeight - CenterlineGap - sideGapTotal) / mirroredRows.Count);
+        var internalRowGaps = Math.Max(0, (upperRows.Length - 1) + (lowerRows.Length - 1)) * RowGap;
+        var centerGapTotal = UseKingPlank ? CenterlineGap * 2 : CenterlineGap;
+        var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / mirroredRows.Count);
         var deckRect = new RectF(LeftMargin, TopMargin, drawingWidth, drawingHeight);
-        var centerlineY = TopMargin + (Rows.Count * rowHeight) + ((Rows.Count - 1) * RowGap) + (CenterlineGap / 2);
+        var currentY = TopMargin;
 
         DrawRuler(canvas, deckLength, deckRect);
 
+        DrawRows(canvas, upperRows, deckLength, drawingWidth, rowHeight, ref currentY);
+
+        if (kingPlankRow is not null)
+        {
+            var topCenterlineY = currentY + (CenterlineGap / 2);
+            DrawCenterline(canvas, deckRect.Left, deckRect.Right, topCenterlineY);
+            currentY += CenterlineGap;
+
+            var kingRect = new RectF(LeftMargin, currentY, drawingWidth, rowHeight);
+            DrawKingPlank(canvas, kingRect);
+            DrawRowLabel(canvas, "K", currentY, rowHeight);
+
+            currentY += rowHeight;
+            var bottomCenterlineY = currentY + (CenterlineGap / 2);
+            DrawCenterline(canvas, deckRect.Left, deckRect.Right, bottomCenterlineY);
+            currentY += CenterlineGap;
+        }
+        else
+        {
+            var centerlineY = currentY + (CenterlineGap / 2);
+            DrawCenterline(canvas, deckRect.Left, deckRect.Right, centerlineY);
+            currentY += CenterlineGap;
+        }
+
+        DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY);
+
+        canvas.RestoreState();
+    }
+
+    private static void DrawRows(
+        ICanvas canvas,
+        IReadOnlyList<MirroredPatternPreviewRow> mirroredRows,
+        float deckLength,
+        float drawingWidth,
+        float rowHeight,
+        ref float currentY)
+    {
         for (var index = 0; index < mirroredRows.Count; index++)
         {
-            var mirroredRow = mirroredRows[index];
-            var row = mirroredRow.SourceRow;
-            var sideIndex = mirroredRow.Side == PatternPreviewSide.Upper
-                ? index
-                : index - Rows.Count;
-            var y = mirroredRow.Side == PatternPreviewSide.Upper
-                ? TopMargin + (sideIndex * (rowHeight + RowGap))
-                : centerlineY + (CenterlineGap / 2) + (sideIndex * (rowHeight + RowGap));
-            var plankRect = new RectF(LeftMargin, y, drawingWidth, rowHeight);
+            var row = mirroredRows[index].SourceRow;
+            var plankRect = new RectF(LeftMargin, currentY, drawingWidth, rowHeight);
 
             DrawRow(canvas, plankRect, row.RowNumber);
             DrawSeams(canvas, row, deckLength, plankRect);
-            DrawRowNumber(canvas, row.RowNumber, y, rowHeight);
+            DrawRowLabel(canvas, row.RowNumber.ToString(), currentY, rowHeight);
+
+            currentY += rowHeight;
+            if (index < mirroredRows.Count - 1)
+            {
+                currentY += RowGap;
+            }
         }
-
-        DrawCenterline(canvas, deckRect.Left, deckRect.Right, centerlineY);
-
-        canvas.RestoreState();
     }
 
     private void DrawRuler(ICanvas canvas, float deckLength, RectF deckRect)
@@ -148,6 +186,16 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
     }
 
+    private static void DrawKingPlank(ICanvas canvas, RectF rowRect)
+    {
+        canvas.FillColor = Color.FromArgb("#B97735");
+        canvas.FillRectangle(rowRect);
+
+        canvas.StrokeColor = Color.FromArgb("#7A4C22");
+        canvas.StrokeSize = 1.2f;
+        canvas.DrawRectangle(rowRect);
+    }
+
     private static void DrawSeams(ICanvas canvas, PatternPreviewRow row, float deckLength, RectF rowRect)
     {
         if (deckLength <= 0)
@@ -170,12 +218,12 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
     }
 
-    private static void DrawRowNumber(ICanvas canvas, int rowNumber, float y, float rowHeight)
+    private static void DrawRowLabel(ICanvas canvas, string label, float y, float rowHeight)
     {
         canvas.FontColor = Color.FromArgb("#4B2E14");
         canvas.FontSize = 11;
         canvas.DrawString(
-            rowNumber.ToString(),
+            label,
             0,
             y,
             LeftMargin - 8,

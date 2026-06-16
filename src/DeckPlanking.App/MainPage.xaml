@@ -33,7 +33,7 @@
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
                         <Grid ColumnDefinitions="220,*"
-                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnSpacing="14"
                               RowSpacing="8">
                             <Label Text="Full-size plank length"
@@ -127,6 +127,15 @@
                                     ItemsSource="{Binding Patterns}"
                                     ItemDisplayBinding="{Binding DisplayName}"
                                     SelectedItem="{Binding SelectedPattern}" />
+
+                            <Label Grid.Row="8"
+                                   Text="King plank"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <CheckBox Grid.Row="8"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding UseKingPlank, Mode=TwoWay}"
+                                      HorizontalOptions="Start" />
                         </Grid>
 
                         <Label Text="{Binding ValidationMessage}"

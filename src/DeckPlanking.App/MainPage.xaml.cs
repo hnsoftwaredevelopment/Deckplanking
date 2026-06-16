@@ -37,6 +37,11 @@ public partial class MainPage : ContentPage
         {
             UpdatePatternPreview();
         }
+
+        if (e.PropertyName is nameof(ScaleInputViewModel.UseKingPlank))
+        {
+            UpdatePatternPreview();
+        }
     }
 
     private void UpdatePatternPreview()
@@ -44,6 +49,7 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.Rows = viewModel.PatternRows.ToArray();
         patternPreviewDrawable.DeckLengthMillimeters = viewModel.DeckLengthMillimeters;
         patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
+        patternPreviewDrawable.UseKingPlank = viewModel.UseKingPlank;
         PatternGraphics.Invalidate();
     }
 }

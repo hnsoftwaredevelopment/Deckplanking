@@ -49,4 +49,29 @@ public sealed class MirroredPatternPreviewBuilderTests
                 Assert.Equal(3, row.SourceRow.RowNumber);
             });
     }
+
+    [Fact]
+    public void InsertsKingPlankBetweenMirroredHalvesWhenEnabled()
+    {
+        var sourceRows = new[]
+        {
+            new PatternPreviewRow(1, 1, [10m], "10"),
+            new PatternPreviewRow(2, 2, [20m], "20")
+        };
+
+        var mirroredRows = MirroredPatternPreviewBuilder.Build(sourceRows, includeKingPlank: true);
+
+        Assert.Collection(
+            mirroredRows,
+            row => Assert.Equal(PatternPreviewSide.Upper, row.Side),
+            row => Assert.Equal(PatternPreviewSide.Upper, row.Side),
+            row =>
+            {
+                Assert.Equal(PatternPreviewSide.KingPlank, row.Side);
+                Assert.True(row.IsKingPlank);
+                Assert.Equal(0, row.SourceRow.RowNumber);
+            },
+            row => Assert.Equal(PatternPreviewSide.Lower, row.Side),
+            row => Assert.Equal(PatternPreviewSide.Lower, row.Side));
+    }
 }
