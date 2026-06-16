@@ -26,50 +26,81 @@
                         Stroke="{StaticResource AppAccentColor}"
                         StrokeThickness="1"
                         BackgroundColor="{StaticResource AppSurfaceColor}">
-                    <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="Inputs"
                                FontAttributes="Bold"
                                FontSize="18"
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
-                        <Label Text="Full-size plank length"
-                               TextColor="{StaticResource AppPrimaryTextColor}" />
-                        <Entry Text="{Binding RealPlankLength, Mode=TwoWay}"
-                               Keyboard="Numeric"
-                               ClearButtonVisibility="WhileEditing" />
-
-                        <Picker Title="Length unit"
-                                ItemsSource="{Binding LengthUnits}"
-                                ItemDisplayBinding="{Binding DisplayName}"
-                                SelectedItem="{Binding SelectedLengthUnit}" />
-
-                        <Picker Title="Scale mode"
-                                ItemsSource="{Binding ScaleModes}"
-                                ItemDisplayBinding="{Binding DisplayName}"
-                                SelectedItem="{Binding SelectedScaleMode}" />
-
-                        <VerticalStackLayout IsVisible="{Binding IsDecimalScale}"
-                                             Spacing="6">
-                            <Label Text="Scale 1:N"
+                        <Grid ColumnDefinitions="220,*"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                              ColumnSpacing="14"
+                              RowSpacing="8">
+                            <Label Text="Full-size plank length"
+                                   VerticalOptions="Center"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
-                            <Entry Text="{Binding DecimalScale, Mode=TwoWay}"
+                            <Entry Grid.Column="1"
+                                   Text="{Binding RealPlankLength, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    ClearButtonVisibility="WhileEditing" />
-                        </VerticalStackLayout>
 
-                        <VerticalStackLayout IsVisible="{Binding IsImperialScale}"
-                                             Spacing="6">
-                            <Label Text="Inches per real foot"
+                            <Label Grid.Row="1"
+                                   Text="Length unit"
+                                   VerticalOptions="Center"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
-                            <Entry Text="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
-                                   Keyboard="Numeric"
-                                   ClearButtonVisibility="WhileEditing" />
-                        </VerticalStackLayout>
+                            <Picker Grid.Row="1"
+                                    Grid.Column="1"
+                                    Title="Length unit"
+                                    ItemsSource="{Binding LengthUnits}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedLengthUnit}" />
 
-                        <Picker Title="Shift pattern"
-                                ItemsSource="{Binding Patterns}"
-                                ItemDisplayBinding="{Binding DisplayName}"
-                                SelectedItem="{Binding SelectedPattern}" />
+                            <Label Grid.Row="2"
+                                   Text="Scale mode"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="2"
+                                    Grid.Column="1"
+                                    Title="Scale mode"
+                                    ItemsSource="{Binding ScaleModes}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedScaleMode}" />
+
+                            <Label Grid.Row="3"
+                                   Text="Scale 1:N"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsDecimalScale}"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="3"
+                                   Grid.Column="1"
+                                   Text="{Binding DecimalScale, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsDecimalScale}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="3"
+                                   Text="Inches per real foot"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsImperialScale}"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="3"
+                                   Grid.Column="1"
+                                   Text="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsImperialScale}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="4"
+                                   Text="Shift pattern"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="4"
+                                    Grid.Column="1"
+                                    Title="Shift pattern"
+                                    ItemsSource="{Binding Patterns}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedPattern}" />
+                        </Grid>
 
                         <Label Text="{Binding ValidationMessage}"
                                TextColor="#B3261E" />
