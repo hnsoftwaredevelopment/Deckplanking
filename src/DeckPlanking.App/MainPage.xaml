@@ -50,7 +50,6 @@
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="1"
                                     Grid.Column="1"
-                                    Title="Length unit"
                                     ItemsSource="{Binding LengthUnits}"
                                     ItemDisplayBinding="{Binding DisplayName}"
                                     SelectedItem="{Binding SelectedLengthUnit}" />
@@ -61,7 +60,6 @@
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="2"
                                     Grid.Column="1"
-                                    Title="Scale mode"
                                     ItemsSource="{Binding ScaleModes}"
                                     ItemDisplayBinding="{Binding DisplayName}"
                                     SelectedItem="{Binding SelectedScaleMode}" />
@@ -96,7 +94,6 @@
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="4"
                                     Grid.Column="1"
-                                    Title="Shift pattern"
                                     ItemsSource="{Binding Patterns}"
                                     ItemDisplayBinding="{Binding DisplayName}"
                                     SelectedItem="{Binding SelectedPattern}" />
