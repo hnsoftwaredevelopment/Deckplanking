@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DeckPlanking.App.MainPage">
+
+    <Grid Padding="24"
+          RowDefinitions="Auto,*"
+          BackgroundColor="{StaticResource AppBackgroundColor}">
+        <VerticalStackLayout Spacing="6">
+            <Label Text="Modelboat Deckplanking"
+                   Style="{StaticResource Headline}"
+                   TextColor="{StaticResource AppPrimaryTextColor}"
+                   SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Project foundation ready for scale and planking calculations."
+                   Style="{StaticResource SubHeadline}"
+                   TextColor="{StaticResource AppSecondaryTextColor}"
+                   SemanticProperties.HeadingLevel="Level2" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1"
+                Margin="0,24,0,0"
+                Padding="18"
+                Stroke="{StaticResource AppAccentColor}"
+                StrokeThickness="1"
+                BackgroundColor="{StaticResource AppSurfaceColor}">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Core engine"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource AppPrimaryTextColor}" />
+                <Label Text="Standard shift patterns, scale conversion, and seam generation live in DeckPlanking.Core."
+                       TextColor="{StaticResource AppSecondaryTextColor}" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>
