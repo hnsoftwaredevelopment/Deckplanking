@@ -12,7 +12,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private double decimalScale = 64;
     private double deckLengthMillimeters = 600;
     private double imperialInchesPerFoot = 1d / 6d;
-    private int rowCount = 6;
+    private int rowCount = 8;
     private int startPoint;
     private OptionItem<LengthUnit> selectedLengthUnit;
     private OptionItem<ScaleMode> selectedScaleMode;
