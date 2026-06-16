@@ -20,12 +20,14 @@ public sealed class PatternPreviewBuilderTests
             {
                 Assert.Equal(1, row.RowNumber);
                 Assert.Equal(4, row.SeamOffsetSegments);
+                Assert.Equal(new[] { 112m, 252m, 392m, 532m }, row.SeamPositionsMillimeters);
                 Assert.Equal("112, 252, 392, 532", row.SeamPositionsText);
             },
             row =>
             {
                 Assert.Equal(2, row.RowNumber);
                 Assert.Equal(1, row.SeamOffsetSegments);
+                Assert.Equal(new[] { 28m, 168m, 308m, 448m, 588m }, row.SeamPositionsMillimeters);
                 Assert.Equal("28, 168, 308, 448, 588", row.SeamPositionsText);
             });
     }
@@ -40,6 +42,7 @@ public sealed class PatternPreviewBuilderTests
             rowCount: 1,
             startPoint: 0));
 
+        Assert.Empty(row.SeamPositionsMillimeters);
         Assert.Equal("-", row.SeamPositionsText);
     }
 }

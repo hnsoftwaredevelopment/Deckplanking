@@ -28,6 +28,6 @@ public static class PatternPreviewBuilder
             ? "-"
             : string.Join(", ", row.SeamPositionsMillimeters.Select(position => $"{position:0.###}"));
 
-        return new PatternPreviewRow(row.RowNumber, row.SeamOffsetSegments, seams);
+        return new PatternPreviewRow(row.RowNumber, row.SeamOffsetSegments, row.SeamPositionsMillimeters, seams);
     }
 }
