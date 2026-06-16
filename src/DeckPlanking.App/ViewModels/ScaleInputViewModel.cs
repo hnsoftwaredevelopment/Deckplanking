@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
+using DeckPlanking.Core.Preview;
+using System.Collections.ObjectModel;
 
 namespace DeckPlanking.App.ViewModels;
 
@@ -8,7 +10,10 @@ public sealed class ScaleInputViewModel : ObservableObject
 {
     private double realPlankLength = 9;
     private double decimalScale = 64;
+    private double deckLengthMillimeters = 600;
     private double imperialInchesPerFoot = 1d / 6d;
+    private int rowCount = 6;
+    private int startPoint;
     private OptionItem<LengthUnit> selectedLengthUnit;
     private OptionItem<ScaleMode> selectedScaleMode;
     private OptionItem<ShiftPatternKind> selectedPattern;
@@ -54,6 +59,8 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; }
 
+    public ObservableCollection<PatternPreviewRow> PatternRows { get; } = [];
+
     public double RealPlankLength
     {
         get => realPlankLength;
@@ -66,10 +73,28 @@ public sealed class ScaleInputViewModel : ObservableObject
         set => SetAndRecalculate(ref decimalScale, value);
     }
 
+    public double DeckLengthMillimeters
+    {
+        get => deckLengthMillimeters;
+        set => SetAndRecalculate(ref deckLengthMillimeters, value);
+    }
+
     public double ImperialInchesPerFoot
     {
         get => imperialInchesPerFoot;
         set => SetAndRecalculate(ref imperialInchesPerFoot, value);
+    }
+
+    public int RowCount
+    {
+        get => rowCount;
+        set => SetAndRecalculate(ref rowCount, value);
+    }
+
+    public int StartPoint
+    {
+        get => startPoint;
+        set => SetAndRecalculate(ref startPoint, value);
     }
 
     public OptionItem<LengthUnit> SelectedLengthUnit
@@ -165,6 +190,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             CutLengthText = $"{result.CutLengthMillimeters:0.#} mm";
             SegmentLengthText = $"{result.SegmentLengthMillimeters:0.###} mm";
             ImperialDisplayText = $"{result.DisplayLengthInches:0.####} in";
+            UpdatePatternRows(result.CutLengthMillimeters);
             ValidationMessage = string.Empty;
         }
         catch (ArgumentOutOfRangeException)
@@ -173,7 +199,25 @@ public sealed class ScaleInputViewModel : ObservableObject
             CutLengthText = "-";
             SegmentLengthText = "-";
             ImperialDisplayText = "-";
+            PatternRows.Clear();
             ValidationMessage = "Enter positive values for length and scale.";
+        }
+    }
+
+    private void UpdatePatternRows(decimal plankLengthMillimeters)
+    {
+        PatternRows.Clear();
+
+        var rows = PatternPreviewBuilder.Build(
+            plankLengthMillimeters,
+            (decimal)DeckLengthMillimeters,
+            SelectedPattern.Value,
+            RowCount,
+            StartPoint);
+
+        foreach (var row in rows)
+        {
+            PatternRows.Add(row);
         }
     }
 }

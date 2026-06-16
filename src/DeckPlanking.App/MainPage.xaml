@@ -20,7 +20,7 @@
             </VerticalStackLayout>
 
             <Grid Grid.Row="1"
-                  RowDefinitions="Auto,Auto"
+                  RowDefinitions="Auto,Auto,Auto"
                   RowSpacing="16">
                 <Border Padding="16"
                         Stroke="{StaticResource AppAccentColor}"
@@ -33,7 +33,7 @@
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
                         <Grid ColumnDefinitions="220,*"
-                              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnSpacing="14"
                               RowSpacing="8">
                             <Label Text="Full-size plank length"
@@ -89,10 +89,40 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="4"
+                                   Text="Deck length"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="4"
+                                   Grid.Column="1"
+                                   Text="{Binding DeckLengthMillimeters, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="5"
+                                   Text="Rows"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="5"
+                                   Grid.Column="1"
+                                   Text="{Binding RowCount, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="6"
+                                   Text="Start point"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="6"
+                                   Grid.Column="1"
+                                   Text="{Binding StartPoint, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="7"
                                    Text="Shift pattern"
                                    VerticalOptions="Center"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
-                            <Picker Grid.Row="4"
+                            <Picker Grid.Row="7"
                                     Grid.Column="1"
                                     ItemsSource="{Binding Patterns}"
                                     ItemDisplayBinding="{Binding DisplayName}"
@@ -134,6 +164,55 @@
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource AppPrimaryTextColor}" />
                         </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="2"
+                        Padding="16"
+                        Stroke="{StaticResource AppAccentColor}"
+                        StrokeThickness="1"
+                        BackgroundColor="{StaticResource AppSurfaceColor}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Pattern preview"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="{StaticResource AppPrimaryTextColor}" />
+
+                        <Grid ColumnDefinitions="70,90,*"
+                              ColumnSpacing="10">
+                            <Label Text="Row"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                            <Label Grid.Column="1"
+                                   Text="Offset"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                            <Label Grid.Column="2"
+                                   Text="Seams (mm)"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                        </Grid>
+
+                        <CollectionView ItemsSource="{Binding PatternRows}"
+                                        HeightRequest="220">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="70,90,*"
+                                          ColumnSpacing="10"
+                                          Padding="0,4">
+                                        <Label Text="{Binding RowNumber}"
+                                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding SeamOffsetSegments}"
+                                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                                        <Label Grid.Column="2"
+                                               Text="{Binding SeamPositionsText}"
+                                               LineBreakMode="TailTruncation"
+                                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </VerticalStackLayout>
                 </Border>
             </Grid>
