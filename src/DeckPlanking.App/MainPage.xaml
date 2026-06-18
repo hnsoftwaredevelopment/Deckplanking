@@ -216,12 +216,15 @@
                                        TextColor="{StaticResource AppPrimaryTextColor}" />
                                 <Switch IsToggled="{Binding ShowTrenails, Mode=TwoWay}"
                                         VerticalOptions="Center" />
-                                <Picker ItemsSource="{Binding TrenailPatterns}"
-                                        ItemDisplayBinding="{Binding DisplayName}"
-                                        SelectedItem="{Binding SelectedTrenailPattern}"
-                                        IsEnabled="{Binding ShowTrenails}"
-                                        WidthRequest="78"
-                                        VerticalOptions="Center" />
+                                <ImageButton Source="{Binding SelectedTrenailPatternIcon}"
+                                             Command="{Binding CycleTrenailPatternCommand}"
+                                             IsEnabled="{Binding ShowTrenails}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="{Binding SelectedTrenailPatternDescription}" />
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Spacing="6"
                                                    VerticalOptions="Center"

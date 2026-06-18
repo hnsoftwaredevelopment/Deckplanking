@@ -74,6 +74,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         selectedTrenailPattern = TrenailPatterns[0];
 
         ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
+        CycleTrenailPatternCommand = new RelayCommand(CycleTrenailPattern);
         Recalculate();
     }
 
@@ -90,6 +91,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     public ObservableCollection<PatternPreviewRow> PatternRows { get; } = [];
 
     public IRelayCommand ToggleSeamTableCommand { get; }
+
+    public IRelayCommand CycleTrenailPatternCommand { get; }
 
     public double RealPlankLength
     {
@@ -173,8 +176,31 @@ public sealed class ScaleInputViewModel : ObservableObject
     public OptionItem<TrenailPatternKind> SelectedTrenailPattern
     {
         get => selectedTrenailPattern;
-        set => SetProperty(ref selectedTrenailPattern, value);
+        set
+        {
+            if (SetProperty(ref selectedTrenailPattern, value))
+            {
+                OnPropertyChanged(nameof(SelectedTrenailPatternIcon));
+                OnPropertyChanged(nameof(SelectedTrenailPatternDescription));
+            }
+        }
     }
+
+    public string SelectedTrenailPatternIcon => SelectedTrenailPattern.Value switch
+    {
+        TrenailPatternKind.TwoPerPlankEnd => "trenail_two.svg",
+        TrenailPatternKind.OneCentered => "trenail_center.svg",
+        TrenailPatternKind.OneAlternating => "trenail_alternating.svg",
+        _ => "trenail_two.svg"
+    };
+
+    public string SelectedTrenailPatternDescription => SelectedTrenailPattern.Value switch
+    {
+        TrenailPatternKind.TwoPerPlankEnd => "Two trenails per plank end",
+        TrenailPatternKind.OneCentered => "One centered trenail per plank end",
+        TrenailPatternKind.OneAlternating => "One alternating trenail per plank end",
+        _ => "Two trenails per plank end"
+    };
 
     public string RawScaleLengthText
     {
@@ -291,6 +317,22 @@ public sealed class ScaleInputViewModel : ObservableObject
     private void ToggleSeamTable()
     {
         IsSeamTableVisible = !IsSeamTableVisible;
+    }
+
+    private void CycleTrenailPattern()
+    {
+        var currentIndex = 0;
+        for (var index = 0; index < TrenailPatterns.Count; index++)
+        {
+            if (TrenailPatterns[index] == SelectedTrenailPattern)
+            {
+                currentIndex = index;
+                break;
+            }
+        }
+
+        var nextIndex = (currentIndex + 1) % TrenailPatterns.Count;
+        SelectedTrenailPattern = TrenailPatterns[nextIndex];
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)
