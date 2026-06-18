@@ -106,19 +106,39 @@ public partial class MainPage : ContentPage
         try
         {
             var fileResult = await PreviewPngExporter.ExportAsync(patternPreviewDrawable);
-            var saveResult = await ExportFileSaver.SaveAsync(fileResult);
-            if (saveResult.Saved)
-            {
-                await DisplayAlertAsync(
-                    "Export saved",
-                    $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
-                    "OK");
-            }
+            await SaveExportAsync(fileResult);
         }
         catch (Exception ex)
         {
             await DisplayAlertAsync("Export failed", ex.Message, "OK");
         }
+    }
+
+    private async void OnExportPdfClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            var fileResult = await PreviewPdfExporter.ExportAsync(patternPreviewDrawable);
+            await SaveExportAsync(fileResult);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Export failed", ex.Message, "OK");
+        }
+    }
+
+    private async Task SaveExportAsync(FileResult fileResult)
+    {
+        var saveResult = await ExportFileSaver.SaveAsync(fileResult);
+        if (!saveResult.Saved)
+        {
+            return;
+        }
+
+        await DisplayAlertAsync(
+            "Export saved",
+            $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
+            "OK");
     }
 
     private void OnPatternPanUpdated(object? sender, PanUpdatedEventArgs e)

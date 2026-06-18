@@ -13,4 +13,14 @@ public sealed class ExportFileNameBuilderTests
 
         Assert.Equal("deckplanking-20260618-1453.png", fileName);
     }
+
+    [Fact]
+    public void BuildsTimestampedDeckplankingPdfFileName()
+    {
+        var timestamp = new DateTimeOffset(2026, 6, 18, 14, 53, 0, TimeSpan.Zero);
+
+        var fileName = ExportFileNameBuilder.BuildPdfFileName(timestamp);
+
+        Assert.Equal("deckplanking-20260618-1453.pdf", fileName);
+    }
 }

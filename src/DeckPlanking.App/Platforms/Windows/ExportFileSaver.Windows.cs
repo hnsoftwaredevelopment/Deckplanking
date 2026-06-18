@@ -12,13 +12,15 @@ public static partial class ExportFileSaver
         ArgumentNullException.ThrowIfNull(sourceFile);
 
         var fileName = Path.GetFileName(sourceFile.FullPath);
+        var extension = Path.GetExtension(fileName).ToLowerInvariant();
+        var fileTypeLabel = extension == ".pdf" ? "PDF document" : "PNG image";
         var picker = new FileSavePicker
         {
             SuggestedStartLocation = PickerLocationId.Downloads,
             SuggestedFileName = Path.GetFileNameWithoutExtension(fileName),
-            DefaultFileExtension = ".png"
+            DefaultFileExtension = extension
         };
-        picker.FileTypeChoices.Add("PNG image", [".png"]);
+        picker.FileTypeChoices.Add(fileTypeLabel, [extension]);
 
         var window = Application.Current?.Windows.FirstOrDefault()?.Handler?.PlatformView
             as Microsoft.UI.Xaml.Window;

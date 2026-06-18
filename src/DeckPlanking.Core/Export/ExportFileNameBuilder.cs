@@ -6,4 +6,9 @@ public static class ExportFileNameBuilder
     {
         return $"deckplanking-{timestamp:yyyyMMdd-HHmm}.png";
     }
+
+    public static string BuildPdfFileName(DateTimeOffset timestamp)
+    {
+        return $"deckplanking-{timestamp:yyyyMMdd-HHmm}.pdf";
+    }
 }
