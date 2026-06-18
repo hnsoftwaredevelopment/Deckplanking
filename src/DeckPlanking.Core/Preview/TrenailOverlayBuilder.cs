@@ -2,10 +2,12 @@ namespace DeckPlanking.Core.Preview;
 
 public static class TrenailOverlayBuilder
 {
+    public const decimal DefaultDistanceFromPlankEndMillimeters = 4m;
+
     public static IReadOnlyList<TrenailPoint> Build(
         IReadOnlyList<CenterlinePatternPreviewRow> rows,
         decimal? deckLengthMillimeters = null,
-        decimal distanceFromPlankEndMillimeters = 4m,
+        decimal distanceFromPlankEndMillimeters = DefaultDistanceFromPlankEndMillimeters,
         TrenailPatternKind patternKind = TrenailPatternKind.TwoPerPlankEnd)
     {
         if (rows.Count == 0)
@@ -56,6 +58,21 @@ public static class TrenailOverlayBuilder
         }
 
         return points;
+    }
+
+    public static decimal CalculateReadableDistanceFromPlankEnd(
+        decimal deckLengthMillimeters,
+        decimal renderedDeckWidth,
+        decimal minimumRenderedDistance,
+        decimal preferredDistanceMillimeters = DefaultDistanceFromPlankEndMillimeters)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(deckLengthMillimeters);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(renderedDeckWidth);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(minimumRenderedDistance);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(preferredDistanceMillimeters);
+
+        var minimumDistanceMillimeters = minimumRenderedDistance * deckLengthMillimeters / renderedDeckWidth;
+        return Math.Max(preferredDistanceMillimeters, minimumDistanceMillimeters);
     }
 
     private static void AddPlankEndTrenails(

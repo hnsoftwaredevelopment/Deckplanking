@@ -12,6 +12,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
     private const float RowGap = 3;
     private const float CenterlineGap = 12;
     private const float MinimumRulerLabelSpacing = 30;
+    private const float MinimumRenderedTrenailOffset = 10;
 
     public IReadOnlyList<PatternPreviewRow> Rows { get; set; } = [];
 
@@ -173,6 +174,10 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         var points = TrenailOverlayBuilder.Build(
             renderedRows.Select(row => row.Row).ToArray(),
             (decimal)deckLength,
+            TrenailOverlayBuilder.CalculateReadableDistanceFromPlankEnd(
+                (decimal)deckLength,
+                (decimal)renderedRows[0].Rect.Width,
+                (decimal)MinimumRenderedTrenailOffset),
             patternKind: trenailPatternKind);
 
         canvas.FillColor = Color.FromArgb("#2A160B");

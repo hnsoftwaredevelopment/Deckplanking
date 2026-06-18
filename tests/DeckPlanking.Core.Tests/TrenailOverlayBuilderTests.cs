@@ -73,6 +73,17 @@ public sealed class TrenailOverlayBuilderTests
     }
 
     [Fact]
+    public void CalculatesReadableDistanceForNarrowRenderedDecks()
+    {
+        var distance = TrenailOverlayBuilder.CalculateReadableDistanceFromPlankEnd(
+            deckLengthMillimeters: 600m,
+            renderedDeckWidth: 300m,
+            minimumRenderedDistance: 10m);
+
+        Assert.Equal(20m, distance);
+    }
+
+    [Fact]
     public void BuildsOneCenteredTrenailOnBothSidesOfEachInternalSeam()
     {
         var rows = CenterlinePatternPreviewBuilder.Build(
