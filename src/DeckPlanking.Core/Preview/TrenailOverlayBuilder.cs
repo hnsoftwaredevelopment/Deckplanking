@@ -5,7 +5,8 @@ public static class TrenailOverlayBuilder
     public static IReadOnlyList<TrenailPoint> Build(
         IReadOnlyList<CenterlinePatternPreviewRow> rows,
         decimal? deckLengthMillimeters = null,
-        decimal distanceFromPlankEndMillimeters = 2m)
+        decimal distanceFromPlankEndMillimeters = 2m,
+        TrenailPatternKind patternKind = TrenailPatternKind.TwoPerPlankEnd)
     {
         if (rows.Count == 0)
         {
@@ -23,15 +24,29 @@ public static class TrenailOverlayBuilder
 
         for (var rowIndex = 0; rowIndex < rows.Count; rowIndex++)
         {
-            foreach (var position in rows[rowIndex].SourceRow.SeamPositionsMillimeters)
-            {
-                if (position <= 0m || position >= deckLength)
-                {
-                    continue;
-                }
+            var internalSeams = rows[rowIndex].SourceRow.SeamPositionsMillimeters
+                .Where(position => position > 0m && position < deckLength)
+                .Order()
+                .ToArray();
 
-                AddPlankEndTrenails(points, rowIndex, position - distanceFromPlankEndMillimeters, deckLength);
-                AddPlankEndTrenails(points, rowIndex, position + distanceFromPlankEndMillimeters, deckLength);
+            for (var seamIndex = 0; seamIndex < internalSeams.Length; seamIndex++)
+            {
+                var position = internalSeams[seamIndex];
+
+                AddPlankEndTrenails(
+                    points,
+                    rowIndex,
+                    position - distanceFromPlankEndMillimeters,
+                    deckLength,
+                    patternKind,
+                    segmentIndex: seamIndex);
+                AddPlankEndTrenails(
+                    points,
+                    rowIndex,
+                    position + distanceFromPlankEndMillimeters,
+                    deckLength,
+                    patternKind,
+                    segmentIndex: seamIndex + 1);
             }
         }
 
@@ -42,14 +57,32 @@ public static class TrenailOverlayBuilder
         List<TrenailPoint> points,
         int rowIndex,
         decimal positionMillimeters,
-        decimal deckLengthMillimeters)
+        decimal deckLengthMillimeters,
+        TrenailPatternKind patternKind,
+        int segmentIndex)
     {
         if (positionMillimeters <= 0m || positionMillimeters >= deckLengthMillimeters)
         {
             return;
         }
 
-        points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Upper));
-        points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Lower));
+        switch (patternKind)
+        {
+            case TrenailPatternKind.TwoPerPlankEnd:
+                points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Upper));
+                points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Lower));
+                break;
+            case TrenailPatternKind.OneCentered:
+                points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Center));
+                break;
+            case TrenailPatternKind.OneAlternating:
+                var placement = segmentIndex % 2 == 0
+                    ? TrenailVerticalPlacement.Upper
+                    : TrenailVerticalPlacement.Lower;
+                points.Add(new TrenailPoint(rowIndex, positionMillimeters, placement));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(patternKind), patternKind, null);
+        }
     }
 }

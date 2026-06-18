@@ -16,7 +16,11 @@ public sealed class TrenailOverlayBuilderTests
             startPoint: 0,
             includeKingPlank: false);
 
-        var points = TrenailOverlayBuilder.Build(rows, deckLengthMillimeters: 300m, distanceFromPlankEndMillimeters: 2m);
+        var points = TrenailOverlayBuilder.Build(
+            rows,
+            deckLengthMillimeters: 300m,
+            distanceFromPlankEndMillimeters: 2m,
+            patternKind: TrenailPatternKind.TwoPerPlankEnd);
         var firstRowSeams = rows[0].SourceRow.SeamPositionsMillimeters
             .Where(position => position > 0m && position < 300m)
             .ToArray();
@@ -27,6 +31,53 @@ public sealed class TrenailOverlayBuilderTests
         Assert.Contains(points, point => point.RowIndex == 0 && point.PositionMillimeters == firstSeam - 2m && point.VerticalPlacement == TrenailVerticalPlacement.Lower);
         Assert.Contains(points, point => point.RowIndex == 0 && point.PositionMillimeters == firstSeam + 2m && point.VerticalPlacement == TrenailVerticalPlacement.Upper);
         Assert.Contains(points, point => point.RowIndex == 0 && point.PositionMillimeters == firstSeam + 2m && point.VerticalPlacement == TrenailVerticalPlacement.Lower);
+    }
+
+    [Fact]
+    public void BuildsOneCenteredTrenailOnBothSidesOfEachInternalSeam()
+    {
+        var rows = CenterlinePatternPreviewBuilder.Build(
+            plankLengthMillimeters: 140m,
+            deckLengthMillimeters: 300m,
+            patternKind: ShiftPatternKind.Every5,
+            rowsPerSide: 1,
+            startPoint: 0,
+            includeKingPlank: false);
+
+        var points = TrenailOverlayBuilder.Build(
+            rows,
+            deckLengthMillimeters: 300m,
+            distanceFromPlankEndMillimeters: 2m,
+            patternKind: TrenailPatternKind.OneCentered);
+        var firstSeam = rows[0].SourceRow.SeamPositionsMillimeters.First(position => position > 0m && position < 300m);
+
+        Assert.Contains(points, point => point.RowIndex == 0 && point.PositionMillimeters == firstSeam - 2m && point.VerticalPlacement == TrenailVerticalPlacement.Center);
+        Assert.Contains(points, point => point.RowIndex == 0 && point.PositionMillimeters == firstSeam + 2m && point.VerticalPlacement == TrenailVerticalPlacement.Center);
+        Assert.DoesNotContain(points, point => point.VerticalPlacement == TrenailVerticalPlacement.Upper);
+        Assert.DoesNotContain(points, point => point.VerticalPlacement == TrenailVerticalPlacement.Lower);
+    }
+
+    [Fact]
+    public void BuildsAlternatingSingleTrenailsOnAdjacentPlankEnds()
+    {
+        var row = new CenterlinePatternPreviewRow(
+            PatternPreviewSide.Upper,
+            new PatternPreviewRow(
+                RowNumber: 1,
+                Phase: 1,
+                SeamOffsetSegments: 1,
+                SeamPositionsMillimeters: [50m],
+                SeamPositionsText: "50"));
+
+        var points = TrenailOverlayBuilder.Build(
+            [row],
+            deckLengthMillimeters: 100m,
+            distanceFromPlankEndMillimeters: 2m,
+            patternKind: TrenailPatternKind.OneAlternating);
+
+        Assert.Contains(points, point => point.PositionMillimeters == 48m && point.VerticalPlacement == TrenailVerticalPlacement.Upper);
+        Assert.Contains(points, point => point.PositionMillimeters == 52m && point.VerticalPlacement == TrenailVerticalPlacement.Lower);
+        Assert.Equal(2, points.Count);
     }
 
     [Fact]
