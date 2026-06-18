@@ -241,10 +241,10 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         canvas.StrokeColor = Color.FromArgb("#1F1F1F");
         canvas.StrokeSize = 1.6f;
 
-        DrawLeftArrow(canvas, center - 62, arrowY, center - 120);
-        DrawDirectionLabel(canvas, "Boeg", center - (labelWidth / 2), y, labelWidth, labelHeight);
-        DrawRightArrow(canvas, center + 62, arrowY, center + 120);
-        DrawDirectionLabel(canvas, "Hek", center + 126, y, labelWidth, labelHeight);
+        DrawDirectionLabel(canvas, "Boeg", center - 126, y, labelWidth, labelHeight);
+        DrawLeftArrow(canvas, center - 18, arrowY, center - 62);
+        DrawRightArrow(canvas, center + 18, arrowY, center + 62);
+        DrawDirectionLabel(canvas, "Hek", center + 68, y, labelWidth, labelHeight);
     }
 
     private static void DrawDirectionLabel(ICanvas canvas, string label, float x, float y, float width, float height)
