@@ -310,7 +310,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
                 continue;
             }
 
-            canvas.DrawLine(x, rowRect.Top + 1, x, rowRect.Bottom - 1);
+            canvas.DrawLine(x, rowRect.Top, x, rowRect.Bottom);
         }
     }
 
