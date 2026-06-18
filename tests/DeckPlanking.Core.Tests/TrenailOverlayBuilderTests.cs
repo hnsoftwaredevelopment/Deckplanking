@@ -54,6 +54,25 @@ public sealed class TrenailOverlayBuilderTests
     }
 
     [Fact]
+    public void DefaultsToReadableDistanceFromSeams()
+    {
+        var row = new CenterlinePatternPreviewRow(
+            PatternPreviewSide.Upper,
+            new PatternPreviewRow(
+                RowNumber: 1,
+                Phase: 1,
+                SeamOffsetSegments: 1,
+                SeamPositionsMillimeters: [50m],
+                SeamPositionsText: "50"));
+
+        var points = TrenailOverlayBuilder.Build([row], deckLengthMillimeters: 100m);
+
+        Assert.Contains(points, point => point.PositionMillimeters == 46m);
+        Assert.Contains(points, point => point.PositionMillimeters == 54m);
+        Assert.DoesNotContain(points, point => point.PositionMillimeters is 48m or 52m);
+    }
+
+    [Fact]
     public void BuildsOneCenteredTrenailOnBothSidesOfEachInternalSeam()
     {
         var rows = CenterlinePatternPreviewBuilder.Build(

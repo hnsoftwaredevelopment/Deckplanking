@@ -5,7 +5,7 @@ public static class TrenailOverlayBuilder
     public static IReadOnlyList<TrenailPoint> Build(
         IReadOnlyList<CenterlinePatternPreviewRow> rows,
         decimal? deckLengthMillimeters = null,
-        decimal distanceFromPlankEndMillimeters = 2m,
+        decimal distanceFromPlankEndMillimeters = 4m,
         TrenailPatternKind patternKind = TrenailPatternKind.TwoPerPlankEnd)
     {
         if (rows.Count == 0)
