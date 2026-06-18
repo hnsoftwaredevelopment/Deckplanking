@@ -31,6 +31,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public bool ShowTrenails { get; set; }
 
+    public TrenailPatternKind TrenailPatternKind { get; set; } = TrenailPatternKind.TwoPerPlankEnd;
+
     public DeckOrientation DeckOrientation { get; set; } = DeckOrientation.BowLeft;
 
     public double Zoom { get; set; } = 1;
@@ -106,7 +108,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows);
         if (ShowTrenails)
         {
-            DrawTrenails(canvas, renderedRows, deckLength);
+            DrawTrenails(canvas, renderedRows, deckLength, TrenailPatternKind);
         }
 
         DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation);
@@ -160,14 +162,18 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
     private static void DrawTrenails(
         ICanvas canvas,
         IReadOnlyList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows,
-        float deckLength)
+        float deckLength,
+        TrenailPatternKind trenailPatternKind)
     {
         if (deckLength <= 0 || renderedRows.Count == 0)
         {
             return;
         }
 
-        var points = TrenailOverlayBuilder.Build(renderedRows.Select(row => row.Row).ToArray(), (decimal)deckLength);
+        var points = TrenailOverlayBuilder.Build(
+            renderedRows.Select(row => row.Row).ToArray(),
+            (decimal)deckLength,
+            patternKind: trenailPatternKind);
 
         canvas.FillColor = Color.FromArgb("#2A160B");
 
@@ -175,9 +181,13 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         {
             var rowRect = renderedRows[point.RowIndex].Rect;
             var x = rowRect.Left + ((float)point.PositionMillimeters / deckLength * rowRect.Width);
-            var y = point.VerticalPlacement == TrenailVerticalPlacement.Upper
-                ? rowRect.Top + (rowRect.Height * 0.28f)
-                : rowRect.Bottom - (rowRect.Height * 0.28f);
+            var y = point.VerticalPlacement switch
+            {
+                TrenailVerticalPlacement.Upper => rowRect.Top + (rowRect.Height * 0.28f),
+                TrenailVerticalPlacement.Center => rowRect.Center.Y,
+                TrenailVerticalPlacement.Lower => rowRect.Bottom - (rowRect.Height * 0.28f),
+                _ => rowRect.Center.Y
+            };
             var radius = Math.Clamp(rowRect.Height * 0.11f, 1.4f, 3.2f);
 
             canvas.FillCircle(x, y, radius);

@@ -19,6 +19,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private OptionItem<ScaleMode> selectedScaleMode;
     private OptionItem<ShiftPatternKind> selectedPattern;
     private OptionItem<DeckOrientation> selectedDeckOrientation;
+    private OptionItem<TrenailPatternKind> selectedTrenailPattern;
     private string rawScaleLengthText = string.Empty;
     private string cutLengthText = string.Empty;
     private string segmentLengthText = string.Empty;
@@ -59,10 +60,18 @@ public sealed class ScaleInputViewModel : ObservableObject
             new("Stern left", DeckOrientation.SternLeft)
         ];
 
+        TrenailPatterns =
+        [
+            new("oo|oo", TrenailPatternKind.TwoPerPlankEnd),
+            new("o|o", TrenailPatternKind.OneCentered),
+            new("^|v", TrenailPatternKind.OneAlternating)
+        ];
+
         selectedLengthUnit = LengthUnits[0];
         selectedScaleMode = ScaleModes[0];
         selectedPattern = Patterns[3];
         selectedDeckOrientation = DeckOrientations[0];
+        selectedTrenailPattern = TrenailPatterns[0];
 
         ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
         Recalculate();
@@ -75,6 +84,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; }
 
     public IReadOnlyList<OptionItem<DeckOrientation>> DeckOrientations { get; }
+
+    public IReadOnlyList<OptionItem<TrenailPatternKind>> TrenailPatterns { get; }
 
     public ObservableCollection<PatternPreviewRow> PatternRows { get; } = [];
 
@@ -157,6 +168,12 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         get => selectedDeckOrientation;
         set => SetProperty(ref selectedDeckOrientation, value);
+    }
+
+    public OptionItem<TrenailPatternKind> SelectedTrenailPattern
+    {
+        get => selectedTrenailPattern;
+        set => SetProperty(ref selectedTrenailPattern, value);
     }
 
     public string RawScaleLengthText

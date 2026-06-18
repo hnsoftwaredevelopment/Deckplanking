@@ -216,6 +216,12 @@
                                        TextColor="{StaticResource AppPrimaryTextColor}" />
                                 <Switch IsToggled="{Binding ShowTrenails, Mode=TwoWay}"
                                         VerticalOptions="Center" />
+                                <Picker ItemsSource="{Binding TrenailPatterns}"
+                                        ItemDisplayBinding="{Binding DisplayName}"
+                                        SelectedItem="{Binding SelectedTrenailPattern}"
+                                        IsEnabled="{Binding ShowTrenails}"
+                                        WidthRequest="78"
+                                        VerticalOptions="Center" />
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Spacing="6"
                                                    VerticalOptions="Center"

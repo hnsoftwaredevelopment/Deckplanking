@@ -61,6 +61,7 @@ public partial class MainPage : ContentPage
         if (e.PropertyName is nameof(ScaleInputViewModel.RowCount)
             or nameof(ScaleInputViewModel.StartPoint)
             or nameof(ScaleInputViewModel.SelectedPattern)
+            or nameof(ScaleInputViewModel.SelectedTrenailPattern)
             or nameof(ScaleInputViewModel.SelectedDeckOrientation))
         {
             UpdatePatternPreview();
@@ -78,6 +79,7 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
         patternPreviewDrawable.UseKingPlank = viewModel.UseKingPlank;
         patternPreviewDrawable.ShowTrenails = viewModel.ShowTrenails;
+        patternPreviewDrawable.TrenailPatternKind = viewModel.SelectedTrenailPattern.Value;
         patternPreviewDrawable.DeckOrientation = viewModel.SelectedDeckOrientation.Value;
         patternPreviewDrawable.Zoom = previewViewport.Zoom;
         patternPreviewDrawable.PanX = previewViewport.PanX;
