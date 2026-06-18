@@ -22,9 +22,11 @@ The exported PNG should render at a stable export size instead of capturing the 
 
 ## Platform Behavior
 
-On Windows, the PNG is written to a user-accessible location.
+On Windows, the PNG export opens a Save As dialog with the generated filename prefilled. The user chooses the final location.
 
-On Android, the PNG is created as an app file and handed to the platform share/save flow so the user can store or share it.
+On Android, the PNG export writes the file to the public Downloads folder using the generated filename. After saving, the app shows a confirmation message that includes the file name.
+
+The app uses a generic export save abstraction so PNG, PDF, and later print/export features can share the same platform storage behavior.
 
 ## Testing
 
