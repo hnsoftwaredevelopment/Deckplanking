@@ -18,4 +18,7 @@
   <data name="FoundationStatus" xml:space="preserve">
     <value>Project foundation ready for scale and planking calculations.</value>
   </data>
+  <data name="ShowTrenails" xml:space="preserve">
+    <value>Trenails</value>
+  </data>
 </root>

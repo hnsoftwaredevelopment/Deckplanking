@@ -29,6 +29,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public bool UseKingPlank { get; set; }
 
+    public bool ShowTrenails { get; set; }
+
     public DeckOrientation DeckOrientation { get; set; } = DeckOrientation.BowLeft;
 
     public double Zoom { get; set; } = 1;
@@ -71,10 +73,11 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / centerlineRows.Count);
         var deckRect = new RectF(LeftMargin, TopMargin, drawingWidth, drawingHeight);
         var currentY = TopMargin;
+        var renderedRows = new List<(CenterlinePatternPreviewRow Row, RectF Rect)>();
 
         DrawRuler(canvas, deckLength, deckRect);
 
-        DrawRows(canvas, upperRows, deckLength, drawingWidth, rowHeight, ref currentY);
+        DrawRows(canvas, upperRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows);
 
         if (kingPlankRow is not null)
         {
@@ -86,6 +89,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             DrawKingPlank(canvas, kingRect);
             DrawSeams(canvas, kingPlankRow.SourceRow, deckLength, kingRect);
             DrawRowLabel(canvas, "K", currentY, rowHeight);
+            renderedRows.Add((kingPlankRow, kingRect));
 
             currentY += rowHeight;
             var bottomCenterlineY = currentY + (CenterlineGap / 2);
@@ -99,7 +103,12 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             currentY += CenterlineGap;
         }
 
-        DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY);
+        DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows);
+        if (ShowTrenails)
+        {
+            DrawTrenails(canvas, renderedRows, deckLength);
+        }
+
         DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation);
 
         canvas.RestoreState();
@@ -127,7 +136,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         float deckLength,
         float drawingWidth,
         float rowHeight,
-        ref float currentY)
+        ref float currentY,
+        IList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows)
     {
         for (var index = 0; index < centerlineRows.Count; index++)
         {
@@ -137,12 +147,40 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             DrawRow(canvas, plankRect, row.RowNumber);
             DrawSeams(canvas, row, deckLength, plankRect);
             DrawRowLabel(canvas, row.Phase.ToString(), currentY, rowHeight);
+            renderedRows.Add((centerlineRows[index], plankRect));
 
             currentY += rowHeight;
             if (index < centerlineRows.Count - 1)
             {
                 currentY += RowGap;
             }
+        }
+    }
+
+    private static void DrawTrenails(
+        ICanvas canvas,
+        IReadOnlyList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows,
+        float deckLength)
+    {
+        if (deckLength <= 0 || renderedRows.Count == 0)
+        {
+            return;
+        }
+
+        var points = TrenailOverlayBuilder.Build(renderedRows.Select(row => row.Row).ToArray(), (decimal)deckLength);
+
+        canvas.FillColor = Color.FromArgb("#2A160B");
+
+        foreach (var point in points)
+        {
+            var rowRect = renderedRows[point.RowIndex].Rect;
+            var x = rowRect.Left + ((float)point.PositionMillimeters / deckLength * rowRect.Width);
+            var y = point.VerticalPlacement == TrenailVerticalPlacement.Upper
+                ? rowRect.Top + (rowRect.Height * 0.28f)
+                : rowRect.Bottom - (rowRect.Height * 0.28f);
+            var radius = Math.Clamp(rowRect.Height * 0.11f, 1.4f, 3.2f);
+
+            canvas.FillCircle(x, y, radius);
         }
     }
 
