@@ -50,7 +50,8 @@ public partial class MainPage : ContentPage
 
         if (e.PropertyName is nameof(ScaleInputViewModel.RowCount)
             or nameof(ScaleInputViewModel.StartPoint)
-            or nameof(ScaleInputViewModel.SelectedPattern))
+            or nameof(ScaleInputViewModel.SelectedPattern)
+            or nameof(ScaleInputViewModel.SelectedDeckOrientation))
         {
             UpdatePatternPreview();
         }
@@ -66,6 +67,7 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.DeckLengthMillimeters = viewModel.DeckLengthMillimeters;
         patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
         patternPreviewDrawable.UseKingPlank = viewModel.UseKingPlank;
+        patternPreviewDrawable.DeckOrientation = viewModel.SelectedDeckOrientation.Value;
         PatternGraphics.Invalidate();
     }
 }

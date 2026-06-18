@@ -29,6 +29,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public bool UseKingPlank { get; set; }
 
+    public DeckOrientation DeckOrientation { get; set; } = DeckOrientation.BowLeft;
+
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
         canvas.SaveState();
@@ -89,7 +91,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
 
         DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY);
-        DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28);
+        DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation);
 
         canvas.RestoreState();
     }
@@ -229,22 +231,23 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         canvas.DrawRectangle(rowRect);
     }
 
-    private static void DrawDirectionGuide(ICanvas canvas, float left, float right, float y)
+    private static void DrawDirectionGuide(ICanvas canvas, float left, float right, float y, DeckOrientation orientation)
     {
         var center = (left + right) / 2;
         var labelWidth = 58;
         var labelHeight = 18;
         var arrowY = y + (labelHeight / 2);
+        var guide = DirectionGuideBuilder.Build(orientation);
 
         canvas.FontSize = 11;
         canvas.FontColor = Color.FromArgb("#1F1F1F");
         canvas.StrokeColor = Color.FromArgb("#1F1F1F");
         canvas.StrokeSize = 1.6f;
 
-        DrawDirectionLabel(canvas, "Boeg", center - 126, y, labelWidth, labelHeight);
+        DrawDirectionLabel(canvas, guide.LeftLabel, center - 126, y, labelWidth, labelHeight);
         DrawLeftArrow(canvas, center - 18, arrowY, center - 62);
         DrawRightArrow(canvas, center + 18, arrowY, center + 62);
-        DrawDirectionLabel(canvas, "Hek", center + 68, y, labelWidth, labelHeight);
+        DrawDirectionLabel(canvas, guide.RightLabel, center + 68, y, labelWidth, labelHeight);
     }
 
     private static void DrawDirectionLabel(ICanvas canvas, string label, float x, float y, float width, float height)

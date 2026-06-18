@@ -33,7 +33,7 @@
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
                         <Grid ColumnDefinitions="220,*"
-                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnSpacing="14"
                               RowSpacing="8">
                             <Label Text="Full-size plank length"
@@ -136,6 +136,16 @@
                                     Grid.Column="1"
                                     IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
                                     HorizontalOptions="Start" />
+
+                            <Label Grid.Row="9"
+                                   Text="Orientation"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="9"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding DeckOrientations}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedDeckOrientation}" />
                         </Grid>
 
                         <Label Text="{Binding ValidationMessage}"

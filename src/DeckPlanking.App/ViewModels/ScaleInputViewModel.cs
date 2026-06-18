@@ -18,6 +18,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private OptionItem<LengthUnit> selectedLengthUnit;
     private OptionItem<ScaleMode> selectedScaleMode;
     private OptionItem<ShiftPatternKind> selectedPattern;
+    private OptionItem<DeckOrientation> selectedDeckOrientation;
     private string rawScaleLengthText = string.Empty;
     private string cutLengthText = string.Empty;
     private string segmentLengthText = string.Empty;
@@ -51,9 +52,16 @@ public sealed class ScaleInputViewModel : ObservableObject
             new("Every 5", ShiftPatternKind.Every5)
         ];
 
+        DeckOrientations =
+        [
+            new("Bow left", DeckOrientation.BowLeft),
+            new("Stern left", DeckOrientation.SternLeft)
+        ];
+
         selectedLengthUnit = LengthUnits[0];
         selectedScaleMode = ScaleModes[0];
         selectedPattern = Patterns[3];
+        selectedDeckOrientation = DeckOrientations[0];
 
         ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
         Recalculate();
@@ -64,6 +72,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     public IReadOnlyList<OptionItem<ScaleMode>> ScaleModes { get; }
 
     public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; }
+
+    public IReadOnlyList<OptionItem<DeckOrientation>> DeckOrientations { get; }
 
     public ObservableCollection<PatternPreviewRow> PatternRows { get; } = [];
 
@@ -134,6 +144,12 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         get => selectedPattern;
         set => SetAndRecalculate(ref selectedPattern, value);
+    }
+
+    public OptionItem<DeckOrientation> SelectedDeckOrientation
+    {
+        get => selectedDeckOrientation;
+        set => SetProperty(ref selectedDeckOrientation, value);
     }
 
     public string RawScaleLengthText
