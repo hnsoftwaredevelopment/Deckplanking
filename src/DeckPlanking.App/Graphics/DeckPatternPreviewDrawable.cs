@@ -8,7 +8,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
     private const float LeftMargin = 36;
     private const float TopMargin = 34;
     private const float RightMargin = 12;
-    private const float BottomMargin = 12;
+    private const float BottomMargin = 38;
     private const float RowGap = 3;
     private const float CenterlineGap = 12;
     private const float MinimumRulerLabelSpacing = 30;
@@ -89,6 +89,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
 
         DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY);
+        DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28);
 
         canvas.RestoreState();
     }
@@ -226,6 +227,57 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         canvas.StrokeColor = Color.FromArgb("#7A4C22");
         canvas.StrokeSize = 1.2f;
         canvas.DrawRectangle(rowRect);
+    }
+
+    private static void DrawDirectionGuide(ICanvas canvas, float left, float right, float y)
+    {
+        var center = (left + right) / 2;
+        var labelWidth = 58;
+        var labelHeight = 18;
+        var arrowY = y + (labelHeight / 2);
+
+        canvas.FontSize = 11;
+        canvas.FontColor = Color.FromArgb("#1F1F1F");
+        canvas.StrokeColor = Color.FromArgb("#1F1F1F");
+        canvas.StrokeSize = 1.6f;
+
+        DrawLeftArrow(canvas, center - 62, arrowY, center - 120);
+        DrawDirectionLabel(canvas, "Boeg", center - (labelWidth / 2), y, labelWidth, labelHeight);
+        DrawRightArrow(canvas, center + 62, arrowY, center + 120);
+        DrawDirectionLabel(canvas, "Hek", center + 126, y, labelWidth, labelHeight);
+    }
+
+    private static void DrawDirectionLabel(ICanvas canvas, string label, float x, float y, float width, float height)
+    {
+        canvas.FillColor = Color.FromArgb("#FFF36D");
+        canvas.FillRectangle(x, y, width, height);
+        canvas.FontColor = Color.FromArgb("#1F1F1F");
+        canvas.DrawString(label, x, y, width, height, HorizontalAlignment.Center, VerticalAlignment.Center);
+    }
+
+    private static void DrawLeftArrow(ICanvas canvas, float fromX, float y, float toX)
+    {
+        canvas.DrawLine(fromX, y, toX, y);
+        canvas.FillColor = Color.FromArgb("#1F1F1F");
+        canvas.FillPath(CreateArrowHead(toX, y, pointsLeft: true));
+    }
+
+    private static void DrawRightArrow(ICanvas canvas, float fromX, float y, float toX)
+    {
+        canvas.DrawLine(fromX, y, toX, y);
+        canvas.FillColor = Color.FromArgb("#1F1F1F");
+        canvas.FillPath(CreateArrowHead(toX, y, pointsLeft: false));
+    }
+
+    private static PathF CreateArrowHead(float x, float y, bool pointsLeft)
+    {
+        var path = new PathF();
+        var direction = pointsLeft ? 1 : -1;
+        path.MoveTo(x, y);
+        path.LineTo(x + (direction * 10), y - 5);
+        path.LineTo(x + (direction * 10), y + 5);
+        path.Close();
+        return path;
     }
 
     private static void DrawSeams(ICanvas canvas, PatternPreviewRow row, float deckLength, RectF rowRect)
