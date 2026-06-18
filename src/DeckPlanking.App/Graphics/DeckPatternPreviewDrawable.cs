@@ -31,12 +31,21 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public DeckOrientation DeckOrientation { get; set; } = DeckOrientation.BowLeft;
 
+    public double Zoom { get; set; } = 1;
+
+    public double PanX { get; set; }
+
+    public double PanY { get; set; }
+
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
         canvas.SaveState();
         canvas.Antialias = true;
 
         DrawBackground(canvas, dirtyRect);
+
+        canvas.Translate((float)PanX, (float)PanY);
+        canvas.Scale((float)Zoom, (float)Zoom);
 
         if (Rows.Count == 0)
         {

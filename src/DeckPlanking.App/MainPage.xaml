@@ -197,13 +197,36 @@
                                FontSize="18"
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
+                        <HorizontalStackLayout Spacing="8"
+                                               HorizontalOptions="Start">
+                            <Button Text="-"
+                                    Clicked="OnZoomOutClicked"
+                                    MinimumWidthRequest="40"
+                                    MinimumHeightRequest="36"
+                                    Padding="0" />
+                            <Button Text="+"
+                                    Clicked="OnZoomInClicked"
+                                    MinimumWidthRequest="40"
+                                    MinimumHeightRequest="36"
+                                    Padding="0" />
+                            <Button Text="Reset"
+                                    Clicked="OnResetViewportClicked"
+                                    MinimumHeightRequest="36"
+                                    Padding="12,0" />
+                        </HorizontalStackLayout>
+
                         <Border Padding="0"
                                 Stroke="{StaticResource AppAccentColor}"
                                 StrokeThickness="1"
                                 HeightRequest="340"
                                 BackgroundColor="#FFF7EC">
                             <GraphicsView x:Name="PatternGraphics"
-                                          HeightRequest="340" />
+                                          HeightRequest="340">
+                                <GraphicsView.GestureRecognizers>
+                                    <PanGestureRecognizer PanUpdated="OnPatternPanUpdated" />
+                                    <PinchGestureRecognizer PinchUpdated="OnPatternPinchUpdated" />
+                                </GraphicsView.GestureRecognizers>
+                            </GraphicsView>
                         </Border>
 
                         <Button Text="{Binding SeamTableToggleText}"
