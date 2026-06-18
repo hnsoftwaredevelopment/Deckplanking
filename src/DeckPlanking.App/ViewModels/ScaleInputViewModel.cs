@@ -29,7 +29,6 @@ public sealed class ScaleInputViewModel : ObservableObject
     private decimal segmentLengthMillimeters;
     private bool isSeamTableVisible;
     private bool useKingPlank;
-    private bool showTrenails;
     private bool isDecimalScale = true;
 
     public ScaleInputViewModel()
@@ -62,6 +61,7 @@ public sealed class ScaleInputViewModel : ObservableObject
 
         TrenailPatterns =
         [
+            new("None", TrenailPatternKind.None),
             new("oo|oo", TrenailPatternKind.TwoPerPlankEnd),
             new("o|o", TrenailPatternKind.OneCentered),
             new("^|v", TrenailPatternKind.OneAlternating)
@@ -71,10 +71,10 @@ public sealed class ScaleInputViewModel : ObservableObject
         selectedScaleMode = ScaleModes[0];
         selectedPattern = Patterns[3];
         selectedDeckOrientation = DeckOrientations[0];
-        selectedTrenailPattern = TrenailPatterns[0];
+        selectedTrenailPattern = TrenailPatterns[1];
 
         ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
-        CycleTrenailPatternCommand = new RelayCommand(CycleTrenailPattern);
+        SelectTrenailPatternCommand = new RelayCommand<TrenailPatternKind>(SelectTrenailPattern);
         Recalculate();
     }
 
@@ -92,7 +92,7 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public IRelayCommand ToggleSeamTableCommand { get; }
 
-    public IRelayCommand CycleTrenailPatternCommand { get; }
+    public IRelayCommand<TrenailPatternKind> SelectTrenailPatternCommand { get; }
 
     public double RealPlankLength
     {
@@ -136,12 +136,6 @@ public sealed class ScaleInputViewModel : ObservableObject
         set => SetProperty(ref useKingPlank, value);
     }
 
-    public bool ShowTrenails
-    {
-        get => showTrenails;
-        set => SetProperty(ref showTrenails, value);
-    }
-
     public OptionItem<LengthUnit> SelectedLengthUnit
     {
         get => selectedLengthUnit;
@@ -182,12 +176,21 @@ public sealed class ScaleInputViewModel : ObservableObject
             {
                 OnPropertyChanged(nameof(SelectedTrenailPatternIcon));
                 OnPropertyChanged(nameof(SelectedTrenailPatternDescription));
+                OnPropertyChanged(nameof(IsNoTrenailsSelected));
+                OnPropertyChanged(nameof(IsTwoTrenailsSelected));
+                OnPropertyChanged(nameof(IsOneCenteredTrenailSelected));
+                OnPropertyChanged(nameof(IsOneAlternatingTrenailSelected));
+                OnPropertyChanged(nameof(NoTrenailsOpacity));
+                OnPropertyChanged(nameof(TwoTrenailsOpacity));
+                OnPropertyChanged(nameof(OneCenteredTrenailOpacity));
+                OnPropertyChanged(nameof(OneAlternatingTrenailOpacity));
             }
         }
     }
 
     public string SelectedTrenailPatternIcon => SelectedTrenailPattern.Value switch
     {
+        TrenailPatternKind.None => "trenail_none.png",
         TrenailPatternKind.TwoPerPlankEnd => "trenail_two.png",
         TrenailPatternKind.OneCentered => "trenail_center.png",
         TrenailPatternKind.OneAlternating => "trenail_alternating.png",
@@ -196,11 +199,28 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public string SelectedTrenailPatternDescription => SelectedTrenailPattern.Value switch
     {
+        TrenailPatternKind.None => "No trenails",
         TrenailPatternKind.TwoPerPlankEnd => "Two trenails per plank end",
         TrenailPatternKind.OneCentered => "One centered trenail per plank end",
         TrenailPatternKind.OneAlternating => "One alternating trenail per plank end",
         _ => "Two trenails per plank end"
     };
+
+    public bool IsNoTrenailsSelected => SelectedTrenailPattern.Value == TrenailPatternKind.None;
+
+    public bool IsTwoTrenailsSelected => SelectedTrenailPattern.Value == TrenailPatternKind.TwoPerPlankEnd;
+
+    public bool IsOneCenteredTrenailSelected => SelectedTrenailPattern.Value == TrenailPatternKind.OneCentered;
+
+    public bool IsOneAlternatingTrenailSelected => SelectedTrenailPattern.Value == TrenailPatternKind.OneAlternating;
+
+    public double NoTrenailsOpacity => IsNoTrenailsSelected ? 1 : 0.45;
+
+    public double TwoTrenailsOpacity => IsTwoTrenailsSelected ? 1 : 0.45;
+
+    public double OneCenteredTrenailOpacity => IsOneCenteredTrenailSelected ? 1 : 0.45;
+
+    public double OneAlternatingTrenailOpacity => IsOneAlternatingTrenailSelected ? 1 : 0.45;
 
     public string RawScaleLengthText
     {
@@ -319,20 +339,9 @@ public sealed class ScaleInputViewModel : ObservableObject
         IsSeamTableVisible = !IsSeamTableVisible;
     }
 
-    private void CycleTrenailPattern()
+    private void SelectTrenailPattern(TrenailPatternKind trenailPatternKind)
     {
-        var currentIndex = 0;
-        for (var index = 0; index < TrenailPatterns.Count; index++)
-        {
-            if (TrenailPatterns[index] == SelectedTrenailPattern)
-            {
-                currentIndex = index;
-                break;
-            }
-        }
-
-        var nextIndex = (currentIndex + 1) % TrenailPatterns.Count;
-        SelectedTrenailPattern = TrenailPatterns[nextIndex];
+        SelectedTrenailPattern = TrenailPatterns.First(pattern => pattern.Value == trenailPatternKind);
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:preview="clr-namespace:DeckPlanking.Core.Preview;assembly=DeckPlanking.Core"
              x:Class="DeckPlanking.App.MainPage">
 
     <ScrollView BackgroundColor="{StaticResource AppBackgroundColor}">
@@ -204,22 +205,6 @@
                                     <Switch IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
                                             VerticalOptions="Center" />
                                 </HorizontalStackLayout>
-                                <HorizontalStackLayout Spacing="6"
-                                                       VerticalOptions="Center">
-                                    <Label Text="Trenails"
-                                           VerticalOptions="Center"
-                                           TextColor="{StaticResource AppPrimaryTextColor}" />
-                                    <Switch IsToggled="{Binding ShowTrenails, Mode=TwoWay}"
-                                            VerticalOptions="Center" />
-                                    <ImageButton Source="{Binding SelectedTrenailPatternIcon}"
-                                                 Command="{Binding CycleTrenailPatternCommand}"
-                                                 WidthRequest="58"
-                                                 HeightRequest="36"
-                                                 Padding="4"
-                                                 BackgroundColor="Transparent"
-                                                 Aspect="AspectFit"
-                                                 SemanticProperties.Description="{Binding SelectedTrenailPatternDescription}" />
-                                </HorizontalStackLayout>
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout Spacing="6"
@@ -232,6 +217,53 @@
                                         SelectedItem="{Binding SelectedDeckOrientation}"
                                         WidthRequest="116"
                                         VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Spacing="6"
+                                                   HorizontalOptions="Start">
+                                <Label Text="Trenails"
+                                       VerticalOptions="Center"
+                                       TextColor="{StaticResource AppPrimaryTextColor}" />
+                                <ImageButton Source="trenail_none.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.None}"
+                                             Opacity="{Binding NoTrenailsOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="No trenails" />
+                                <ImageButton Source="trenail_two.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.TwoPerPlankEnd}"
+                                             Opacity="{Binding TwoTrenailsOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="Two trenails per plank end" />
+                                <ImageButton Source="trenail_center.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.OneCentered}"
+                                             Opacity="{Binding OneCenteredTrenailOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="One centered trenail per plank end" />
+                                <ImageButton Source="trenail_alternating.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.OneAlternating}"
+                                             Opacity="{Binding OneAlternatingTrenailOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="One alternating trenail per plank end" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
 

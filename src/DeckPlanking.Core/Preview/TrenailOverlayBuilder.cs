@@ -13,6 +13,11 @@ public static class TrenailOverlayBuilder
             return [];
         }
 
+        if (patternKind == TrenailPatternKind.None)
+        {
+            return [];
+        }
+
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(distanceFromPlankEndMillimeters);
 
         var deckLength = deckLengthMillimeters ?? rows

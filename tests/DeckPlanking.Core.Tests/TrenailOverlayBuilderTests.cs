@@ -6,6 +6,26 @@ namespace DeckPlanking.Core.Tests;
 public sealed class TrenailOverlayBuilderTests
 {
     [Fact]
+    public void ReturnsNoPointsWhenPatternIsNone()
+    {
+        var row = new CenterlinePatternPreviewRow(
+            PatternPreviewSide.Upper,
+            new PatternPreviewRow(
+                RowNumber: 1,
+                Phase: 1,
+                SeamOffsetSegments: 1,
+                SeamPositionsMillimeters: [50m],
+                SeamPositionsText: "50"));
+
+        var points = TrenailOverlayBuilder.Build(
+            [row],
+            deckLengthMillimeters: 100m,
+            patternKind: TrenailPatternKind.None);
+
+        Assert.Empty(points);
+    }
+
+    [Fact]
     public void BuildsTwoTrenailsOnBothSidesOfEachInternalSeam()
     {
         var rows = CenterlinePatternPreviewBuilder.Build(
