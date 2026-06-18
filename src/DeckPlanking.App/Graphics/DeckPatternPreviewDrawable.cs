@@ -42,6 +42,27 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public double PanY { get; set; }
 
+    public DeckPatternPreviewDrawable CreateExportSnapshot()
+    {
+        return new DeckPatternPreviewDrawable
+        {
+            Rows = Rows.ToArray(),
+            PatternKind = PatternKind,
+            RowsPerSide = RowsPerSide,
+            StartPoint = StartPoint,
+            PlankLengthMillimeters = PlankLengthMillimeters,
+            DeckLengthMillimeters = DeckLengthMillimeters,
+            SegmentLengthMillimeters = SegmentLengthMillimeters,
+            UseKingPlank = UseKingPlank,
+            ShowTrenails = ShowTrenails,
+            TrenailPatternKind = TrenailPatternKind,
+            DeckOrientation = DeckOrientation,
+            Zoom = 1,
+            PanX = 0,
+            PanY = 0
+        };
+    }
+
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
         canvas.SaveState();

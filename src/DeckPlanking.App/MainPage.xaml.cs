@@ -1,4 +1,5 @@
 using DeckPlanking.App.ViewModels;
+using DeckPlanking.App.Export;
 using DeckPlanking.App.Graphics;
 using DeckPlanking.Core.Preview;
 using System.Collections.Specialized;
@@ -98,6 +99,23 @@ public partial class MainPage : ContentPage
     {
         previewViewport = previewViewport.Reset();
         UpdatePatternPreview();
+    }
+
+    private async void OnExportPngClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            var fileResult = await PreviewPngExporter.ExportAsync(patternPreviewDrawable);
+            await Share.Default.RequestAsync(new ShareFileRequest
+            {
+                Title = "Export deckplanking PNG",
+                File = new ShareFile(fileResult)
+            });
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Export failed", ex.Message, "OK");
+        }
     }
 
     private void OnPatternPanUpdated(object? sender, PanUpdatedEventArgs e)

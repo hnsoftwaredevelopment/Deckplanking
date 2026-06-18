@@ -196,6 +196,11 @@
                                         Clicked="OnResetViewportClicked"
                                         MinimumHeightRequest="36"
                                         Padding="12,0" />
+                                <Button Text="PNG"
+                                        Clicked="OnExportPngClicked"
+                                        MinimumHeightRequest="36"
+                                        Padding="12,0"
+                                        SemanticProperties.Description="Export preview as PNG" />
                                 <HorizontalStackLayout Spacing="6"
                                                        VerticalOptions="Center"
                                                        Margin="4,0,0,0">
