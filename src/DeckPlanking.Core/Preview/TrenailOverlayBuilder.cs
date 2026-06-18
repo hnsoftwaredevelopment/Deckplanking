@@ -46,14 +46,14 @@ public static class TrenailOverlayBuilder
                     position - distanceFromPlankEndMillimeters,
                     deckLength,
                     patternKind,
-                    segmentIndex: seamIndex);
+                    plankEnd: PlankEnd.End);
                 AddPlankEndTrenails(
                     points,
                     rowIndex,
                     position + distanceFromPlankEndMillimeters,
                     deckLength,
                     patternKind,
-                    segmentIndex: seamIndex + 1);
+                    plankEnd: PlankEnd.Begin);
             }
         }
 
@@ -81,7 +81,7 @@ public static class TrenailOverlayBuilder
         decimal positionMillimeters,
         decimal deckLengthMillimeters,
         TrenailPatternKind patternKind,
-        int segmentIndex)
+        PlankEnd plankEnd)
     {
         if (positionMillimeters <= 0m || positionMillimeters >= deckLengthMillimeters)
         {
@@ -98,7 +98,7 @@ public static class TrenailOverlayBuilder
                 points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Center));
                 break;
             case TrenailPatternKind.OneAlternating:
-                var placement = segmentIndex % 2 == 0
+                var placement = plankEnd == PlankEnd.End
                     ? TrenailVerticalPlacement.Upper
                     : TrenailVerticalPlacement.Lower;
                 points.Add(new TrenailPoint(rowIndex, positionMillimeters, placement));
@@ -106,5 +106,11 @@ public static class TrenailOverlayBuilder
             default:
                 throw new ArgumentOutOfRangeException(nameof(patternKind), patternKind, null);
         }
+    }
+
+    private enum PlankEnd
+    {
+        Begin,
+        End
     }
 }
