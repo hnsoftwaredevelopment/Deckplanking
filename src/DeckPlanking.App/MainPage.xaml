@@ -211,6 +211,15 @@
                             <HorizontalStackLayout Spacing="6"
                                                    VerticalOptions="Center"
                                                    Margin="0,0,10,6">
+                                <Label Text="Trenails"
+                                       VerticalOptions="Center"
+                                       TextColor="{StaticResource AppPrimaryTextColor}" />
+                                <Switch IsToggled="{Binding ShowTrenails, Mode=TwoWay}"
+                                        VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6"
+                                                   VerticalOptions="Center"
+                                                   Margin="0,0,0,6">
                                 <Label Text="Orientation"
                                        VerticalOptions="Center"
                                        TextColor="{StaticResource AppPrimaryTextColor}" />
@@ -218,15 +227,6 @@
                                         ItemDisplayBinding="{Binding DisplayName}"
                                         SelectedItem="{Binding SelectedDeckOrientation}"
                                         WidthRequest="116"
-                                        VerticalOptions="Center" />
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Spacing="6"
-                                                   VerticalOptions="Center"
-                                                   Margin="0,0,0,6">
-                                <Label Text="Trenails"
-                                       VerticalOptions="Center"
-                                       TextColor="{StaticResource AppPrimaryTextColor}" />
-                                <Switch IsToggled="{Binding ShowTrenails, Mode=TwoWay}"
                                         VerticalOptions="Center" />
                             </HorizontalStackLayout>
                         </FlexLayout>
