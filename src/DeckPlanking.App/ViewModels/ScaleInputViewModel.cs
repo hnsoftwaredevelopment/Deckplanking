@@ -188,10 +188,10 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public string SelectedTrenailPatternIcon => SelectedTrenailPattern.Value switch
     {
-        TrenailPatternKind.TwoPerPlankEnd => "trenail_two.svg",
-        TrenailPatternKind.OneCentered => "trenail_center.svg",
-        TrenailPatternKind.OneAlternating => "trenail_alternating.svg",
-        _ => "trenail_two.svg"
+        TrenailPatternKind.TwoPerPlankEnd => "trenail_two.png",
+        TrenailPatternKind.OneCentered => "trenail_center.png",
+        TrenailPatternKind.OneAlternating => "trenail_alternating.png",
+        _ => "trenail_two.png"
     };
 
     public string SelectedTrenailPatternDescription => SelectedTrenailPattern.Value switch
