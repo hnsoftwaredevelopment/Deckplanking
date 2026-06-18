@@ -4,12 +4,15 @@ public static class TrenailOverlayBuilder
 {
     public static IReadOnlyList<TrenailPoint> Build(
         IReadOnlyList<CenterlinePatternPreviewRow> rows,
-        decimal? deckLengthMillimeters = null)
+        decimal? deckLengthMillimeters = null,
+        decimal distanceFromPlankEndMillimeters = 2m)
     {
         if (rows.Count == 0)
         {
             return [];
         }
+
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(distanceFromPlankEndMillimeters);
 
         var deckLength = deckLengthMillimeters ?? rows
             .SelectMany(row => row.SourceRow.SeamPositionsMillimeters)
@@ -27,11 +30,26 @@ public static class TrenailOverlayBuilder
                     continue;
                 }
 
-                points.Add(new TrenailPoint(rowIndex, position, TrenailVerticalPlacement.Upper));
-                points.Add(new TrenailPoint(rowIndex, position, TrenailVerticalPlacement.Lower));
+                AddPlankEndTrenails(points, rowIndex, position - distanceFromPlankEndMillimeters, deckLength);
+                AddPlankEndTrenails(points, rowIndex, position + distanceFromPlankEndMillimeters, deckLength);
             }
         }
 
         return points;
+    }
+
+    private static void AddPlankEndTrenails(
+        List<TrenailPoint> points,
+        int rowIndex,
+        decimal positionMillimeters,
+        decimal deckLengthMillimeters)
+    {
+        if (positionMillimeters <= 0m || positionMillimeters >= deckLengthMillimeters)
+        {
+            return;
+        }
+
+        points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Upper));
+        points.Add(new TrenailPoint(rowIndex, positionMillimeters, TrenailVerticalPlacement.Lower));
     }
 }
