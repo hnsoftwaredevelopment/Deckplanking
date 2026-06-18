@@ -106,11 +106,14 @@ public partial class MainPage : ContentPage
         try
         {
             var fileResult = await PreviewPngExporter.ExportAsync(patternPreviewDrawable);
-            await Share.Default.RequestAsync(new ShareFileRequest
+            var saveResult = await ExportFileSaver.SaveAsync(fileResult);
+            if (saveResult.Saved)
             {
-                Title = "Export deckplanking PNG",
-                File = new ShareFile(fileResult)
-            });
+                await DisplayAlertAsync(
+                    "Export saved",
+                    $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
+                    "OK");
+            }
         }
         catch (Exception ex)
         {
