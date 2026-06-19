@@ -116,6 +116,8 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.PlankLengthMillimeters = (double)viewModel.CutLengthMillimeters;
         patternPreviewDrawable.DeckLengthMillimeters = viewModel.DeckLengthMillimeters;
         patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
+        patternPreviewDrawable.PlankWidthMillimeters = viewModel.PlankWidthMillimeters;
+        patternPreviewDrawable.KingPlankWidthMillimeters = viewModel.KingPlankWidthMillimeters;
         patternPreviewDrawable.UseKingPlank = viewModel.UseKingPlank;
         patternPreviewDrawable.ShowTrenails = viewModel.SelectedTrenailPattern.Value != TrenailPatternKind.None;
         patternPreviewDrawable.TrenailPatternKind = viewModel.SelectedTrenailPattern.Value;

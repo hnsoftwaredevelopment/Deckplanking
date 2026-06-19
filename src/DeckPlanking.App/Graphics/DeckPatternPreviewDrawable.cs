@@ -1,3 +1,4 @@
+using DeckPlanking.Core.Configuration;
 using DeckPlanking.Core.Preview;
 using DeckPlanking.Core.Patterns;
 
@@ -28,6 +29,10 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public double SegmentLengthMillimeters { get; set; }
 
+    public double PlankWidthMillimeters { get; set; }
+
+    public double KingPlankWidthMillimeters { get; set; }
+
     public bool UseKingPlank { get; set; }
 
     public bool ShowTrenails { get; set; }
@@ -53,6 +58,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             PlankLengthMillimeters = PlankLengthMillimeters,
             DeckLengthMillimeters = DeckLengthMillimeters,
             SegmentLengthMillimeters = SegmentLengthMillimeters,
+            PlankWidthMillimeters = PlankWidthMillimeters,
+            KingPlankWidthMillimeters = KingPlankWidthMillimeters,
             UseKingPlank = UseKingPlank,
             ShowTrenails = ShowTrenails,
             TrenailPatternKind = TrenailPatternKind,
@@ -94,7 +101,10 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         var drawingHeight = Math.Max(1, dirtyRect.Height - TopMargin - BottomMargin);
         var internalRowGaps = Math.Max(0, (upperRows.Length - 1) + (lowerRows.Length - 1)) * RowGap;
         var centerGapTotal = UseKingPlank ? CenterlineGap * 2 : CenterlineGap;
-        var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / centerlineRows.Count);
+        var kingPlankVisualRatio = CalculateKingPlankVisualRatio();
+        var rowUnits = upperRows.Length + lowerRows.Length + (kingPlankRow is not null ? kingPlankVisualRatio : 0);
+        var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / Math.Max(1, rowUnits));
+        var kingPlankHeight = Math.Max(4, rowHeight * kingPlankVisualRatio);
         var deckRect = new RectF(LeftMargin, TopMargin, drawingWidth, drawingHeight);
         var currentY = TopMargin;
         var renderedRows = new List<(CenterlinePatternPreviewRow Row, RectF Rect)>();
@@ -109,13 +119,13 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             DrawCenterline(canvas, deckRect.Left, deckRect.Right, topCenterlineY);
             currentY += CenterlineGap;
 
-            var kingRect = new RectF(LeftMargin, currentY, drawingWidth, rowHeight);
+            var kingRect = new RectF(LeftMargin, currentY, drawingWidth, kingPlankHeight);
             DrawKingPlank(canvas, kingRect);
             DrawSeams(canvas, kingPlankRow.SourceRow, deckLength, kingRect);
-            DrawRowLabel(canvas, "K", currentY, rowHeight);
+            DrawRowLabel(canvas, "K", currentY, kingPlankHeight);
             renderedRows.Add((kingPlankRow, kingRect));
 
-            currentY += rowHeight;
+            currentY += kingPlankHeight;
             var bottomCenterlineY = currentY + (CenterlineGap / 2);
             DrawCenterline(canvas, deckRect.Left, deckRect.Right, bottomCenterlineY);
             currentY += CenterlineGap;
@@ -410,5 +420,27 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             .Max();
 
         return Math.Max(1, (float)maxPosition);
+    }
+
+    private float CalculateKingPlankVisualRatio()
+    {
+        if (!UseKingPlank)
+        {
+            return 1;
+        }
+
+        try
+        {
+            return Math.Clamp(
+                (float)KingPlankVisualRatioCalculator.Calculate(
+                    (decimal)PlankWidthMillimeters,
+                    (decimal)KingPlankWidthMillimeters),
+                0.5f,
+                4f);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return 1;
+        }
     }
 }
