@@ -30,7 +30,7 @@ public static partial class ProjectFileService
             PickerTitle = "Open Deckplanking project",
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                [DevicePlatform.Android] = ["application/json", "text/json", "text/plain"],
+                [DevicePlatform.Android] = ["*/*"],
                 [DevicePlatform.WinUI] = [".json"]
             })
         };

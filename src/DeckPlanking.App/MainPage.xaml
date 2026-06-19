@@ -33,19 +33,23 @@
                                FontSize="18"
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
-                        <HorizontalStackLayout Spacing="8"
-                                               HorizontalOptions="Start">
+                        <FlexLayout Direction="Row"
+                                    Wrap="Wrap"
+                                    AlignItems="Center"
+                                    JustifyContent="Start">
                             <Button Text="Save project"
                                     Clicked="OnSaveProjectClicked"
                                     MinimumHeightRequest="36"
                                     Padding="12,0"
+                                    Margin="0,0,8,8"
                                     SemanticProperties.Description="Save project settings" />
                             <Button Text="Open project"
                                     Clicked="OnOpenProjectClicked"
                                     MinimumHeightRequest="36"
                                     Padding="12,0"
+                                    Margin="0,0,8,8"
                                     SemanticProperties.Description="Open saved project settings" />
-                        </HorizontalStackLayout>
+                        </FlexLayout>
 
                         <Grid ColumnDefinitions="220,*"
                               RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
@@ -194,42 +198,49 @@
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
                         <VerticalStackLayout Spacing="6">
-                            <HorizontalStackLayout Spacing="6"
-                                                   HorizontalOptions="Start">
+                            <FlexLayout Direction="Row"
+                                        Wrap="Wrap"
+                                        AlignItems="Center"
+                                        JustifyContent="Start">
                                 <Button Text="-"
                                         Clicked="OnZoomOutClicked"
                                         MinimumWidthRequest="40"
                                         MinimumHeightRequest="36"
-                                        Padding="0" />
+                                        Padding="0"
+                                        Margin="0,0,6,6" />
                                 <Button Text="+"
                                         Clicked="OnZoomInClicked"
                                         MinimumWidthRequest="40"
                                         MinimumHeightRequest="36"
-                                        Padding="0" />
+                                        Padding="0"
+                                        Margin="0,0,6,6" />
                                 <Button Text="Reset"
                                         Clicked="OnResetViewportClicked"
                                         MinimumHeightRequest="36"
-                                        Padding="12,0" />
+                                        Padding="12,0"
+                                        Margin="0,0,6,6" />
                                 <Button Text="PNG"
                                         Clicked="OnExportPngClicked"
                                         MinimumHeightRequest="36"
                                         Padding="12,0"
+                                        Margin="0,0,6,6"
                                         SemanticProperties.Description="Export preview as PNG" />
                                 <Button Text="PDF"
                                         Clicked="OnExportPdfClicked"
                                         MinimumHeightRequest="36"
                                         Padding="12,0"
+                                        Margin="0,0,6,6"
                                         SemanticProperties.Description="Export preview as PDF" />
                                 <HorizontalStackLayout Spacing="6"
                                                        VerticalOptions="Center"
-                                                       Margin="4,0,0,0">
+                                                       Margin="0,0,6,6">
                                     <Label Text="King plank"
                                            VerticalOptions="Center"
                                            TextColor="{StaticResource AppPrimaryTextColor}" />
                                     <Switch IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
                                             VerticalOptions="Center" />
                                 </HorizontalStackLayout>
-                            </HorizontalStackLayout>
+                            </FlexLayout>
 
                             <HorizontalStackLayout Spacing="6"
                                                    HorizontalOptions="Start">
@@ -243,10 +254,13 @@
                                         VerticalOptions="Center" />
                             </HorizontalStackLayout>
 
-                            <HorizontalStackLayout Spacing="6"
-                                                   HorizontalOptions="Start">
+                            <FlexLayout Direction="Row"
+                                        Wrap="Wrap"
+                                        AlignItems="Center"
+                                        JustifyContent="Start">
                                 <Label Text="Trenails"
                                        VerticalOptions="Center"
+                                       Margin="0,0,6,6"
                                        TextColor="{StaticResource AppPrimaryTextColor}" />
                                 <ImageButton Source="trenail_none.png"
                                              Command="{Binding SelectTrenailPatternCommand}"
@@ -255,6 +269,7 @@
                                              WidthRequest="58"
                                              HeightRequest="36"
                                              Padding="4"
+                                             Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
                                              SemanticProperties.Description="No trenails" />
@@ -265,6 +280,7 @@
                                              WidthRequest="58"
                                              HeightRequest="36"
                                              Padding="4"
+                                             Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
                                              SemanticProperties.Description="Two trenails per plank end" />
@@ -275,6 +291,7 @@
                                              WidthRequest="58"
                                              HeightRequest="36"
                                              Padding="4"
+                                             Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
                                              SemanticProperties.Description="One centered trenail per plank end" />
@@ -285,10 +302,11 @@
                                              WidthRequest="58"
                                              HeightRequest="36"
                                              Padding="4"
+                                             Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
                                              SemanticProperties.Description="One alternating trenail per plank end" />
-                            </HorizontalStackLayout>
+                            </FlexLayout>
                         </VerticalStackLayout>
 
                         <Border Padding="0"
