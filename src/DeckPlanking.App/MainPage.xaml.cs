@@ -17,6 +17,8 @@ public partial class MainPage : ContentPage
     private double previousPanTotalX;
     private double previousPanTotalY;
     private double previousPinchScale = 1;
+    private bool hasLoadedLastProjectSettings;
+    private bool isApplyingProjectSettings;
 
     public MainPage()
     {
@@ -24,9 +26,35 @@ public partial class MainPage : ContentPage
         BindingContext = viewModel;
 
         PatternGraphics.Drawable = patternPreviewDrawable;
+        Loaded += OnPageLoaded;
         viewModel.PatternRows.CollectionChanged += OnPatternRowsChanged;
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
         UpdatePatternPreview();
+    }
+
+    private async void OnPageLoaded(object? sender, EventArgs e)
+    {
+        if (hasLoadedLastProjectSettings)
+        {
+            return;
+        }
+
+        hasLoadedLastProjectSettings = true;
+
+        try
+        {
+            var settings = await LastProjectSettingsStore.LoadAsync();
+            if (settings is null)
+            {
+                return;
+            }
+
+            ApplyProjectSettings(settings);
+        }
+        catch
+        {
+            // Last-used settings are a convenience; a bad autosave must not block the app.
+        }
     }
 
     private void OnPatternRowsChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -63,6 +91,11 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.SelectedDeckOrientation))
         {
             UpdatePatternPreview();
+        }
+
+        if (!isApplyingProjectSettings && IsProjectSettingProperty(e.PropertyName))
+        {
+            _ = SaveLastProjectSettingsAsync();
         }
     }
 
@@ -147,10 +180,9 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            var document = new DeckPlankingProjectDocument(
-                1,
-                DateTimeOffset.UtcNow,
-                viewModel.CaptureProjectSettings());
+            var document = DeckPlankingProjectDocument.Create(
+                viewModel.CaptureProjectSettings(),
+                DateTimeOffset.UtcNow);
 
             var saveResult = await ProjectFileService.SaveAsync(document);
             if (!saveResult.Saved)
@@ -179,9 +211,8 @@ public partial class MainPage : ContentPage
                 return;
             }
 
-            viewModel.ApplyProjectSettings(document.Settings);
-            previewViewport = PreviewViewport.Default;
-            UpdatePatternPreview();
+            ApplyProjectSettings(document.Settings);
+            await SaveLastProjectSettingsAsync();
 
             await DisplayAlertAsync(
                 "Project opened",
@@ -192,6 +223,49 @@ public partial class MainPage : ContentPage
         {
             await DisplayAlertAsync("Project could not be opened", ex.Message, "OK");
         }
+    }
+
+    private void ApplyProjectSettings(DeckPlankingProjectSettings settings)
+    {
+        isApplyingProjectSettings = true;
+        try
+        {
+            viewModel.ApplyProjectSettings(settings);
+            previewViewport = PreviewViewport.Default;
+            UpdatePatternPreview();
+        }
+        finally
+        {
+            isApplyingProjectSettings = false;
+        }
+    }
+
+    private async Task SaveLastProjectSettingsAsync()
+    {
+        try
+        {
+            await LastProjectSettingsStore.SaveAsync(viewModel.CaptureProjectSettings());
+        }
+        catch
+        {
+            // Last-used settings are best-effort and should never interrupt editing.
+        }
+    }
+
+    private static bool IsProjectSettingProperty(string? propertyName)
+    {
+        return propertyName is nameof(ScaleInputViewModel.RealPlankLength)
+            or nameof(ScaleInputViewModel.SelectedLengthUnit)
+            or nameof(ScaleInputViewModel.SelectedScaleMode)
+            or nameof(ScaleInputViewModel.DecimalScale)
+            or nameof(ScaleInputViewModel.ImperialInchesPerFoot)
+            or nameof(ScaleInputViewModel.DeckLengthMillimeters)
+            or nameof(ScaleInputViewModel.RowCount)
+            or nameof(ScaleInputViewModel.StartPoint)
+            or nameof(ScaleInputViewModel.SelectedPattern)
+            or nameof(ScaleInputViewModel.UseKingPlank)
+            or nameof(ScaleInputViewModel.SelectedDeckOrientation)
+            or nameof(ScaleInputViewModel.SelectedTrenailPattern);
     }
 
     private void OnPatternPanUpdated(object? sender, PanUpdatedEventArgs e)

@@ -8,24 +8,25 @@ namespace DeckPlanking.Core.Tests;
 public sealed class ProjectJsonSerializerTests
 {
     [Fact]
+    public void CreatesVersionOneProjectDocument()
+    {
+        var settings = CreateRepresentativeSettings();
+        var savedAt = new DateTimeOffset(2026, 6, 19, 16, 45, 0, TimeSpan.Zero);
+
+        var document = DeckPlankingProjectDocument.Create(settings, savedAt);
+
+        Assert.Equal(1, document.SchemaVersion);
+        Assert.Equal(savedAt, document.SavedAt);
+        Assert.Equal(settings, document.Settings);
+    }
+
+    [Fact]
     public void RoundTripsRepresentativeProject()
     {
         var project = new DeckPlankingProjectDocument(
             1,
             new DateTimeOffset(2026, 6, 19, 10, 30, 0, TimeSpan.Zero),
-            new DeckPlankingProjectSettings(
-                RealPlankLength: 9,
-                LengthUnit: LengthUnit.Meters,
-                ScaleMode: ScaleMode.Decimal,
-                DecimalScale: 64,
-                ImperialInchesPerFoot: 1d / 6d,
-                DeckLengthMillimeters: 600,
-                RowCount: 8,
-                StartPoint: 2,
-                ShiftPattern: ShiftPatternKind.Every5,
-                UseKingPlank: true,
-                DeckOrientation: DeckOrientation.SternLeft,
-                TrenailPattern: TrenailPatternKind.OneAlternating));
+            CreateRepresentativeSettings());
 
         var json = ProjectJsonSerializer.Serialize(project);
         var restored = ProjectJsonSerializer.Deserialize(json);
@@ -87,5 +88,22 @@ public sealed class ProjectJsonSerializerTests
             () => ProjectJsonSerializer.Deserialize(json));
 
         Assert.Equal("Project schema version 2 is not supported.", exception.Message);
+    }
+
+    private static DeckPlankingProjectSettings CreateRepresentativeSettings()
+    {
+        return new DeckPlankingProjectSettings(
+            RealPlankLength: 9,
+            LengthUnit: LengthUnit.Meters,
+            ScaleMode: ScaleMode.Decimal,
+            DecimalScale: 64,
+            ImperialInchesPerFoot: 1d / 6d,
+            DeckLengthMillimeters: 600,
+            RowCount: 8,
+            StartPoint: 2,
+            ShiftPattern: ShiftPatternKind.Every5,
+            UseKingPlank: true,
+            DeckOrientation: DeckOrientation.SternLeft,
+            TrenailPattern: TrenailPatternKind.OneAlternating);
     }
 }
