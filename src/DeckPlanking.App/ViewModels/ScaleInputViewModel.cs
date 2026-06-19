@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
 using DeckPlanking.Core.Preview;
+using DeckPlanking.Core.Projects;
 using System.Collections.ObjectModel;
 
 namespace DeckPlanking.App.ViewModels;
@@ -286,6 +287,41 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public string SeamTableToggleText => IsSeamTableVisible ? "Hide seam details" : "Show seam details";
 
+    public DeckPlankingProjectSettings CaptureProjectSettings()
+    {
+        return new DeckPlankingProjectSettings(
+            RealPlankLength,
+            SelectedLengthUnit.Value,
+            SelectedScaleMode.Value,
+            DecimalScale,
+            ImperialInchesPerFoot,
+            DeckLengthMillimeters,
+            RowCount,
+            StartPoint,
+            SelectedPattern.Value,
+            UseKingPlank,
+            SelectedDeckOrientation.Value,
+            SelectedTrenailPattern.Value);
+    }
+
+    public void ApplyProjectSettings(DeckPlankingProjectSettings settings)
+    {
+        ArgumentNullException.ThrowIfNull(settings);
+
+        RealPlankLength = settings.RealPlankLength;
+        SelectedLengthUnit = FindOption(LengthUnits, settings.LengthUnit);
+        SelectedScaleMode = FindOption(ScaleModes, settings.ScaleMode);
+        DecimalScale = settings.DecimalScale;
+        ImperialInchesPerFoot = settings.ImperialInchesPerFoot;
+        DeckLengthMillimeters = settings.DeckLengthMillimeters;
+        RowCount = settings.RowCount;
+        StartPoint = settings.StartPoint;
+        SelectedPattern = FindOption(Patterns, settings.ShiftPattern);
+        UseKingPlank = settings.UseKingPlank;
+        SelectedDeckOrientation = FindOption(DeckOrientations, settings.DeckOrientation);
+        SelectedTrenailPattern = FindOption(TrenailPatterns, settings.TrenailPattern);
+    }
+
     private void SetAndRecalculate<T>(ref T field, T value)
     {
         if (SetProperty(ref field, value))
@@ -342,6 +378,12 @@ public sealed class ScaleInputViewModel : ObservableObject
     private void SelectTrenailPattern(TrenailPatternKind trenailPatternKind)
     {
         SelectedTrenailPattern = TrenailPatterns.First(pattern => pattern.Value == trenailPatternKind);
+    }
+
+    private static OptionItem<T> FindOption<T>(IReadOnlyList<OptionItem<T>> options, T value)
+        where T : notnull
+    {
+        return options.First(option => EqualityComparer<T>.Default.Equals(option.Value, value));
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)

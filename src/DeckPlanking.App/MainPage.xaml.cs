@@ -1,7 +1,9 @@
 using DeckPlanking.App.ViewModels;
 using DeckPlanking.App.Export;
 using DeckPlanking.App.Graphics;
+using DeckPlanking.App.Projects;
 using DeckPlanking.Core.Preview;
+using DeckPlanking.Core.Projects;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
@@ -139,6 +141,57 @@ public partial class MainPage : ContentPage
             "Export saved",
             $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
             "OK");
+    }
+
+    private async void OnSaveProjectClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            var document = new DeckPlankingProjectDocument(
+                1,
+                DateTimeOffset.UtcNow,
+                viewModel.CaptureProjectSettings());
+
+            var saveResult = await ProjectFileService.SaveAsync(document);
+            if (!saveResult.Saved)
+            {
+                return;
+            }
+
+            await DisplayAlertAsync(
+                "Project saved",
+                $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
+                "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Project could not be saved", ex.Message, "OK");
+        }
+    }
+
+    private async void OnOpenProjectClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            var document = await ProjectFileService.OpenAsync();
+            if (document is null)
+            {
+                return;
+            }
+
+            viewModel.ApplyProjectSettings(document.Settings);
+            previewViewport = PreviewViewport.Default;
+            UpdatePatternPreview();
+
+            await DisplayAlertAsync(
+                "Project opened",
+                "Project settings have been loaded.",
+                "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Project could not be opened", ex.Message, "OK");
+        }
     }
 
     private void OnPatternPanUpdated(object? sender, PanUpdatedEventArgs e)

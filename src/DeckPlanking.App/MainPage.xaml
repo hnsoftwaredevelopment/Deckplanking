@@ -33,6 +33,20 @@
                                FontSize="18"
                                TextColor="{StaticResource AppPrimaryTextColor}" />
 
+                        <HorizontalStackLayout Spacing="8"
+                                               HorizontalOptions="Start">
+                            <Button Text="Save project"
+                                    Clicked="OnSaveProjectClicked"
+                                    MinimumHeightRequest="36"
+                                    Padding="12,0"
+                                    SemanticProperties.Description="Save project settings" />
+                            <Button Text="Open project"
+                                    Clicked="OnOpenProjectClicked"
+                                    MinimumHeightRequest="36"
+                                    Padding="12,0"
+                                    SemanticProperties.Description="Open saved project settings" />
+                        </HorizontalStackLayout>
+
                         <Grid ColumnDefinitions="220,*"
                               RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnSpacing="14"
