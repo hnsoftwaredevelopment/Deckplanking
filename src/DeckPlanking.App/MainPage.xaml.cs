@@ -71,6 +71,7 @@ public partial class MainPage : ContentPage
 
         if (e.PropertyName is nameof(ScaleInputViewModel.DeckWidthMillimeters)
             or nameof(ScaleInputViewModel.PlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.KingPlankWidthMillimeters)
             or nameof(ScaleInputViewModel.SelectedRowInputMode))
         {
             UpdatePatternPreview();
@@ -269,6 +270,7 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.DeckLengthMillimeters)
             or nameof(ScaleInputViewModel.DeckWidthMillimeters)
             or nameof(ScaleInputViewModel.PlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.KingPlankWidthMillimeters)
             or nameof(ScaleInputViewModel.SelectedRowInputMode)
             or nameof(ScaleInputViewModel.RowCount)
             or nameof(ScaleInputViewModel.StartPoint)

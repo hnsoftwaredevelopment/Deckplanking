@@ -16,6 +16,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private double deckLengthMillimeters = 600;
     private double deckWidthMillimeters = 80;
     private double plankWidthMillimeters = 5;
+    private double kingPlankWidthMillimeters = 5;
     private double imperialInchesPerFoot = 1d / 6d;
     private int rowCount = 8;
     private int startPoint;
@@ -138,6 +139,12 @@ public sealed class ScaleInputViewModel : ObservableObject
         set => SetAndRecalculate(ref plankWidthMillimeters, value);
     }
 
+    public double KingPlankWidthMillimeters
+    {
+        get => kingPlankWidthMillimeters;
+        set => SetAndRecalculate(ref kingPlankWidthMillimeters, value);
+    }
+
     public double ImperialInchesPerFoot
     {
         get => imperialInchesPerFoot;
@@ -163,6 +170,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         {
             if (SetProperty(ref useKingPlank, value) && SelectedRowInputMode.Value == RowInputMode.FromDeckWidth)
             {
+                OnPropertyChanged(nameof(IsKingPlankWidthVisible));
                 Recalculate();
             }
         }
@@ -196,6 +204,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             {
                 OnPropertyChanged(nameof(IsManualRowInput));
                 OnPropertyChanged(nameof(IsWidthBasedRowInput));
+                OnPropertyChanged(nameof(IsKingPlankWidthVisible));
             }
         }
     }
@@ -321,6 +330,8 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public bool IsWidthBasedRowInput => SelectedRowInputMode.Value == RowInputMode.FromDeckWidth;
 
+    public bool IsKingPlankWidthVisible => IsWidthBasedRowInput && UseKingPlank;
+
     public bool IsSeamTableVisible
     {
         get => isSeamTableVisible;
@@ -346,6 +357,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             DeckLengthMillimeters,
             DeckWidthMillimeters,
             PlankWidthMillimeters,
+            KingPlankWidthMillimeters,
             SelectedRowInputMode.Value,
             RowCount,
             StartPoint,
@@ -367,6 +379,9 @@ public sealed class ScaleInputViewModel : ObservableObject
         DeckLengthMillimeters = settings.DeckLengthMillimeters;
         DeckWidthMillimeters = settings.DeckWidthMillimeters > 0 ? settings.DeckWidthMillimeters : DeckWidthMillimeters;
         PlankWidthMillimeters = settings.PlankWidthMillimeters > 0 ? settings.PlankWidthMillimeters : PlankWidthMillimeters;
+        KingPlankWidthMillimeters = settings.KingPlankWidthMillimeters > 0
+            ? settings.KingPlankWidthMillimeters
+            : PlankWidthMillimeters;
         SelectedRowInputMode = FindOption(RowInputModes, settings.RowInputMode);
         RowCount = settings.RowCount;
         StartPoint = settings.StartPoint;
@@ -459,7 +474,8 @@ public sealed class ScaleInputViewModel : ObservableObject
         var calculatedRows = DeckRowCountCalculator.CalculateRowsPerSide(
             (decimal)DeckWidthMillimeters,
             (decimal)PlankWidthMillimeters,
-            UseKingPlank);
+            UseKingPlank,
+            (decimal)KingPlankWidthMillimeters);
 
         SetProperty(ref rowCount, calculatedRows, nameof(RowCount));
     }

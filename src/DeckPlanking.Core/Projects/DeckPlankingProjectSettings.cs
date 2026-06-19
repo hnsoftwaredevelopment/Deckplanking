@@ -14,6 +14,7 @@ public sealed record DeckPlankingProjectSettings(
     double DeckLengthMillimeters,
     double DeckWidthMillimeters,
     double PlankWidthMillimeters,
+    double KingPlankWidthMillimeters,
     RowInputMode RowInputMode,
     int RowCount,
     int StartPoint,

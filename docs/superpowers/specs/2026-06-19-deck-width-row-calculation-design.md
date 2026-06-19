@@ -21,8 +21,9 @@ When width-based mode is enabled:
 
 - `Deck width` is the full deck width in millimeters.
 - `Plank width` is the width of one deck plank in millimeters.
+- `King plank width` is available when king plank is enabled and defaults to the normal plank width for older projects.
 - Without king plank: `rowsPerSide = ceil(deckWidth / (2 * plankWidth))`.
-- With king plank: `rowsPerSide = ceil(max(deckWidth - plankWidth, 0) / (2 * plankWidth))`.
+- With king plank: `rowsPerSide = ceil(max(deckWidth - kingPlankWidth, 0) / (2 * plankWidth))`.
 - Minimum result is `1` row per side.
 
 When manual mode is enabled:
@@ -37,9 +38,10 @@ Project JSON and last-used settings store:
 - row input mode;
 - deck width;
 - plank width;
+- king plank width;
 - row count.
 
-Older project files that do not contain the new fields remain loadable. Missing width fields are treated as default values, and missing mode defaults to manual rows.
+Older project files that do not contain the new fields remain loadable. Missing width fields are treated as default values, missing king plank width uses plank width, and missing mode defaults to manual rows.
 
 ## Testing
 
@@ -49,4 +51,3 @@ Core tests cover:
 - width-based rows with king plank;
 - positive-value validation;
 - project JSON round-trip including the new fields.
-

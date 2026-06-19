@@ -26,6 +26,18 @@ public sealed class DeckRowCountCalculatorTests
         Assert.Equal(8, rowsPerSide);
     }
 
+    [Fact]
+    public void CalculatesRowsPerSideWithWiderKingPlank()
+    {
+        var rowsPerSide = DeckRowCountCalculator.CalculateRowsPerSide(
+            deckWidthMillimeters: 85m,
+            plankWidthMillimeters: 5m,
+            useKingPlank: true,
+            kingPlankWidthMillimeters: 15m);
+
+        Assert.Equal(7, rowsPerSide);
+    }
+
     [Theory]
     [InlineData(0, 5)]
     [InlineData(80, 0)]

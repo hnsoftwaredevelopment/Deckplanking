@@ -5,7 +5,8 @@ public static class DeckRowCountCalculator
     public static int CalculateRowsPerSide(
         decimal deckWidthMillimeters,
         decimal plankWidthMillimeters,
-        bool useKingPlank)
+        bool useKingPlank,
+        decimal? kingPlankWidthMillimeters = null)
     {
         if (deckWidthMillimeters <= 0)
         {
@@ -17,8 +18,14 @@ public static class DeckRowCountCalculator
             throw new ArgumentOutOfRangeException(nameof(plankWidthMillimeters));
         }
 
+        if (kingPlankWidthMillimeters is <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(kingPlankWidthMillimeters));
+        }
+
+        var centerPlankWidth = kingPlankWidthMillimeters ?? plankWidthMillimeters;
         var plankedWidth = useKingPlank
-            ? Math.Max(0, deckWidthMillimeters - plankWidthMillimeters)
+            ? Math.Max(0, deckWidthMillimeters - centerPlankWidth)
             : deckWidthMillimeters;
 
         var rowsPerSide = (int)Math.Ceiling(plankedWidth / (2 * plankWidthMillimeters));

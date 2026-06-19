@@ -50,6 +50,7 @@ public sealed class ProjectJsonSerializerTests
                 DeckLengthMillimeters: 480,
                 DeckWidthMillimeters: 72,
                 PlankWidthMillimeters: 4,
+                KingPlankWidthMillimeters: 7,
                 RowInputMode: RowInputMode.FromDeckWidth,
                 RowCount: 6,
                 StartPoint: 1,
@@ -63,6 +64,7 @@ public sealed class ProjectJsonSerializerTests
         Assert.Contains("\"lengthUnit\": \"Feet\"", json);
         Assert.Contains("\"shiftPattern\": \"Every3\"", json);
         Assert.Contains("\"rowInputMode\": \"FromDeckWidth\"", json);
+        Assert.Contains("\"kingPlankWidthMillimeters\": 7", json);
     }
 
     [Fact]
@@ -106,6 +108,7 @@ public sealed class ProjectJsonSerializerTests
             DeckLengthMillimeters: 600,
             DeckWidthMillimeters: 85,
             PlankWidthMillimeters: 5,
+            KingPlankWidthMillimeters: 10,
             RowInputMode: RowInputMode.FromDeckWidth,
             RowCount: 8,
             StartPoint: 2,
