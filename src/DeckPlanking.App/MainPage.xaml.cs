@@ -69,6 +69,13 @@ public partial class MainPage : ContentPage
             UpdatePatternPreview();
         }
 
+        if (e.PropertyName is nameof(ScaleInputViewModel.DeckWidthMillimeters)
+            or nameof(ScaleInputViewModel.PlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.SelectedRowInputMode))
+        {
+            UpdatePatternPreview();
+        }
+
         if (e.PropertyName is nameof(ScaleInputViewModel.SegmentLengthMillimeters))
         {
             UpdatePatternPreview();
@@ -260,6 +267,9 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.DecimalScale)
             or nameof(ScaleInputViewModel.ImperialInchesPerFoot)
             or nameof(ScaleInputViewModel.DeckLengthMillimeters)
+            or nameof(ScaleInputViewModel.DeckWidthMillimeters)
+            or nameof(ScaleInputViewModel.PlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.SelectedRowInputMode)
             or nameof(ScaleInputViewModel.RowCount)
             or nameof(ScaleInputViewModel.StartPoint)
             or nameof(ScaleInputViewModel.SelectedPattern)

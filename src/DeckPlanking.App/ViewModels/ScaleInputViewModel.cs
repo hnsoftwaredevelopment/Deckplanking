@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DeckPlanking.Core.Configuration;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
 using DeckPlanking.Core.Preview;
@@ -13,11 +14,14 @@ public sealed class ScaleInputViewModel : ObservableObject
     private double realPlankLength = 9;
     private double decimalScale = 64;
     private double deckLengthMillimeters = 600;
+    private double deckWidthMillimeters = 80;
+    private double plankWidthMillimeters = 5;
     private double imperialInchesPerFoot = 1d / 6d;
     private int rowCount = 8;
     private int startPoint;
     private OptionItem<LengthUnit> selectedLengthUnit;
     private OptionItem<ScaleMode> selectedScaleMode;
+    private OptionItem<RowInputMode> selectedRowInputMode;
     private OptionItem<ShiftPatternKind> selectedPattern;
     private OptionItem<DeckOrientation> selectedDeckOrientation;
     private OptionItem<TrenailPatternKind> selectedTrenailPattern;
@@ -46,6 +50,12 @@ public sealed class ScaleInputViewModel : ObservableObject
             new("Imperial inches per foot", ScaleMode.ImperialInchesPerFoot)
         ];
 
+        RowInputModes =
+        [
+            new("Manual rows", RowInputMode.Manual),
+            new("From deck width", RowInputMode.FromDeckWidth)
+        ];
+
         Patterns =
         [
             new("Every 2", ShiftPatternKind.Every2),
@@ -70,6 +80,7 @@ public sealed class ScaleInputViewModel : ObservableObject
 
         selectedLengthUnit = LengthUnits[0];
         selectedScaleMode = ScaleModes[0];
+        selectedRowInputMode = RowInputModes[0];
         selectedPattern = Patterns[3];
         selectedDeckOrientation = DeckOrientations[0];
         selectedTrenailPattern = TrenailPatterns[1];
@@ -82,6 +93,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     public IReadOnlyList<OptionItem<LengthUnit>> LengthUnits { get; }
 
     public IReadOnlyList<OptionItem<ScaleMode>> ScaleModes { get; }
+
+    public IReadOnlyList<OptionItem<RowInputMode>> RowInputModes { get; }
 
     public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; }
 
@@ -113,6 +126,18 @@ public sealed class ScaleInputViewModel : ObservableObject
         set => SetAndRecalculate(ref deckLengthMillimeters, value);
     }
 
+    public double DeckWidthMillimeters
+    {
+        get => deckWidthMillimeters;
+        set => SetAndRecalculate(ref deckWidthMillimeters, value);
+    }
+
+    public double PlankWidthMillimeters
+    {
+        get => plankWidthMillimeters;
+        set => SetAndRecalculate(ref plankWidthMillimeters, value);
+    }
+
     public double ImperialInchesPerFoot
     {
         get => imperialInchesPerFoot;
@@ -134,7 +159,13 @@ public sealed class ScaleInputViewModel : ObservableObject
     public bool UseKingPlank
     {
         get => useKingPlank;
-        set => SetProperty(ref useKingPlank, value);
+        set
+        {
+            if (SetProperty(ref useKingPlank, value) && SelectedRowInputMode.Value == RowInputMode.FromDeckWidth)
+            {
+                Recalculate();
+            }
+        }
     }
 
     public OptionItem<LengthUnit> SelectedLengthUnit
@@ -152,6 +183,19 @@ public sealed class ScaleInputViewModel : ObservableObject
             {
                 IsDecimalScale = selectedScaleMode.Value == ScaleMode.Decimal;
                 Recalculate();
+            }
+        }
+    }
+
+    public OptionItem<RowInputMode> SelectedRowInputMode
+    {
+        get => selectedRowInputMode;
+        set
+        {
+            if (SetAndRecalculateProperty(ref selectedRowInputMode, value))
+            {
+                OnPropertyChanged(nameof(IsManualRowInput));
+                OnPropertyChanged(nameof(IsWidthBasedRowInput));
             }
         }
     }
@@ -273,6 +317,10 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public bool IsImperialScale => !IsDecimalScale;
 
+    public bool IsManualRowInput => SelectedRowInputMode.Value == RowInputMode.Manual;
+
+    public bool IsWidthBasedRowInput => SelectedRowInputMode.Value == RowInputMode.FromDeckWidth;
+
     public bool IsSeamTableVisible
     {
         get => isSeamTableVisible;
@@ -296,6 +344,9 @@ public sealed class ScaleInputViewModel : ObservableObject
             DecimalScale,
             ImperialInchesPerFoot,
             DeckLengthMillimeters,
+            DeckWidthMillimeters,
+            PlankWidthMillimeters,
+            SelectedRowInputMode.Value,
             RowCount,
             StartPoint,
             SelectedPattern.Value,
@@ -314,6 +365,9 @@ public sealed class ScaleInputViewModel : ObservableObject
         DecimalScale = settings.DecimalScale;
         ImperialInchesPerFoot = settings.ImperialInchesPerFoot;
         DeckLengthMillimeters = settings.DeckLengthMillimeters;
+        DeckWidthMillimeters = settings.DeckWidthMillimeters > 0 ? settings.DeckWidthMillimeters : DeckWidthMillimeters;
+        PlankWidthMillimeters = settings.PlankWidthMillimeters > 0 ? settings.PlankWidthMillimeters : PlankWidthMillimeters;
+        SelectedRowInputMode = FindOption(RowInputModes, settings.RowInputMode);
         RowCount = settings.RowCount;
         StartPoint = settings.StartPoint;
         SelectedPattern = FindOption(Patterns, settings.ShiftPattern);
@@ -324,10 +378,18 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     private void SetAndRecalculate<T>(ref T field, T value)
     {
+        SetAndRecalculateProperty(ref field, value);
+    }
+
+    private bool SetAndRecalculateProperty<T>(ref T field, T value)
+    {
         if (SetProperty(ref field, value))
         {
             Recalculate();
+            return true;
         }
+
+        return false;
     }
 
     private void Recalculate()
@@ -354,6 +416,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             SegmentLengthText = $"{result.SegmentLengthMillimeters:0.###} mm";
             SegmentLengthMillimeters = result.SegmentLengthMillimeters;
             ImperialDisplayText = $"{result.DisplayLengthInches:0.####} in";
+            UpdateCalculatedRowCount();
             UpdatePatternRows(result.CutLengthMillimeters);
             ValidationMessage = string.Empty;
         }
@@ -366,7 +429,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             SegmentLengthMillimeters = 0;
             ImperialDisplayText = "-";
             PatternRows.Clear();
-            ValidationMessage = "Enter positive values for length and scale.";
+            ValidationMessage = "Enter positive values for length, scale, and widths.";
         }
     }
 
@@ -384,6 +447,21 @@ public sealed class ScaleInputViewModel : ObservableObject
         where T : notnull
     {
         return options.First(option => EqualityComparer<T>.Default.Equals(option.Value, value));
+    }
+
+    private void UpdateCalculatedRowCount()
+    {
+        if (SelectedRowInputMode.Value != RowInputMode.FromDeckWidth)
+        {
+            return;
+        }
+
+        var calculatedRows = DeckRowCountCalculator.CalculateRowsPerSide(
+            (decimal)DeckWidthMillimeters,
+            (decimal)PlankWidthMillimeters,
+            UseKingPlank);
+
+        SetProperty(ref rowCount, calculatedRows, nameof(RowCount));
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)

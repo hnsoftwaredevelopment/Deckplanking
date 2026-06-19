@@ -1,3 +1,4 @@
+using DeckPlanking.Core.Configuration;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
 using DeckPlanking.Core.Preview;
@@ -47,6 +48,9 @@ public sealed class ProjectJsonSerializerTests
                 DecimalScale: 48,
                 ImperialInchesPerFoot: 0.25,
                 DeckLengthMillimeters: 480,
+                DeckWidthMillimeters: 72,
+                PlankWidthMillimeters: 4,
+                RowInputMode: RowInputMode.FromDeckWidth,
                 RowCount: 6,
                 StartPoint: 1,
                 ShiftPattern: ShiftPatternKind.Every3,
@@ -58,6 +62,7 @@ public sealed class ProjectJsonSerializerTests
 
         Assert.Contains("\"lengthUnit\": \"Feet\"", json);
         Assert.Contains("\"shiftPattern\": \"Every3\"", json);
+        Assert.Contains("\"rowInputMode\": \"FromDeckWidth\"", json);
     }
 
     [Fact]
@@ -99,6 +104,9 @@ public sealed class ProjectJsonSerializerTests
             DecimalScale: 64,
             ImperialInchesPerFoot: 1d / 6d,
             DeckLengthMillimeters: 600,
+            DeckWidthMillimeters: 85,
+            PlankWidthMillimeters: 5,
+            RowInputMode: RowInputMode.FromDeckWidth,
             RowCount: 8,
             StartPoint: 2,
             ShiftPattern: ShiftPatternKind.Every5,
