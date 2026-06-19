@@ -44,13 +44,18 @@ public static partial class ProjectFileService
         {
             SuggestedStartLocation = PickerLocationId.DocumentsLibrary
         };
-        picker.FileTypeFilter.Add(".json");
+        picker.FileTypeFilter.Add("*");
         InitializePicker(picker);
 
         var sourceFile = await picker.PickSingleFileAsync();
         if (sourceFile is null)
         {
             return null;
+        }
+
+        if (!sourceFile.Name.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidDataException("Select a Deckplanking project JSON file.");
         }
 
         var json = await FileIO.ReadTextAsync(sourceFile);
