@@ -44,6 +44,7 @@
   <data name="Row" xml:space="preserve"><value>Fila</value></data>
   <data name="Offset" xml:space="preserve"><value>Desplazamiento</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Juntas (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Juntas</value></data>
   <data name="ShowSeamDetails" xml:space="preserve"><value>Mostrar detalles de juntas</value></data>
   <data name="HideSeamDetails" xml:space="preserve"><value>Ocultar detalles de juntas</value></data>
   <data name="PatternEvery2" xml:space="preserve"><value>Cada 2</value></data>

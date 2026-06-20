@@ -44,6 +44,7 @@
   <data name="Row" xml:space="preserve"><value>Reihe</value></data>
   <data name="Offset" xml:space="preserve"><value>Versatz</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Naehte (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Naehte</value></data>
   <data name="ShowSeamDetails" xml:space="preserve"><value>Nahtdetails anzeigen</value></data>
   <data name="HideSeamDetails" xml:space="preserve"><value>Nahtdetails ausblenden</value></data>
   <data name="PatternEvery2" xml:space="preserve"><value>Jede 2</value></data>

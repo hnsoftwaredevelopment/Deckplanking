@@ -26,7 +26,7 @@ public static class DisplayLengthFormatter
     {
         return AppPreferencesStore.GetDisplayUnitSystem() == DisplayUnitSystemOption.Imperial
             ? Math.Round(millimeters / MillimetersPerInch, 4, MidpointRounding.AwayFromZero)
-            : millimeters;
+            : Math.Round(millimeters, 2, MidpointRounding.AwayFromZero);
     }
 
     public static double FromInputValue(double displayValue)

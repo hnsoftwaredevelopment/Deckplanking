@@ -44,6 +44,7 @@
   <data name="Row" xml:space="preserve"><value>Rij</value></data>
   <data name="Offset" xml:space="preserve"><value>Offset</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Naden (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Naden</value></data>
   <data name="ShowSeamDetails" xml:space="preserve"><value>Naaddetails tonen</value></data>
   <data name="HideSeamDetails" xml:space="preserve"><value>Naaddetails verbergen</value></data>
   <data name="PatternEvery2" xml:space="preserve"><value>Iedere 2</value></data>

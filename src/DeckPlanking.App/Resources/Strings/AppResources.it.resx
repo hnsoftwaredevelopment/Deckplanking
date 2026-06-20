@@ -44,6 +44,7 @@
   <data name="Row" xml:space="preserve"><value>Fila</value></data>
   <data name="Offset" xml:space="preserve"><value>Sfalsamento</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Giunti (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Giunti</value></data>
   <data name="ShowSeamDetails" xml:space="preserve"><value>Mostra dettagli giunti</value></data>
   <data name="HideSeamDetails" xml:space="preserve"><value>Nascondi dettagli giunti</value></data>
   <data name="PatternEvery2" xml:space="preserve"><value>Ogni 2</value></data>

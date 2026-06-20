@@ -44,6 +44,7 @@
   <data name="Row" xml:space="preserve"><value>Row</value></data>
   <data name="Offset" xml:space="preserve"><value>Offset</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Seams (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Seams</value></data>
   <data name="ShowSeamDetails" xml:space="preserve"><value>Show seam details</value></data>
   <data name="HideSeamDetails" xml:space="preserve"><value>Hide seam details</value></data>
   <data name="PatternEvery2" xml:space="preserve"><value>Every 2</value></data>

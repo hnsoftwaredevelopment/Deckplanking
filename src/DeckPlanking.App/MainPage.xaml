@@ -424,7 +424,7 @@
                                    FontAttributes="Bold"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="2"
-                                   Text="{loc:Translate SeamsMillimeters}"
+                                   Text="{Binding SeamPositionsHeaderText}"
                                    FontAttributes="Bold"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                         </Grid>

@@ -14,6 +14,7 @@ namespace DeckPlanking.App.ViewModels;
 
 public sealed class ScaleInputViewModel : ObservableObject
 {
+    private const double FeetPerMeter = 3.280839895013123d;
     private double realPlankLength = 9;
     private double decimalScale = 64;
     private double deckLengthMillimeters = 600;
@@ -371,6 +372,8 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public string DimensionInputUnitText => DisplayLengthFormatter.InputUnitText;
 
+    public string SeamPositionsHeaderText => $"{T("Seams")} ({DisplayLengthFormatter.InputUnitText})";
+
     public DeckPlankingProjectSettings CaptureProjectSettings()
     {
         return new DeckPlankingProjectSettings(
@@ -522,9 +525,30 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         if (e.PreferenceName == AppPreferencesStore.DisplayUnitSystemPreferenceName)
         {
+            ApplyDisplayUnitToFullSizeLength();
             NotifyDimensionInputsChanged();
             Recalculate();
         }
+    }
+
+    private void ApplyDisplayUnitToFullSizeLength()
+    {
+        var targetLengthUnit = AppPreferencesStore.GetDisplayUnitSystem() == DisplayUnitSystemOption.Imperial
+            ? LengthUnit.Feet
+            : LengthUnit.Meters;
+
+        if (SelectedLengthUnit.Value == targetLengthUnit)
+        {
+            return;
+        }
+
+        realPlankLength = targetLengthUnit == LengthUnit.Feet
+            ? Math.Round(realPlankLength * FeetPerMeter, 4, MidpointRounding.AwayFromZero)
+            : Math.Round(realPlankLength / FeetPerMeter, 2, MidpointRounding.AwayFromZero);
+
+        selectedLengthUnit = FindOption(LengthUnits, targetLengthUnit);
+        OnPropertyChanged(nameof(RealPlankLength));
+        OnPropertyChanged(nameof(SelectedLengthUnit));
     }
 
     private void NotifyDimensionInputsChanged()
@@ -534,6 +558,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         OnPropertyChanged(nameof(PlankWidthInput));
         OnPropertyChanged(nameof(KingPlankWidthInput));
         OnPropertyChanged(nameof(DimensionInputUnitText));
+        OnPropertyChanged(nameof(SeamPositionsHeaderText));
     }
 
     private void RefreshLocalizedOptions()
@@ -611,7 +636,17 @@ public sealed class ScaleInputViewModel : ObservableObject
 
         foreach (var row in rows)
         {
-            PatternRows.Add(row);
+            PatternRows.Add(row with
+            {
+                SeamPositionsText = FormatSeamPositions(row.SeamPositionsMillimeters)
+            });
         }
+    }
+
+    private static string FormatSeamPositions(IReadOnlyList<decimal> seamPositionsMillimeters)
+    {
+        return seamPositionsMillimeters.Count == 0
+            ? "-"
+            : string.Join(", ", seamPositionsMillimeters.Select(DisplayLengthFormatter.FormatRulerLabel));
     }
 }

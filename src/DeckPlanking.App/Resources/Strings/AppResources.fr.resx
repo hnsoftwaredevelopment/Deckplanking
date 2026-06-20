@@ -44,6 +44,7 @@
   <data name="Row" xml:space="preserve"><value>Rangee</value></data>
   <data name="Offset" xml:space="preserve"><value>Decalage</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Joints (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Joints</value></data>
   <data name="ShowSeamDetails" xml:space="preserve"><value>Afficher les details des joints</value></data>
   <data name="HideSeamDetails" xml:space="preserve"><value>Masquer les details des joints</value></data>
   <data name="PatternEvery2" xml:space="preserve"><value>Tous les 2</value></data>
