@@ -2,6 +2,8 @@ namespace DeckPlanking.App.Settings;
 
 public static class AppPreferencesStore
 {
+    public const string DisplayUnitSystemPreferenceName = nameof(DisplayUnitSystemPreferenceName);
+
     private const string LanguageKey = "app.language";
     private const string ThemeKey = "app.theme";
     private const string DisplayUnitSystemKey = "app.displayUnitSystem";
@@ -19,6 +21,8 @@ public static class AppPreferencesStore
         new("es", "Espanol"),
         new("it", "Italiano")
     ];
+
+    public static event EventHandler<AppPreferencesChangedEventArgs>? PreferenceChanged;
 
     public static AppThemeOption GetTheme()
     {
@@ -55,6 +59,7 @@ public static class AppPreferencesStore
     public static void SetDisplayUnitSystem(DisplayUnitSystemOption displayUnitSystem)
     {
         Preferences.Default.Set(DisplayUnitSystemKey, displayUnitSystem.ToString());
+        PreferenceChanged?.Invoke(null, new AppPreferencesChangedEventArgs(DisplayUnitSystemPreferenceName));
     }
 
     private static TEnum ReadEnum<TEnum>(string key, TEnum defaultValue)

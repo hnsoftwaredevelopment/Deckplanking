@@ -3,6 +3,7 @@ using DeckPlanking.App.Export;
 using DeckPlanking.App.Graphics;
 using DeckPlanking.App.Localization;
 using DeckPlanking.App.Projects;
+using DeckPlanking.App.Settings;
 using DeckPlanking.Core.Preview;
 using DeckPlanking.Core.Projects;
 using System.Collections.Specialized;
@@ -31,6 +32,7 @@ public partial class MainPage : ContentPage
         viewModel.PatternRows.CollectionChanged += OnPatternRowsChanged;
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
         LocalizationResourceManager.Instance.PropertyChanged += OnLocalizationChanged;
+        AppPreferencesStore.PreferenceChanged += OnAppPreferenceChanged;
         UpdatePatternPreview();
     }
 
@@ -173,7 +175,9 @@ public partial class MainPage : ContentPage
             new RectF(0, 0, (float)PatternGraphics.Width, (float)PatternGraphics.Height));
 
         patternPreviewDrawable.SelectedSegment = inspection;
-        SegmentInspectionLabel.Text = inspection?.DisplayText ?? string.Empty;
+        SegmentInspectionLabel.Text = inspection is null
+            ? string.Empty
+            : $"{inspection.RowLabel}, segment {inspection.SegmentNumber}: {DisplayLengthFormatter.Format(inspection.StartMillimeters)} - {DisplayLengthFormatter.Format(inspection.EndMillimeters)}, length {DisplayLengthFormatter.Format(inspection.LengthMillimeters)}";
         SegmentInspectionLabel.IsVisible = inspection is not null;
         PatternGraphics.Invalidate();
     }
@@ -181,6 +185,15 @@ public partial class MainPage : ContentPage
     private void OnLocalizationChanged(object? sender, PropertyChangedEventArgs e)
     {
         UpdatePatternPreview();
+    }
+
+    private void OnAppPreferenceChanged(object? sender, AppPreferencesChangedEventArgs e)
+    {
+        if (e.PreferenceName == AppPreferencesStore.DisplayUnitSystemPreferenceName)
+        {
+            ClearSegmentInspection();
+            UpdatePatternPreview();
+        }
     }
 
     private void ClearSegmentInspection()

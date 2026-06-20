@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DeckPlanking.App.Localization;
+using DeckPlanking.App.Settings;
 using DeckPlanking.Core.Configuration;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
@@ -61,6 +62,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
         SelectTrenailPatternCommand = new RelayCommand<TrenailPatternKind>(SelectTrenailPattern);
         LocalizationResourceManager.Instance.PropertyChanged += OnLocalizationChanged;
+        AppPreferencesStore.PreferenceChanged += OnAppPreferenceChanged;
         Recalculate();
     }
 
@@ -398,12 +400,12 @@ public sealed class ScaleInputViewModel : ObservableObject
                 MetricDecimalPlaces: 1,
                 ImperialFractionDenominator: 16));
 
-            RawScaleLengthText = $"{result.RawScaleLengthMillimeters:0.###} mm";
-            CutLengthText = $"{result.CutLengthMillimeters:0.#} mm";
+            RawScaleLengthText = DisplayLengthFormatter.Format(result.RawScaleLengthMillimeters);
+            CutLengthText = DisplayLengthFormatter.Format(result.CutLengthMillimeters);
             CutLengthMillimeters = result.CutLengthMillimeters;
-            SegmentLengthText = $"{result.SegmentLengthMillimeters:0.###} mm";
+            SegmentLengthText = DisplayLengthFormatter.Format(result.SegmentLengthMillimeters);
             SegmentLengthMillimeters = result.SegmentLengthMillimeters;
-            ImperialDisplayText = $"{result.DisplayLengthInches:0.####} in";
+            ImperialDisplayText = LengthDisplayFormatter.FormatInchesFromMillimeters(result.CutLengthMillimeters, 16);
             UpdateCalculatedRowCount();
             UpdatePatternRows(result.CutLengthMillimeters);
             ValidationMessage = string.Empty;
@@ -463,6 +465,14 @@ public sealed class ScaleInputViewModel : ObservableObject
         if (!string.IsNullOrWhiteSpace(ValidationMessage))
         {
             ValidationMessage = T("ValidationPositiveValues");
+        }
+    }
+
+    private void OnAppPreferenceChanged(object? sender, AppPreferencesChangedEventArgs e)
+    {
+        if (e.PreferenceName == AppPreferencesStore.DisplayUnitSystemPreferenceName)
+        {
+            Recalculate();
         }
     }
 

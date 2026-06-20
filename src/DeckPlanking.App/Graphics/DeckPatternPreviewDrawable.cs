@@ -1,6 +1,7 @@
 using DeckPlanking.Core.Configuration;
 using DeckPlanking.Core.Preview;
 using DeckPlanking.Core.Patterns;
+using DeckPlanking.App.Settings;
 
 namespace DeckPlanking.App.Graphics;
 
@@ -377,7 +378,9 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             return;
         }
 
-        var ticks = RulerTickBuilder.Build((decimal)SegmentLengthMillimeters, (decimal)deckLength);
+        var ticks = RulerTickBuilder.Build((decimal)SegmentLengthMillimeters, (decimal)deckLength)
+            .Select(tick => tick with { Label = DisplayLengthFormatter.FormatRulerLabel(tick.PositionMillimeters) })
+            .ToArray();
         var labelStride = CalculateLabelStride((float)SegmentLengthMillimeters, deckLength, deckRect.Width);
         var baselineY = TopMargin - 7;
 
@@ -388,7 +391,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         canvas.FontColor = Color.FromArgb("#4B2E14");
         canvas.FontSize = 10;
 
-        for (var index = 0; index < ticks.Count; index++)
+        for (var index = 0; index < ticks.Length; index++)
         {
             var tick = ticks[index];
             var x = deckRect.Left + ((float)tick.PositionMillimeters / deckLength * deckRect.Width);
