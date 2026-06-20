@@ -364,11 +364,18 @@
                             <GraphicsView x:Name="PatternGraphics"
                                           HeightRequest="340">
                                 <GraphicsView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPatternTapped" />
                                     <PanGestureRecognizer PanUpdated="OnPatternPanUpdated" />
                                     <PinchGestureRecognizer PinchUpdated="OnPatternPinchUpdated" />
                                 </GraphicsView.GestureRecognizers>
                             </GraphicsView>
                         </Border>
+
+                        <Label x:Name="SegmentInspectionLabel"
+                               IsVisible="False"
+                               TextColor="{StaticResource AppPrimaryTextColor}"
+                               FontAttributes="Bold"
+                               LineBreakMode="WordWrap" />
 
                         <Button Text="{Binding SeamTableToggleText}"
                                 Command="{Binding ToggleSeamTableCommand}"

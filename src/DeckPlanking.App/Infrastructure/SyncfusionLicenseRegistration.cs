@@ -5,7 +5,14 @@ namespace DeckPlanking.App.Infrastructure;
 public static class SyncfusionLicenseRegistration
 {
     private const string EnvironmentVariableName = "DECKPLANKING_SYNCFUSION_LICENSE";
-    private const string LocalLicenseFileName = "syncfusion-license.txt";
+
+    private static readonly string[] LocalLicenseFileNames =
+    [
+        "syncfusion-license.txt",
+        "SyncfusionLicense.txt",
+        "synfusion.txt",
+        "SynfusionLicense.txt"
+    ];
 
     public static void Register()
     {
@@ -13,10 +20,14 @@ public static class SyncfusionLicenseRegistration
 
         if (string.IsNullOrWhiteSpace(license))
         {
-            var localLicensePath = Path.Combine(AppContext.BaseDirectory, LocalLicenseFileName);
-            if (File.Exists(localLicensePath))
+            foreach (var localLicenseFileName in LocalLicenseFileNames)
             {
-                license = File.ReadAllText(localLicensePath);
+                var localLicensePath = Path.Combine(AppContext.BaseDirectory, localLicenseFileName);
+                if (File.Exists(localLicensePath))
+                {
+                    license = File.ReadAllText(localLicensePath);
+                    break;
+                }
             }
         }
 

@@ -9,4 +9,8 @@ obj/
 # Local secrets
 syncfusion-license.txt
 SyncfusionLicense.txt
+synfusion.txt
+SynfusionLicense.txt
+docs/SynfusionLicense.txt
+docs/SyncfusionLicense.txt
 *.syncfusionlicense

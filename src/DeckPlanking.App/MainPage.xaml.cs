@@ -64,6 +64,11 @@ public partial class MainPage : ContentPage
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (IsProjectSettingProperty(e.PropertyName))
+        {
+            ClearSegmentInspection();
+        }
+
         if (e.PropertyName is nameof(ScaleInputViewModel.DeckLengthMillimeters))
         {
             UpdatePatternPreview();
@@ -144,6 +149,31 @@ public partial class MainPage : ContentPage
     {
         previewViewport = previewViewport.Reset();
         UpdatePatternPreview();
+    }
+
+    private void OnPatternTapped(object? sender, TappedEventArgs e)
+    {
+        var position = e.GetPosition(PatternGraphics);
+        if (position is null)
+        {
+            return;
+        }
+
+        var inspection = patternPreviewDrawable.HitTest(
+            new PointF((float)position.Value.X, (float)position.Value.Y),
+            new RectF(0, 0, (float)PatternGraphics.Width, (float)PatternGraphics.Height));
+
+        patternPreviewDrawable.SelectedSegment = inspection;
+        SegmentInspectionLabel.Text = inspection?.DisplayText ?? string.Empty;
+        SegmentInspectionLabel.IsVisible = inspection is not null;
+        PatternGraphics.Invalidate();
+    }
+
+    private void ClearSegmentInspection()
+    {
+        patternPreviewDrawable.SelectedSegment = null;
+        SegmentInspectionLabel.Text = string.Empty;
+        SegmentInspectionLabel.IsVisible = false;
     }
 
     private async void OnExportPngClicked(object? sender, EventArgs e)

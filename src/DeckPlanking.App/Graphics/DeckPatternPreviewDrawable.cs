@@ -41,6 +41,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public DeckOrientation DeckOrientation { get; set; } = DeckOrientation.BowLeft;
 
+    public PreviewSegmentInspection? SelectedSegment { get; set; }
+
     public double Zoom { get; set; } = 1;
 
     public double PanX { get; set; }
@@ -64,6 +66,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             ShowTrenails = ShowTrenails,
             TrenailPatternKind = TrenailPatternKind,
             DeckOrientation = DeckOrientation,
+            SelectedSegment = null,
             Zoom = 1,
             PanX = 0,
             PanY = 0
@@ -138,6 +141,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
 
         DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows);
+        DrawSelectedSegment(canvas, renderedRows, deckLength, SelectedSegment);
         if (ShowTrenails)
         {
             DrawTrenails(canvas, renderedRows, deckLength, TrenailPatternKind);
@@ -146,6 +150,80 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation);
 
         canvas.RestoreState();
+    }
+
+    public PreviewSegmentInspection? HitTest(PointF point, RectF bounds)
+    {
+        if (Rows.Count == 0 || Zoom <= 0)
+        {
+            return null;
+        }
+
+        var localPoint = new PointF(
+            (point.X - (float)PanX) / (float)Zoom,
+            (point.Y - (float)PanY) / (float)Zoom);
+        var deckLength = DeckLengthMillimeters > 0 ? (float)DeckLengthMillimeters : DetermineFallbackDeckLength();
+        var drawingWidth = Math.Max(1, bounds.Width - LeftMargin - RightMargin);
+        var centerlineRows = BuildCenterlineRows(deckLength);
+        if (centerlineRows.Count == 0)
+        {
+            return null;
+        }
+
+        var upperRows = centerlineRows.Where(row => row.Side == PatternPreviewSide.Upper).ToArray();
+        var lowerRows = centerlineRows.Where(row => row.Side == PatternPreviewSide.Lower).ToArray();
+        var kingPlankRow = centerlineRows.FirstOrDefault(row => row.Side == PatternPreviewSide.KingPlank);
+        var drawingHeight = Math.Max(1, bounds.Height - TopMargin - BottomMargin);
+        var internalRowGaps = Math.Max(0, (upperRows.Length - 1) + (lowerRows.Length - 1)) * RowGap;
+        var centerGapTotal = UseKingPlank ? CenterlineGap * 2 : CenterlineGap;
+        var kingPlankVisualRatio = CalculateKingPlankVisualRatio();
+        var rowUnits = upperRows.Length + lowerRows.Length + (kingPlankRow is not null ? kingPlankVisualRatio : 0);
+        var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / Math.Max(1, rowUnits));
+        var kingPlankHeight = Math.Max(4, rowHeight * kingPlankVisualRatio);
+        var currentY = TopMargin;
+        var renderedRows = new List<(CenterlinePatternPreviewRow Row, RectF Rect)>();
+
+        AddRowsToLayout(upperRows, drawingWidth, rowHeight, ref currentY, renderedRows);
+        if (kingPlankRow is not null)
+        {
+            currentY += CenterlineGap;
+            renderedRows.Add((kingPlankRow, new RectF(LeftMargin, currentY, drawingWidth, kingPlankHeight)));
+            currentY += kingPlankHeight + CenterlineGap;
+        }
+        else
+        {
+            currentY += CenterlineGap;
+        }
+
+        AddRowsToLayout(lowerRows, drawingWidth, rowHeight, ref currentY, renderedRows);
+
+        for (var rowIndex = 0; rowIndex < renderedRows.Count; rowIndex++)
+        {
+            var (row, rect) = renderedRows[rowIndex];
+            if (!rect.Contains(localPoint))
+            {
+                continue;
+            }
+
+            var positionMillimeters = (decimal)((localPoint.X - rect.Left) / rect.Width * deckLength);
+            var segment = PlankSegmentBuilder.Build(row.SourceRow, (decimal)deckLength)
+                .FirstOrDefault(candidate =>
+                    positionMillimeters >= candidate.StartMillimeters
+                    && positionMillimeters <= candidate.EndMillimeters);
+            if (segment is null)
+            {
+                return null;
+            }
+
+            return new PreviewSegmentInspection(
+                rowIndex,
+                BuildInspectionRowLabel(row),
+                segment.SegmentNumber,
+                segment.StartMillimeters,
+                segment.EndMillimeters);
+        }
+
+        return null;
     }
 
     private IReadOnlyList<CenterlinePatternPreviewRow> BuildCenterlineRows(float deckLength)
@@ -228,6 +306,62 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
             canvas.FillCircle(x, y, radius);
         }
+    }
+
+    private static void DrawSelectedSegment(
+        ICanvas canvas,
+        IReadOnlyList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows,
+        float deckLength,
+        PreviewSegmentInspection? selectedSegment)
+    {
+        if (selectedSegment is null
+            || selectedSegment.RenderedRowIndex < 0
+            || selectedSegment.RenderedRowIndex >= renderedRows.Count
+            || deckLength <= 0)
+        {
+            return;
+        }
+
+        var rowRect = renderedRows[selectedSegment.RenderedRowIndex].Rect;
+        var startX = rowRect.Left + ((float)selectedSegment.StartMillimeters / deckLength * rowRect.Width);
+        var endX = rowRect.Left + ((float)selectedSegment.EndMillimeters / deckLength * rowRect.Width);
+        var selectedRect = new RectF(startX, rowRect.Top, Math.Max(1, endX - startX), rowRect.Height);
+
+        canvas.FillColor = Color.FromRgba(255, 243, 109, 95);
+        canvas.FillRectangle(selectedRect);
+        canvas.StrokeColor = Color.FromArgb("#6F4B00");
+        canvas.StrokeSize = 1.6f;
+        canvas.DrawRectangle(selectedRect);
+    }
+
+    private static void AddRowsToLayout(
+        IReadOnlyList<CenterlinePatternPreviewRow> centerlineRows,
+        float drawingWidth,
+        float rowHeight,
+        ref float currentY,
+        IList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows)
+    {
+        for (var index = 0; index < centerlineRows.Count; index++)
+        {
+            renderedRows.Add((centerlineRows[index], new RectF(LeftMargin, currentY, drawingWidth, rowHeight)));
+
+            currentY += rowHeight;
+            if (index < centerlineRows.Count - 1)
+            {
+                currentY += RowGap;
+            }
+        }
+    }
+
+    private static string BuildInspectionRowLabel(CenterlinePatternPreviewRow row)
+    {
+        return row.Side switch
+        {
+            PatternPreviewSide.KingPlank => "King plank",
+            PatternPreviewSide.Upper => $"Upper row {row.SourceRow.RowNumber}",
+            PatternPreviewSide.Lower => $"Lower row {row.SourceRow.RowNumber}",
+            _ => $"Row {row.SourceRow.RowNumber}"
+        };
     }
 
     private void DrawRuler(ICanvas canvas, float deckLength, RectF deckRect)
