@@ -73,14 +73,18 @@ public partial class MainPage : ContentPage
             ClearSegmentInspection();
         }
 
-        if (e.PropertyName is nameof(ScaleInputViewModel.DeckLengthMillimeters))
+        if (e.PropertyName is nameof(ScaleInputViewModel.DeckLengthMillimeters)
+            or nameof(ScaleInputViewModel.DeckLengthInput))
         {
             UpdatePatternPreview();
         }
 
         if (e.PropertyName is nameof(ScaleInputViewModel.DeckWidthMillimeters)
+            or nameof(ScaleInputViewModel.DeckWidthInput)
             or nameof(ScaleInputViewModel.PlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.PlankWidthInput)
             or nameof(ScaleInputViewModel.KingPlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.KingPlankWidthInput)
             or nameof(ScaleInputViewModel.SelectedRowInputMode))
         {
             UpdatePatternPreview();
@@ -327,9 +331,13 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.DecimalScale)
             or nameof(ScaleInputViewModel.ImperialInchesPerFoot)
             or nameof(ScaleInputViewModel.DeckLengthMillimeters)
+            or nameof(ScaleInputViewModel.DeckLengthInput)
             or nameof(ScaleInputViewModel.DeckWidthMillimeters)
+            or nameof(ScaleInputViewModel.DeckWidthInput)
             or nameof(ScaleInputViewModel.PlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.PlankWidthInput)
             or nameof(ScaleInputViewModel.KingPlankWidthMillimeters)
+            or nameof(ScaleInputViewModel.KingPlankWidthInput)
             or nameof(ScaleInputViewModel.SelectedRowInputMode)
             or nameof(ScaleInputViewModel.RowCount)
             or nameof(ScaleInputViewModel.StartPoint)

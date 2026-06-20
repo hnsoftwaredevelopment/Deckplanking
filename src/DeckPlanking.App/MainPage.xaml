@@ -58,7 +58,7 @@
                                     SemanticProperties.Description="{loc:Translate OpenProjectDescription}" />
                         </FlexLayout>
 
-                        <Grid ColumnDefinitions="220,*"
+                        <Grid ColumnDefinitions="220,*,Auto"
                               RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnSpacing="14"
                               RowSpacing="8">
@@ -120,9 +120,14 @@
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="4"
                                    Grid.Column="1"
-                                   Text="{Binding DeckLengthMillimeters, Mode=TwoWay}"
+                                   Text="{Binding DeckLengthInput, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="4"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
 
                             <Label Grid.Row="5"
                                    Text="{loc:Translate RowInput}"
@@ -141,10 +146,16 @@
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="6"
                                    Grid.Column="1"
-                                   Text="{Binding DeckWidthMillimeters, Mode=TwoWay}"
+                                   Text="{Binding DeckWidthInput, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    IsVisible="{Binding IsWidthBasedRowInput}"
                                    ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="6"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
 
                             <Label Grid.Row="7"
                                    Text="{loc:Translate PlankWidth}"
@@ -153,10 +164,16 @@
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="7"
                                    Grid.Column="1"
-                                   Text="{Binding PlankWidthMillimeters, Mode=TwoWay}"
+                                   Text="{Binding PlankWidthInput, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    IsVisible="{Binding IsWidthBasedRowInput}"
                                    ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="7"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
 
                             <Label Grid.Row="8"
                                    Text="{loc:Translate KingPlankWidth}"
@@ -165,10 +182,16 @@
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="8"
                                    Grid.Column="1"
-                                   Text="{Binding KingPlankWidthMillimeters, Mode=TwoWay}"
+                                   Text="{Binding KingPlankWidthInput, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    IsVisible="{Binding IsKingPlankWidthVisible}"
                                    ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="8"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsKingPlankWidthVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
 
                             <Label Grid.Row="9"
                                    Text="{loc:Translate Rows}"

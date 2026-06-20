@@ -99,25 +99,73 @@ public sealed class ScaleInputViewModel : ObservableObject
     public double DeckLengthMillimeters
     {
         get => deckLengthMillimeters;
-        set => SetAndRecalculate(ref deckLengthMillimeters, value);
+        set
+        {
+            if (SetAndRecalculateProperty(ref deckLengthMillimeters, value))
+            {
+                OnPropertyChanged(nameof(DeckLengthInput));
+            }
+        }
+    }
+
+    public double DeckLengthInput
+    {
+        get => DisplayLengthFormatter.ToInputValue(DeckLengthMillimeters);
+        set => DeckLengthMillimeters = DisplayLengthFormatter.FromInputValue(value);
     }
 
     public double DeckWidthMillimeters
     {
         get => deckWidthMillimeters;
-        set => SetAndRecalculate(ref deckWidthMillimeters, value);
+        set
+        {
+            if (SetAndRecalculateProperty(ref deckWidthMillimeters, value))
+            {
+                OnPropertyChanged(nameof(DeckWidthInput));
+            }
+        }
+    }
+
+    public double DeckWidthInput
+    {
+        get => DisplayLengthFormatter.ToInputValue(DeckWidthMillimeters);
+        set => DeckWidthMillimeters = DisplayLengthFormatter.FromInputValue(value);
     }
 
     public double PlankWidthMillimeters
     {
         get => plankWidthMillimeters;
-        set => SetAndRecalculate(ref plankWidthMillimeters, value);
+        set
+        {
+            if (SetAndRecalculateProperty(ref plankWidthMillimeters, value))
+            {
+                OnPropertyChanged(nameof(PlankWidthInput));
+            }
+        }
+    }
+
+    public double PlankWidthInput
+    {
+        get => DisplayLengthFormatter.ToInputValue(PlankWidthMillimeters);
+        set => PlankWidthMillimeters = DisplayLengthFormatter.FromInputValue(value);
     }
 
     public double KingPlankWidthMillimeters
     {
         get => kingPlankWidthMillimeters;
-        set => SetAndRecalculate(ref kingPlankWidthMillimeters, value);
+        set
+        {
+            if (SetAndRecalculateProperty(ref kingPlankWidthMillimeters, value))
+            {
+                OnPropertyChanged(nameof(KingPlankWidthInput));
+            }
+        }
+    }
+
+    public double KingPlankWidthInput
+    {
+        get => DisplayLengthFormatter.ToInputValue(KingPlankWidthMillimeters);
+        set => KingPlankWidthMillimeters = DisplayLengthFormatter.FromInputValue(value);
     }
 
     public double ImperialInchesPerFoot
@@ -321,6 +369,8 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public string SeamTableToggleText => IsSeamTableVisible ? T("HideSeamDetails") : T("ShowSeamDetails");
 
+    public string DimensionInputUnitText => DisplayLengthFormatter.InputUnitText;
+
     public DeckPlankingProjectSettings CaptureProjectSettings()
     {
         return new DeckPlankingProjectSettings(
@@ -472,8 +522,18 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         if (e.PreferenceName == AppPreferencesStore.DisplayUnitSystemPreferenceName)
         {
+            NotifyDimensionInputsChanged();
             Recalculate();
         }
+    }
+
+    private void NotifyDimensionInputsChanged()
+    {
+        OnPropertyChanged(nameof(DeckLengthInput));
+        OnPropertyChanged(nameof(DeckWidthInput));
+        OnPropertyChanged(nameof(PlankWidthInput));
+        OnPropertyChanged(nameof(KingPlankWidthInput));
+        OnPropertyChanged(nameof(DimensionInputUnitText));
     }
 
     private void RefreshLocalizedOptions()
