@@ -34,6 +34,9 @@
   <data name="Reset" xml:space="preserve"><value>Reinitialiser</value></data>
   <data name="ExportPngDescription" xml:space="preserve"><value>Exporter l'apercu en PNG</value></data>
   <data name="ExportPdfDescription" xml:space="preserve"><value>Exporter l'apercu en PDF</value></data>
+  <data name="Print" xml:space="preserve"><value>Imprimer</value></data>
+  <data name="PrintDescription" xml:space="preserve"><value>Imprimer l'apercu</value></data>
+  <data name="PrintFailed" xml:space="preserve"><value>Echec de l'impression</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Latte centrale</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientation</value></data>
   <data name="Trenails" xml:space="preserve"><value>Clous de latte</value></data>

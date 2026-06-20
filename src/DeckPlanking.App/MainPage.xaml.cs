@@ -233,6 +233,18 @@ public partial class MainPage : ContentPage
         }
     }
 
+    private async void OnPrintClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            await PreviewPrinter.PrintAsync(patternPreviewDrawable);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync(T("PrintFailed"), ex.Message, T("Ok"));
+        }
+    }
+
     private async Task SaveExportAsync(FileResult fileResult)
     {
         var saveResult = await ExportFileSaver.SaveAsync(fileResult);

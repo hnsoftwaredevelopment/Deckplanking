@@ -34,6 +34,9 @@
   <data name="Reset" xml:space="preserve"><value>Reimposta</value></data>
   <data name="ExportPngDescription" xml:space="preserve"><value>Esporta anteprima come PNG</value></data>
   <data name="ExportPdfDescription" xml:space="preserve"><value>Esporta anteprima come PDF</value></data>
+  <data name="Print" xml:space="preserve"><value>Stampa</value></data>
+  <data name="PrintDescription" xml:space="preserve"><value>Stampa anteprima</value></data>
+  <data name="PrintFailed" xml:space="preserve"><value>Stampa non riuscita</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Tavola centrale</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientamento</value></data>
   <data name="Trenails" xml:space="preserve"><value>Chiodi tavola</value></data>
