@@ -4,7 +4,65 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="AppTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
-  <data name="FoundationStatus" xml:space="preserve"><value>Projektgrundlage fuer Massstab- und Deckbeplankungsberechnungen bereit.</value></data>
-  <data name="ShowTrenails" xml:space="preserve"><value>Holznagel</value></data>
+  <data name="AppTitle" xml:space="preserve"><value>Modellboot Deckbeplankung</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Start</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Einstellungen</value></data>
+  <data name="SettingsButton" xml:space="preserve"><value>Einstellungen</value></data>
+  <data name="IntroText" xml:space="preserve"><value>Skaliere eine Planke in Originalgroesse und bereite die Schnittlaenge fuer das gewaehlte Versatzmuster vor.</value></data>
+  <data name="InputsHeader" xml:space="preserve"><value>Eingaben</value></data>
+  <data name="SaveProject" xml:space="preserve"><value>Projekt speichern</value></data>
+  <data name="OpenProject" xml:space="preserve"><value>Projekt oeffnen</value></data>
+  <data name="SaveProjectDescription" xml:space="preserve"><value>Projekteinstellungen speichern</value></data>
+  <data name="OpenProjectDescription" xml:space="preserve"><value>Gespeicherte Projekteinstellungen oeffnen</value></data>
+  <data name="FullSizePlankLength" xml:space="preserve"><value>Plankenlaenge Original</value></data>
+  <data name="LengthUnit" xml:space="preserve"><value>Laengeneinheit</value></data>
+  <data name="ScaleMode" xml:space="preserve"><value>Massstabsmethode</value></data>
+  <data name="ScaleDecimal" xml:space="preserve"><value>Massstab 1:N</value></data>
+  <data name="InchesPerRealFoot" xml:space="preserve"><value>Zoll pro Originalfuss</value></data>
+  <data name="DeckLength" xml:space="preserve"><value>Decklaenge</value></data>
+  <data name="RowInput" xml:space="preserve"><value>Reiheneingabe</value></data>
+  <data name="DeckWidth" xml:space="preserve"><value>Deckbreite</value></data>
+  <data name="PlankWidth" xml:space="preserve"><value>Plankenbreite</value></data>
+  <data name="KingPlankWidth" xml:space="preserve"><value>Koenigsplankenbreite</value></data>
+  <data name="Rows" xml:space="preserve"><value>Reihen</value></data>
+  <data name="StartPoint" xml:space="preserve"><value>Startpunkt</value></data>
+  <data name="ShiftPattern" xml:space="preserve"><value>Versatzmuster</value></data>
+  <data name="CalculatedPlankLength" xml:space="preserve"><value>Berechnete Plankenlaenge</value></data>
+  <data name="CutLength" xml:space="preserve"><value>Schnittlaenge</value></data>
+  <data name="SegmentLength" xml:space="preserve"><value>Segmentlaenge</value></data>
+  <data name="PatternPreview" xml:space="preserve"><value>Mustervorschau</value></data>
+  <data name="Reset" xml:space="preserve"><value>Zuruecksetzen</value></data>
+  <data name="ExportPngDescription" xml:space="preserve"><value>Vorschau als PNG exportieren</value></data>
+  <data name="ExportPdfDescription" xml:space="preserve"><value>Vorschau als PDF exportieren</value></data>
+  <data name="KingPlank" xml:space="preserve"><value>Koenigsplanke</value></data>
+  <data name="Orientation" xml:space="preserve"><value>Ausrichtung</value></data>
+  <data name="Trenails" xml:space="preserve"><value>Plankennagel</value></data>
+  <data name="NoTrenails" xml:space="preserve"><value>Keine Plankennagel</value></data>
+  <data name="TwoTrenailsPerPlankEnd" xml:space="preserve"><value>Zwei Plankennagel je Plankenende</value></data>
+  <data name="OneCenteredTrenail" xml:space="preserve"><value>Ein mittiger Plankennagel je Plankenende</value></data>
+  <data name="OneAlternatingTrenail" xml:space="preserve"><value>Ein versetzter Plankennagel je Plankenende</value></data>
+  <data name="Row" xml:space="preserve"><value>Reihe</value></data>
+  <data name="Offset" xml:space="preserve"><value>Versatz</value></data>
+  <data name="SeamsMillimeters" xml:space="preserve"><value>Naehte (mm)</value></data>
+  <data name="Language" xml:space="preserve"><value>Sprache</value></data>
+  <data name="Theme" xml:space="preserve"><value>Thema</value></data>
+  <data name="DisplayUnits" xml:space="preserve"><value>Anzeigeeinheiten</value></data>
+  <data name="Metric" xml:space="preserve"><value>Metrisch</value></data>
+  <data name="Imperial" xml:space="preserve"><value>Imperial</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Hell</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Dunkel</value></data>
+  <data name="ThemeBlue" xml:space="preserve"><value>Blau</value></data>
+  <data name="ThemeSaffron" xml:space="preserve"><value>Safran</value></data>
+  <data name="ThemeDarkRed" xml:space="preserve"><value>Dunkelrot</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Export fehlgeschlagen</value></data>
+  <data name="ExportSaved" xml:space="preserve"><value>Export gespeichert</value></data>
+  <data name="SavedFileToLocation" xml:space="preserve"><value>{0} wurde in {1} gespeichert.</value></data>
+  <data name="ProjectSaved" xml:space="preserve"><value>Projekt gespeichert</value></data>
+  <data name="ProjectCouldNotBeSaved" xml:space="preserve"><value>Projekt konnte nicht gespeichert werden</value></data>
+  <data name="ProjectOpened" xml:space="preserve"><value>Projekt geoeffnet</value></data>
+  <data name="ProjectOpenedMessage" xml:space="preserve"><value>Projekteinstellungen wurden geladen.</value></data>
+  <data name="ProjectCouldNotBeOpened" xml:space="preserve"><value>Projekt konnte nicht geoeffnet werden</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="FoundationStatus" xml:space="preserve"><value>Projektbasis bereit fuer Massstabs- und Deckbeplankungsberechnungen.</value></data>
+  <data name="ShowTrenails" xml:space="preserve"><value>Plankennagel</value></data>
 </root>

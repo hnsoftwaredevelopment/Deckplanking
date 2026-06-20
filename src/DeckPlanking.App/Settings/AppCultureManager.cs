@@ -1,4 +1,5 @@
 using System.Globalization;
+using DeckPlanking.App.Localization;
 
 namespace DeckPlanking.App.Settings;
 
@@ -12,5 +13,6 @@ public static class AppCultureManager
         CultureInfo.DefaultThreadCurrentUICulture = culture;
         Thread.CurrentThread.CurrentCulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
+        LocalizationResourceManager.Instance.SetCulture(culture);
     }
 }

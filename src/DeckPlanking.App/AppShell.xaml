@@ -4,10 +4,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:DeckPlanking.App"
-    Title="Modelboat Deckplanking">
+    xmlns:loc="clr-namespace:DeckPlanking.App.Localization"
+    Title="{loc:Translate AppTitle}">
 
     <ShellContent
-        Title="Home"
+        Title="{loc:Translate HomeTitle}"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

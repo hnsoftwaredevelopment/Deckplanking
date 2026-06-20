@@ -1,6 +1,7 @@
 using DeckPlanking.App.ViewModels;
 using DeckPlanking.App.Export;
 using DeckPlanking.App.Graphics;
+using DeckPlanking.App.Localization;
 using DeckPlanking.App.Projects;
 using DeckPlanking.Core.Preview;
 using DeckPlanking.Core.Projects;
@@ -190,7 +191,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Export failed", ex.Message, "OK");
+            await DisplayAlertAsync(T("ExportFailed"), ex.Message, T("Ok"));
         }
     }
 
@@ -203,7 +204,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Export failed", ex.Message, "OK");
+            await DisplayAlertAsync(T("ExportFailed"), ex.Message, T("Ok"));
         }
     }
 
@@ -216,9 +217,9 @@ public partial class MainPage : ContentPage
         }
 
         await DisplayAlertAsync(
-            "Export saved",
-            $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
-            "OK");
+            T("ExportSaved"),
+            string.Format(T("SavedFileToLocation"), saveResult.FileName, saveResult.DisplayLocation),
+            T("Ok"));
     }
 
     private async void OnSaveProjectClicked(object? sender, EventArgs e)
@@ -236,13 +237,13 @@ public partial class MainPage : ContentPage
             }
 
             await DisplayAlertAsync(
-                "Project saved",
-                $"Saved {saveResult.FileName} to {saveResult.DisplayLocation}.",
-                "OK");
+                T("ProjectSaved"),
+                string.Format(T("SavedFileToLocation"), saveResult.FileName, saveResult.DisplayLocation),
+                T("Ok"));
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Project could not be saved", ex.Message, "OK");
+            await DisplayAlertAsync(T("ProjectCouldNotBeSaved"), ex.Message, T("Ok"));
         }
     }
 
@@ -260,13 +261,13 @@ public partial class MainPage : ContentPage
             await SaveLastProjectSettingsAsync();
 
             await DisplayAlertAsync(
-                "Project opened",
-                "Project settings have been loaded.",
-                "OK");
+                T("ProjectOpened"),
+                T("ProjectOpenedMessage"),
+                T("Ok"));
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Project could not be opened", ex.Message, "OK");
+            await DisplayAlertAsync(T("ProjectCouldNotBeOpened"), ex.Message, T("Ok"));
         }
     }
 
@@ -315,6 +316,11 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.UseKingPlank)
             or nameof(ScaleInputViewModel.SelectedDeckOrientation)
             or nameof(ScaleInputViewModel.SelectedTrenailPattern);
+    }
+
+    private static string T(string key)
+    {
+        return LocalizationResourceManager.Instance[key];
     }
 
     private void OnPatternPanUpdated(object? sender, PanUpdatedEventArgs e)

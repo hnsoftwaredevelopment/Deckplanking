@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:DeckPlanking.App.Localization"
              xmlns:preview="clr-namespace:DeckPlanking.Core.Preview;assembly=DeckPlanking.Core"
              x:Class="DeckPlanking.App.MainPage">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="settings.png"
-                     Text="Settings"
+                     Text="{loc:Translate SettingsButton}"
                      Clicked="OnSettingsClicked" />
     </ContentPage.ToolbarItems>
 
@@ -16,11 +17,11 @@
               RowSpacing="18"
               MaximumWidthRequest="980">
             <VerticalStackLayout Spacing="6">
-                <Label Text="Modelboat Deckplanking"
+                <Label Text="{loc:Translate AppTitle}"
                        Style="{StaticResource Headline}"
                        TextColor="{DynamicResource AppPrimaryTextColor}"
                        SemanticProperties.HeadingLevel="Level1" />
-                <Label Text="Scale a full-size plank and prepare the cut length for the selected butt-shift pattern."
+                <Label Text="{loc:Translate IntroText}"
                        Style="{StaticResource SubHeadline}"
                        TextColor="{DynamicResource AppSecondaryTextColor}"
                        SemanticProperties.HeadingLevel="Level2" />
@@ -34,7 +35,7 @@
                         StrokeThickness="1"
                         BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="Inputs"
+                        <Label Text="{loc:Translate InputsHeader}"
                                FontAttributes="Bold"
                                FontSize="18"
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -43,25 +44,25 @@
                                     Wrap="Wrap"
                                     AlignItems="Center"
                                     JustifyContent="Start">
-                            <Button Text="Save project"
+                            <Button Text="{loc:Translate SaveProject}"
                                     Clicked="OnSaveProjectClicked"
                                     MinimumHeightRequest="36"
                                     Padding="12,0"
                                     Margin="0,0,8,8"
-                                    SemanticProperties.Description="Save project settings" />
-                            <Button Text="Open project"
+                                    SemanticProperties.Description="{loc:Translate SaveProjectDescription}" />
+                            <Button Text="{loc:Translate OpenProject}"
                                     Clicked="OnOpenProjectClicked"
                                     MinimumHeightRequest="36"
                                     Padding="12,0"
                                     Margin="0,0,8,8"
-                                    SemanticProperties.Description="Open saved project settings" />
+                                    SemanticProperties.Description="{loc:Translate OpenProjectDescription}" />
                         </FlexLayout>
 
                         <Grid ColumnDefinitions="220,*"
                               RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnSpacing="14"
                               RowSpacing="8">
-                            <Label Text="Full-size plank length"
+                            <Label Text="{loc:Translate FullSizePlankLength}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Column="1"
@@ -70,7 +71,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="1"
-                                   Text="Length unit"
+                                   Text="{loc:Translate LengthUnit}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="1"
@@ -80,7 +81,7 @@
                                     SelectedItem="{Binding SelectedLengthUnit}" />
 
                             <Label Grid.Row="2"
-                                   Text="Scale mode"
+                                   Text="{loc:Translate ScaleMode}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="2"
@@ -90,7 +91,7 @@
                                     SelectedItem="{Binding SelectedScaleMode}" />
 
                             <Label Grid.Row="3"
-                                   Text="Scale 1:N"
+                                   Text="{loc:Translate ScaleDecimal}"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsDecimalScale}"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -102,7 +103,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="3"
-                                   Text="Inches per real foot"
+                                   Text="{loc:Translate InchesPerRealFoot}"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsImperialScale}"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -114,7 +115,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="4"
-                                   Text="Deck length"
+                                   Text="{loc:Translate DeckLength}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="4"
@@ -124,7 +125,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="5"
-                                   Text="Row input"
+                                   Text="{loc:Translate RowInput}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="5"
@@ -134,7 +135,7 @@
                                     SelectedItem="{Binding SelectedRowInputMode}" />
 
                             <Label Grid.Row="6"
-                                   Text="Deck width"
+                                   Text="{loc:Translate DeckWidth}"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsWidthBasedRowInput}"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -146,7 +147,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="7"
-                                   Text="Plank width"
+                                   Text="{loc:Translate PlankWidth}"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsWidthBasedRowInput}"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -158,7 +159,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="8"
-                                   Text="King plank width"
+                                   Text="{loc:Translate KingPlankWidth}"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsKingPlankWidthVisible}"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -170,7 +171,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="9"
-                                   Text="Rows"
+                                   Text="{loc:Translate Rows}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="9"
@@ -181,7 +182,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="10"
-                                   Text="Start point"
+                                   Text="{loc:Translate StartPoint}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="10"
@@ -191,7 +192,7 @@
                                    ClearButtonVisibility="WhileEditing" />
 
                             <Label Grid.Row="11"
-                                   Text="Shift pattern"
+                                   Text="{loc:Translate ShiftPattern}"
                                    VerticalOptions="Center"
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="11"
@@ -212,7 +213,7 @@
                         StrokeThickness="1"
                         BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="14">
-                        <Label Text="Calculated plank length"
+                        <Label Text="{loc:Translate CalculatedPlankLength}"
                                FontAttributes="Bold"
                                FontSize="18"
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -220,7 +221,7 @@
                         <Grid ColumnDefinitions="*,Auto"
                               RowDefinitions="Auto,Auto"
                               RowSpacing="12">
-                            <Label Text="Cut length"
+                            <Label Text="{loc:Translate CutLength}"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="1"
                                    Text="{Binding CutLengthText}"
@@ -228,7 +229,7 @@
                                    TextColor="{DynamicResource AppPrimaryTextColor}" />
 
                             <Label Grid.Row="1"
-                                   Text="Segment length"
+                                   Text="{loc:Translate SegmentLength}"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Row="1"
                                    Grid.Column="1"
@@ -245,7 +246,7 @@
                         StrokeThickness="1"
                         BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="14">
-                        <Label Text="Pattern preview"
+                        <Label Text="{loc:Translate PatternPreview}"
                                FontAttributes="Bold"
                                FontSize="18"
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -267,7 +268,7 @@
                                         MinimumHeightRequest="36"
                                         Padding="0"
                                         Margin="0,0,6,6" />
-                                <Button Text="Reset"
+                                <Button Text="{loc:Translate Reset}"
                                         Clicked="OnResetViewportClicked"
                                         MinimumHeightRequest="36"
                                         Padding="12,0"
@@ -277,17 +278,17 @@
                                         MinimumHeightRequest="36"
                                         Padding="12,0"
                                         Margin="0,0,6,6"
-                                        SemanticProperties.Description="Export preview as PNG" />
+                                        SemanticProperties.Description="{loc:Translate ExportPngDescription}" />
                                 <Button Text="PDF"
                                         Clicked="OnExportPdfClicked"
                                         MinimumHeightRequest="36"
                                         Padding="12,0"
                                         Margin="0,0,6,6"
-                                        SemanticProperties.Description="Export preview as PDF" />
+                                        SemanticProperties.Description="{loc:Translate ExportPdfDescription}" />
                                 <HorizontalStackLayout Spacing="6"
                                                        VerticalOptions="Center"
                                                        Margin="0,0,6,6">
-                                    <Label Text="King plank"
+                                    <Label Text="{loc:Translate KingPlank}"
                                            VerticalOptions="Center"
                                            TextColor="{DynamicResource AppPrimaryTextColor}" />
                                     <Switch IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
@@ -297,7 +298,7 @@
 
                             <HorizontalStackLayout Spacing="6"
                                                    HorizontalOptions="Start">
-                                <Label Text="Orientation"
+                                <Label Text="{loc:Translate Orientation}"
                                        VerticalOptions="Center"
                                        TextColor="{DynamicResource AppPrimaryTextColor}" />
                                 <Picker ItemsSource="{Binding DeckOrientations}"
@@ -311,7 +312,7 @@
                                         Wrap="Wrap"
                                         AlignItems="Center"
                                         JustifyContent="Start">
-                                <Label Text="Trenails"
+                                <Label Text="{loc:Translate Trenails}"
                                        VerticalOptions="Center"
                                        Margin="0,0,6,6"
                                        TextColor="{DynamicResource AppPrimaryTextColor}" />
@@ -325,7 +326,7 @@
                                              Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
-                                             SemanticProperties.Description="No trenails" />
+                                             SemanticProperties.Description="{loc:Translate NoTrenails}" />
                                 <ImageButton Source="trenail_two.png"
                                              Command="{Binding SelectTrenailPatternCommand}"
                                              CommandParameter="{x:Static preview:TrenailPatternKind.TwoPerPlankEnd}"
@@ -336,7 +337,7 @@
                                              Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
-                                             SemanticProperties.Description="Two trenails per plank end" />
+                                             SemanticProperties.Description="{loc:Translate TwoTrenailsPerPlankEnd}" />
                                 <ImageButton Source="trenail_center.png"
                                              Command="{Binding SelectTrenailPatternCommand}"
                                              CommandParameter="{x:Static preview:TrenailPatternKind.OneCentered}"
@@ -347,7 +348,7 @@
                                              Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
-                                             SemanticProperties.Description="One centered trenail per plank end" />
+                                             SemanticProperties.Description="{loc:Translate OneCenteredTrenail}" />
                                 <ImageButton Source="trenail_alternating.png"
                                              Command="{Binding SelectTrenailPatternCommand}"
                                              CommandParameter="{x:Static preview:TrenailPatternKind.OneAlternating}"
@@ -358,7 +359,7 @@
                                              Margin="0,0,6,6"
                                              BackgroundColor="Transparent"
                                              Aspect="AspectFit"
-                                             SemanticProperties.Description="One alternating trenail per plank end" />
+                                             SemanticProperties.Description="{loc:Translate OneAlternatingTrenail}" />
                             </FlexLayout>
                         </VerticalStackLayout>
 
@@ -392,15 +393,15 @@
                         <Grid ColumnDefinitions="70,90,*"
                               ColumnSpacing="10"
                               IsVisible="{Binding IsSeamTableVisible}">
-                            <Label Text="Row"
+                            <Label Text="{loc:Translate Row}"
                                    FontAttributes="Bold"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="1"
-                                   Text="Offset"
+                                   Text="{loc:Translate Offset}"
                                    FontAttributes="Bold"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="2"
-                                   Text="Seams (mm)"
+                                   Text="{loc:Translate SeamsMillimeters}"
                                    FontAttributes="Bold"
                                    TextColor="{DynamicResource AppSecondaryTextColor}" />
                         </Grid>

@@ -4,7 +4,65 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="AppTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
-  <data name="FoundationStatus" xml:space="preserve"><value>Base del progetto pronta per calcoli di scala e fasciame del ponte.</value></data>
-  <data name="ShowTrenails" xml:space="preserve"><value>Caviglie</value></data>
+  <data name="AppTitle" xml:space="preserve"><value>Tavolato ponte per modellismo navale</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Home</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Impostazioni</value></data>
+  <data name="SettingsButton" xml:space="preserve"><value>Impostazioni</value></data>
+  <data name="IntroText" xml:space="preserve"><value>Scala una tavola reale e prepara la lunghezza di taglio per il motivo scelto.</value></data>
+  <data name="InputsHeader" xml:space="preserve"><value>Input</value></data>
+  <data name="SaveProject" xml:space="preserve"><value>Salva progetto</value></data>
+  <data name="OpenProject" xml:space="preserve"><value>Apri progetto</value></data>
+  <data name="SaveProjectDescription" xml:space="preserve"><value>Salva le impostazioni del progetto</value></data>
+  <data name="OpenProjectDescription" xml:space="preserve"><value>Apri impostazioni progetto salvate</value></data>
+  <data name="FullSizePlankLength" xml:space="preserve"><value>Lunghezza tavola reale</value></data>
+  <data name="LengthUnit" xml:space="preserve"><value>Unita di lunghezza</value></data>
+  <data name="ScaleMode" xml:space="preserve"><value>Modo scala</value></data>
+  <data name="ScaleDecimal" xml:space="preserve"><value>Scala 1:N</value></data>
+  <data name="InchesPerRealFoot" xml:space="preserve"><value>Pollici per piede reale</value></data>
+  <data name="DeckLength" xml:space="preserve"><value>Lunghezza ponte</value></data>
+  <data name="RowInput" xml:space="preserve"><value>Input file</value></data>
+  <data name="DeckWidth" xml:space="preserve"><value>Larghezza ponte</value></data>
+  <data name="PlankWidth" xml:space="preserve"><value>Larghezza tavola</value></data>
+  <data name="KingPlankWidth" xml:space="preserve"><value>Larghezza tavola centrale</value></data>
+  <data name="Rows" xml:space="preserve"><value>File</value></data>
+  <data name="StartPoint" xml:space="preserve"><value>Punto iniziale</value></data>
+  <data name="ShiftPattern" xml:space="preserve"><value>Motivo di sfalsamento</value></data>
+  <data name="CalculatedPlankLength" xml:space="preserve"><value>Lunghezza tavola calcolata</value></data>
+  <data name="CutLength" xml:space="preserve"><value>Lunghezza di taglio</value></data>
+  <data name="SegmentLength" xml:space="preserve"><value>Lunghezza segmento</value></data>
+  <data name="PatternPreview" xml:space="preserve"><value>Anteprima motivo</value></data>
+  <data name="Reset" xml:space="preserve"><value>Reimposta</value></data>
+  <data name="ExportPngDescription" xml:space="preserve"><value>Esporta anteprima come PNG</value></data>
+  <data name="ExportPdfDescription" xml:space="preserve"><value>Esporta anteprima come PDF</value></data>
+  <data name="KingPlank" xml:space="preserve"><value>Tavola centrale</value></data>
+  <data name="Orientation" xml:space="preserve"><value>Orientamento</value></data>
+  <data name="Trenails" xml:space="preserve"><value>Chiodi tavola</value></data>
+  <data name="NoTrenails" xml:space="preserve"><value>Nessun chiodo tavola</value></data>
+  <data name="TwoTrenailsPerPlankEnd" xml:space="preserve"><value>Due chiodi per estremita tavola</value></data>
+  <data name="OneCenteredTrenail" xml:space="preserve"><value>Un chiodo centrato per estremita tavola</value></data>
+  <data name="OneAlternatingTrenail" xml:space="preserve"><value>Un chiodo alternato per estremita tavola</value></data>
+  <data name="Row" xml:space="preserve"><value>Fila</value></data>
+  <data name="Offset" xml:space="preserve"><value>Sfalsamento</value></data>
+  <data name="SeamsMillimeters" xml:space="preserve"><value>Giunti (mm)</value></data>
+  <data name="Language" xml:space="preserve"><value>Lingua</value></data>
+  <data name="Theme" xml:space="preserve"><value>Tema</value></data>
+  <data name="DisplayUnits" xml:space="preserve"><value>Unita visualizzate</value></data>
+  <data name="Metric" xml:space="preserve"><value>Metrico</value></data>
+  <data name="Imperial" xml:space="preserve"><value>Imperiale</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Chiaro</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Scuro</value></data>
+  <data name="ThemeBlue" xml:space="preserve"><value>Blu</value></data>
+  <data name="ThemeSaffron" xml:space="preserve"><value>Zafferano</value></data>
+  <data name="ThemeDarkRed" xml:space="preserve"><value>Rosso scuro</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Esportazione non riuscita</value></data>
+  <data name="ExportSaved" xml:space="preserve"><value>Esportazione salvata</value></data>
+  <data name="SavedFileToLocation" xml:space="preserve"><value>{0} salvato in {1}.</value></data>
+  <data name="ProjectSaved" xml:space="preserve"><value>Progetto salvato</value></data>
+  <data name="ProjectCouldNotBeSaved" xml:space="preserve"><value>Impossibile salvare il progetto</value></data>
+  <data name="ProjectOpened" xml:space="preserve"><value>Progetto aperto</value></data>
+  <data name="ProjectOpenedMessage" xml:space="preserve"><value>Le impostazioni del progetto sono state caricate.</value></data>
+  <data name="ProjectCouldNotBeOpened" xml:space="preserve"><value>Impossibile aprire il progetto</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="FoundationStatus" xml:space="preserve"><value>Base del progetto pronta per calcoli di scala e tavolato.</value></data>
+  <data name="ShowTrenails" xml:space="preserve"><value>Chiodi tavola</value></data>
 </root>

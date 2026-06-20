@@ -1,38 +1,43 @@
 using DeckPlanking.App.Settings;
+using DeckPlanking.App.Localization;
 
 namespace DeckPlanking.App;
 
 public partial class SettingsPage : ContentPage
 {
-    private readonly List<AppPreferenceItem<AppLanguageOption>> languageOptions;
-    private readonly List<AppPreferenceItem<AppThemeOption>> themeOptions;
-    private readonly List<AppPreferenceItem<DisplayUnitSystemOption>> displayUnitSystemOptions;
+    private List<AppPreferenceItem<AppLanguageOption>> languageOptions = [];
+    private List<AppPreferenceItem<AppThemeOption>> themeOptions = [];
+    private List<AppPreferenceItem<DisplayUnitSystemOption>> displayUnitSystemOptions = [];
     private bool isLoading;
 
     public SettingsPage()
     {
         InitializeComponent();
 
+        BuildOptions();
+        LoadSettings();
+    }
+
+    private void BuildOptions()
+    {
         languageOptions = AppPreferencesStore.LanguageOptions
             .Select(language => new AppPreferenceItem<AppLanguageOption>(language, language.DisplayName))
             .ToList();
 
         themeOptions =
         [
-            new(AppThemeOption.Light, "Light"),
-            new(AppThemeOption.Dark, "Dark"),
-            new(AppThemeOption.Blue, "Blue"),
-            new(AppThemeOption.Saffron, "Saffron"),
-            new(AppThemeOption.DarkRed, "Dark red")
+            new(AppThemeOption.Light, T("ThemeLight")),
+            new(AppThemeOption.Dark, T("ThemeDark")),
+            new(AppThemeOption.Blue, T("ThemeBlue")),
+            new(AppThemeOption.Saffron, T("ThemeSaffron")),
+            new(AppThemeOption.DarkRed, T("ThemeDarkRed"))
         ];
 
         displayUnitSystemOptions =
         [
-            new(DisplayUnitSystemOption.Metric, "Metric"),
-            new(DisplayUnitSystemOption.Imperial, "Imperial")
+            new(DisplayUnitSystemOption.Metric, T("Metric")),
+            new(DisplayUnitSystemOption.Imperial, T("Imperial"))
         ];
-
-        LoadSettings();
     }
 
     private void LoadSettings()
@@ -66,6 +71,8 @@ public partial class SettingsPage : ContentPage
 
         AppPreferencesStore.SetLanguageCultureName(selectedLanguage.Value.CultureName);
         AppCultureManager.Apply(selectedLanguage.Value.CultureName);
+        BuildOptions();
+        LoadSettings();
     }
 
     private void OnThemeChanged(object? sender, EventArgs e)
@@ -87,5 +94,10 @@ public partial class SettingsPage : ContentPage
         }
 
         AppPreferencesStore.SetDisplayUnitSystem(selectedDisplayUnitSystem.Value);
+    }
+
+    private static string T(string key)
+    {
+        return LocalizationResourceManager.Instance[key];
     }
 }

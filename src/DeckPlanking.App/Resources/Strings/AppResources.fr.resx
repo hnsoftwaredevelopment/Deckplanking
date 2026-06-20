@@ -4,7 +4,65 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="AppTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
-  <data name="FoundationStatus" xml:space="preserve"><value>Base du projet prete pour les calculs d'echelle et de bordage du pont.</value></data>
-  <data name="ShowTrenails" xml:space="preserve"><value>Gournables</value></data>
+  <data name="AppTitle" xml:space="preserve"><value>Bordage de pont de modele reduit</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Accueil</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Parametres</value></data>
+  <data name="SettingsButton" xml:space="preserve"><value>Parametres</value></data>
+  <data name="IntroText" xml:space="preserve"><value>Mettez une latte grandeur reelle a l'echelle et preparez la longueur de coupe pour le motif choisi.</value></data>
+  <data name="InputsHeader" xml:space="preserve"><value>Entrees</value></data>
+  <data name="SaveProject" xml:space="preserve"><value>Enregistrer le projet</value></data>
+  <data name="OpenProject" xml:space="preserve"><value>Ouvrir le projet</value></data>
+  <data name="SaveProjectDescription" xml:space="preserve"><value>Enregistrer les parametres du projet</value></data>
+  <data name="OpenProjectDescription" xml:space="preserve"><value>Ouvrir les parametres de projet enregistres</value></data>
+  <data name="FullSizePlankLength" xml:space="preserve"><value>Longueur de latte reelle</value></data>
+  <data name="LengthUnit" xml:space="preserve"><value>Unite de longueur</value></data>
+  <data name="ScaleMode" xml:space="preserve"><value>Mode d'echelle</value></data>
+  <data name="ScaleDecimal" xml:space="preserve"><value>Echelle 1:N</value></data>
+  <data name="InchesPerRealFoot" xml:space="preserve"><value>Pouces par pied reel</value></data>
+  <data name="DeckLength" xml:space="preserve"><value>Longueur du pont</value></data>
+  <data name="RowInput" xml:space="preserve"><value>Saisie des rangees</value></data>
+  <data name="DeckWidth" xml:space="preserve"><value>Largeur du pont</value></data>
+  <data name="PlankWidth" xml:space="preserve"><value>Largeur de latte</value></data>
+  <data name="KingPlankWidth" xml:space="preserve"><value>Largeur de latte centrale</value></data>
+  <data name="Rows" xml:space="preserve"><value>Rangees</value></data>
+  <data name="StartPoint" xml:space="preserve"><value>Point de depart</value></data>
+  <data name="ShiftPattern" xml:space="preserve"><value>Motif de decalage</value></data>
+  <data name="CalculatedPlankLength" xml:space="preserve"><value>Longueur de latte calculee</value></data>
+  <data name="CutLength" xml:space="preserve"><value>Longueur de coupe</value></data>
+  <data name="SegmentLength" xml:space="preserve"><value>Longueur de segment</value></data>
+  <data name="PatternPreview" xml:space="preserve"><value>Apercu du motif</value></data>
+  <data name="Reset" xml:space="preserve"><value>Reinitialiser</value></data>
+  <data name="ExportPngDescription" xml:space="preserve"><value>Exporter l'apercu en PNG</value></data>
+  <data name="ExportPdfDescription" xml:space="preserve"><value>Exporter l'apercu en PDF</value></data>
+  <data name="KingPlank" xml:space="preserve"><value>Latte centrale</value></data>
+  <data name="Orientation" xml:space="preserve"><value>Orientation</value></data>
+  <data name="Trenails" xml:space="preserve"><value>Clous de latte</value></data>
+  <data name="NoTrenails" xml:space="preserve"><value>Aucun clou de latte</value></data>
+  <data name="TwoTrenailsPerPlankEnd" xml:space="preserve"><value>Deux clous par extremite de latte</value></data>
+  <data name="OneCenteredTrenail" xml:space="preserve"><value>Un clou centre par extremite de latte</value></data>
+  <data name="OneAlternatingTrenail" xml:space="preserve"><value>Un clou alterne par extremite de latte</value></data>
+  <data name="Row" xml:space="preserve"><value>Rangee</value></data>
+  <data name="Offset" xml:space="preserve"><value>Decalage</value></data>
+  <data name="SeamsMillimeters" xml:space="preserve"><value>Joints (mm)</value></data>
+  <data name="Language" xml:space="preserve"><value>Langue</value></data>
+  <data name="Theme" xml:space="preserve"><value>Theme</value></data>
+  <data name="DisplayUnits" xml:space="preserve"><value>Unites d'affichage</value></data>
+  <data name="Metric" xml:space="preserve"><value>Metrique</value></data>
+  <data name="Imperial" xml:space="preserve"><value>Imperial</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Clair</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Sombre</value></data>
+  <data name="ThemeBlue" xml:space="preserve"><value>Bleu</value></data>
+  <data name="ThemeSaffron" xml:space="preserve"><value>Safran</value></data>
+  <data name="ThemeDarkRed" xml:space="preserve"><value>Rouge sombre</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Echec de l'export</value></data>
+  <data name="ExportSaved" xml:space="preserve"><value>Export enregistre</value></data>
+  <data name="SavedFileToLocation" xml:space="preserve"><value>{0} enregistre dans {1}.</value></data>
+  <data name="ProjectSaved" xml:space="preserve"><value>Projet enregistre</value></data>
+  <data name="ProjectCouldNotBeSaved" xml:space="preserve"><value>Le projet n'a pas pu etre enregistre</value></data>
+  <data name="ProjectOpened" xml:space="preserve"><value>Projet ouvert</value></data>
+  <data name="ProjectOpenedMessage" xml:space="preserve"><value>Les parametres du projet ont ete charges.</value></data>
+  <data name="ProjectCouldNotBeOpened" xml:space="preserve"><value>Le projet n'a pas pu etre ouvert</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="FoundationStatus" xml:space="preserve"><value>Base du projet prete pour les calculs d'echelle et de bordage.</value></data>
+  <data name="ShowTrenails" xml:space="preserve"><value>Clous de latte</value></data>
 </root>
