@@ -151,6 +151,11 @@ public partial class MainPage : ContentPage
         UpdatePatternPreview();
     }
 
+    private async void OnSettingsClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(SettingsPage));
+    }
+
     private void OnPatternTapped(object? sender, TappedEventArgs e)
     {
         var position = e.GetPosition(PatternGraphics);

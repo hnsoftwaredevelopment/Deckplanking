@@ -4,7 +4,13 @@
              xmlns:preview="clr-namespace:DeckPlanking.Core.Preview;assembly=DeckPlanking.Core"
              x:Class="DeckPlanking.App.MainPage">
 
-    <ScrollView BackgroundColor="{StaticResource AppBackgroundColor}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="settings.png"
+                     Text="Settings"
+                     Clicked="OnSettingsClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView BackgroundColor="{DynamicResource AppBackgroundColor}">
         <Grid Padding="24"
               RowDefinitions="Auto,Auto"
               RowSpacing="18"
@@ -12,11 +18,11 @@
             <VerticalStackLayout Spacing="6">
                 <Label Text="Modelboat Deckplanking"
                        Style="{StaticResource Headline}"
-                       TextColor="{StaticResource AppPrimaryTextColor}"
+                       TextColor="{DynamicResource AppPrimaryTextColor}"
                        SemanticProperties.HeadingLevel="Level1" />
                 <Label Text="Scale a full-size plank and prepare the cut length for the selected butt-shift pattern."
                        Style="{StaticResource SubHeadline}"
-                       TextColor="{StaticResource AppSecondaryTextColor}"
+                       TextColor="{DynamicResource AppSecondaryTextColor}"
                        SemanticProperties.HeadingLevel="Level2" />
             </VerticalStackLayout>
 
@@ -24,14 +30,14 @@
                   RowDefinitions="Auto,Auto,Auto"
                   RowSpacing="16">
                 <Border Padding="16"
-                        Stroke="{StaticResource AppAccentColor}"
+                        Stroke="{DynamicResource AppAccentColor}"
                         StrokeThickness="1"
-                        BackgroundColor="{StaticResource AppSurfaceColor}">
+                        BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Inputs"
                                FontAttributes="Bold"
                                FontSize="18"
-                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
 
                         <FlexLayout Direction="Row"
                                     Wrap="Wrap"
@@ -57,7 +63,7 @@
                               RowSpacing="8">
                             <Label Text="Full-size plank length"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Column="1"
                                    Text="{Binding RealPlankLength, Mode=TwoWay}"
                                    Keyboard="Numeric"
@@ -66,7 +72,7 @@
                             <Label Grid.Row="1"
                                    Text="Length unit"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="1"
                                     Grid.Column="1"
                                     ItemsSource="{Binding LengthUnits}"
@@ -76,7 +82,7 @@
                             <Label Grid.Row="2"
                                    Text="Scale mode"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="2"
                                     Grid.Column="1"
                                     ItemsSource="{Binding ScaleModes}"
@@ -87,7 +93,7 @@
                                    Text="Scale 1:N"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsDecimalScale}"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="3"
                                    Grid.Column="1"
                                    Text="{Binding DecimalScale, Mode=TwoWay}"
@@ -99,7 +105,7 @@
                                    Text="Inches per real foot"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsImperialScale}"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="3"
                                    Grid.Column="1"
                                    Text="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
@@ -110,7 +116,7 @@
                             <Label Grid.Row="4"
                                    Text="Deck length"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="4"
                                    Grid.Column="1"
                                    Text="{Binding DeckLengthMillimeters, Mode=TwoWay}"
@@ -120,7 +126,7 @@
                             <Label Grid.Row="5"
                                    Text="Row input"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="5"
                                     Grid.Column="1"
                                     ItemsSource="{Binding RowInputModes}"
@@ -131,7 +137,7 @@
                                    Text="Deck width"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsWidthBasedRowInput}"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="6"
                                    Grid.Column="1"
                                    Text="{Binding DeckWidthMillimeters, Mode=TwoWay}"
@@ -143,7 +149,7 @@
                                    Text="Plank width"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsWidthBasedRowInput}"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="7"
                                    Grid.Column="1"
                                    Text="{Binding PlankWidthMillimeters, Mode=TwoWay}"
@@ -155,7 +161,7 @@
                                    Text="King plank width"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding IsKingPlankWidthVisible}"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="8"
                                    Grid.Column="1"
                                    Text="{Binding KingPlankWidthMillimeters, Mode=TwoWay}"
@@ -166,7 +172,7 @@
                             <Label Grid.Row="9"
                                    Text="Rows"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="9"
                                    Grid.Column="1"
                                    Text="{Binding RowCount, Mode=TwoWay}"
@@ -177,7 +183,7 @@
                             <Label Grid.Row="10"
                                    Text="Start point"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Entry Grid.Row="10"
                                    Grid.Column="1"
                                    Text="{Binding StartPoint, Mode=TwoWay}"
@@ -187,7 +193,7 @@
                             <Label Grid.Row="11"
                                    Text="Shift pattern"
                                    VerticalOptions="Center"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                             <Picker Grid.Row="11"
                                     Grid.Column="1"
                                     ItemsSource="{Binding Patterns}"
@@ -202,47 +208,47 @@
 
                 <Border Grid.Row="1"
                         Padding="16"
-                        Stroke="{StaticResource AppAccentColor}"
+                        Stroke="{DynamicResource AppAccentColor}"
                         StrokeThickness="1"
-                        BackgroundColor="{StaticResource AppSurfaceColor}">
+                        BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="14">
                         <Label Text="Calculated plank length"
                                FontAttributes="Bold"
                                FontSize="18"
-                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
 
                         <Grid ColumnDefinitions="*,Auto"
                               RowDefinitions="Auto,Auto"
                               RowSpacing="12">
                             <Label Text="Cut length"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="1"
                                    Text="{Binding CutLengthText}"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
 
                             <Label Grid.Row="1"
                                    Text="Segment length"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Row="1"
                                    Grid.Column="1"
                                    Text="{Binding SegmentLengthText}"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource AppPrimaryTextColor}" />
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
 
                 <Border Grid.Row="2"
                         Padding="16"
-                        Stroke="{StaticResource AppAccentColor}"
+                        Stroke="{DynamicResource AppAccentColor}"
                         StrokeThickness="1"
-                        BackgroundColor="{StaticResource AppSurfaceColor}">
+                        BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="14">
                         <Label Text="Pattern preview"
                                FontAttributes="Bold"
                                FontSize="18"
-                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
 
                         <VerticalStackLayout Spacing="6">
                             <FlexLayout Direction="Row"
@@ -283,7 +289,7 @@
                                                        Margin="0,0,6,6">
                                     <Label Text="King plank"
                                            VerticalOptions="Center"
-                                           TextColor="{StaticResource AppPrimaryTextColor}" />
+                                           TextColor="{DynamicResource AppPrimaryTextColor}" />
                                     <Switch IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
                                             VerticalOptions="Center" />
                                 </HorizontalStackLayout>
@@ -293,7 +299,7 @@
                                                    HorizontalOptions="Start">
                                 <Label Text="Orientation"
                                        VerticalOptions="Center"
-                                       TextColor="{StaticResource AppPrimaryTextColor}" />
+                                       TextColor="{DynamicResource AppPrimaryTextColor}" />
                                 <Picker ItemsSource="{Binding DeckOrientations}"
                                         ItemDisplayBinding="{Binding DisplayName}"
                                         SelectedItem="{Binding SelectedDeckOrientation}"
@@ -308,7 +314,7 @@
                                 <Label Text="Trenails"
                                        VerticalOptions="Center"
                                        Margin="0,0,6,6"
-                                       TextColor="{StaticResource AppPrimaryTextColor}" />
+                                       TextColor="{DynamicResource AppPrimaryTextColor}" />
                                 <ImageButton Source="trenail_none.png"
                                              Command="{Binding SelectTrenailPatternCommand}"
                                              CommandParameter="{x:Static preview:TrenailPatternKind.None}"
@@ -357,7 +363,7 @@
                         </VerticalStackLayout>
 
                         <Border Padding="0"
-                                Stroke="{StaticResource AppAccentColor}"
+                                Stroke="{DynamicResource AppAccentColor}"
                                 StrokeThickness="1"
                                 HeightRequest="340"
                                 BackgroundColor="#FFF7EC">
@@ -373,7 +379,7 @@
 
                         <Label x:Name="SegmentInspectionLabel"
                                IsVisible="False"
-                               TextColor="{StaticResource AppPrimaryTextColor}"
+                               TextColor="{DynamicResource AppPrimaryTextColor}"
                                FontAttributes="Bold"
                                LineBreakMode="WordWrap" />
 
@@ -388,15 +394,15 @@
                               IsVisible="{Binding IsSeamTableVisible}">
                             <Label Text="Row"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="1"
                                    Text="Offset"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
                             <Label Grid.Column="2"
                                    Text="Seams (mm)"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource AppSecondaryTextColor}" />
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
                         </Grid>
 
                         <CollectionView ItemsSource="{Binding PatternRows}"
@@ -408,14 +414,14 @@
                                           ColumnSpacing="10"
                                           Padding="0,4">
                                         <Label Text="{Binding RowNumber}"
-                                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                                               TextColor="{DynamicResource AppPrimaryTextColor}" />
                                         <Label Grid.Column="1"
                                                Text="{Binding SeamOffsetSegments}"
-                                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                                               TextColor="{DynamicResource AppPrimaryTextColor}" />
                                         <Label Grid.Column="2"
                                                Text="{Binding SeamPositionsText}"
                                                LineBreakMode="TailTruncation"
-                                               TextColor="{StaticResource AppPrimaryTextColor}" />
+                                               TextColor="{DynamicResource AppPrimaryTextColor}" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
