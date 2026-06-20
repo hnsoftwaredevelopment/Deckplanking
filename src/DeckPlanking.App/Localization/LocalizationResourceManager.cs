@@ -26,5 +26,6 @@ public sealed class LocalizationResourceManager : INotifyPropertyChanged
     {
         CurrentCulture = culture;
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
     }
 }

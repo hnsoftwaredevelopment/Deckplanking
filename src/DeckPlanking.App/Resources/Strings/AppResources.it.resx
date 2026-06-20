@@ -5,7 +5,7 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="AppTitle" xml:space="preserve"><value>Tavolato ponte per modellismo navale</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Home</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Tavolato ponte</value></data>
   <data name="SettingsTitle" xml:space="preserve"><value>Impostazioni</value></data>
   <data name="SettingsButton" xml:space="preserve"><value>Impostazioni</value></data>
   <data name="IntroText" xml:space="preserve"><value>Scala una tavola reale e prepara la lunghezza di taglio per il motivo scelto.</value></data>
@@ -44,6 +44,23 @@
   <data name="Row" xml:space="preserve"><value>Fila</value></data>
   <data name="Offset" xml:space="preserve"><value>Sfalsamento</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Giunti (mm)</value></data>
+  <data name="ShowSeamDetails" xml:space="preserve"><value>Mostra dettagli giunti</value></data>
+  <data name="HideSeamDetails" xml:space="preserve"><value>Nascondi dettagli giunti</value></data>
+  <data name="PatternEvery2" xml:space="preserve"><value>Ogni 2</value></data>
+  <data name="PatternEvery3" xml:space="preserve"><value>Ogni 3</value></data>
+  <data name="PatternEvery4" xml:space="preserve"><value>Ogni 4</value></data>
+  <data name="PatternEvery5" xml:space="preserve"><value>Ogni 5</value></data>
+  <data name="BowLeft" xml:space="preserve"><value>Prua a sinistra</value></data>
+  <data name="SternLeft" xml:space="preserve"><value>Poppa a sinistra</value></data>
+  <data name="Bow" xml:space="preserve"><value>Prua</value></data>
+  <data name="Stern" xml:space="preserve"><value>Poppa</value></data>
+  <data name="Meters" xml:space="preserve"><value>Metri</value></data>
+  <data name="Feet" xml:space="preserve"><value>Piedi</value></data>
+  <data name="DecimalScaleMode" xml:space="preserve"><value>Scala decimale 1:N</value></data>
+  <data name="ImperialScaleMode" xml:space="preserve"><value>Pollici imperiali per piede</value></data>
+  <data name="ManualRows" xml:space="preserve"><value>File manuali</value></data>
+  <data name="FromDeckWidth" xml:space="preserve"><value>Da larghezza ponte</value></data>
+  <data name="ValidationPositiveValues" xml:space="preserve"><value>Inserisci valori positivi per lunghezza, scala e larghezze.</value></data>
   <data name="Language" xml:space="preserve"><value>Lingua</value></data>
   <data name="Theme" xml:space="preserve"><value>Tema</value></data>
   <data name="DisplayUnits" xml:space="preserve"><value>Unita visualizzate</value></data>

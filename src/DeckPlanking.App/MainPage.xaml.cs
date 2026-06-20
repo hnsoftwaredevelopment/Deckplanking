@@ -30,6 +30,7 @@ public partial class MainPage : ContentPage
         Loaded += OnPageLoaded;
         viewModel.PatternRows.CollectionChanged += OnPatternRowsChanged;
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
+        LocalizationResourceManager.Instance.PropertyChanged += OnLocalizationChanged;
         UpdatePatternPreview();
     }
 
@@ -128,6 +129,8 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.ShowTrenails = viewModel.SelectedTrenailPattern.Value != TrenailPatternKind.None;
         patternPreviewDrawable.TrenailPatternKind = viewModel.SelectedTrenailPattern.Value;
         patternPreviewDrawable.DeckOrientation = viewModel.SelectedDeckOrientation.Value;
+        patternPreviewDrawable.BowLabel = T("Bow");
+        patternPreviewDrawable.SternLabel = T("Stern");
         patternPreviewDrawable.Zoom = previewViewport.Zoom;
         patternPreviewDrawable.PanX = previewViewport.PanX;
         patternPreviewDrawable.PanY = previewViewport.PanY;
@@ -173,6 +176,11 @@ public partial class MainPage : ContentPage
         SegmentInspectionLabel.Text = inspection?.DisplayText ?? string.Empty;
         SegmentInspectionLabel.IsVisible = inspection is not null;
         PatternGraphics.Invalidate();
+    }
+
+    private void OnLocalizationChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        UpdatePatternPreview();
     }
 
     private void ClearSegmentInspection()

@@ -5,7 +5,7 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="AppTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Home</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
   <data name="SettingsTitle" xml:space="preserve"><value>Settings</value></data>
   <data name="SettingsButton" xml:space="preserve"><value>Settings</value></data>
   <data name="IntroText" xml:space="preserve"><value>Scale a full-size plank and prepare the cut length for the selected butt-shift pattern.</value></data>
@@ -44,6 +44,23 @@
   <data name="Row" xml:space="preserve"><value>Row</value></data>
   <data name="Offset" xml:space="preserve"><value>Offset</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Seams (mm)</value></data>
+  <data name="ShowSeamDetails" xml:space="preserve"><value>Show seam details</value></data>
+  <data name="HideSeamDetails" xml:space="preserve"><value>Hide seam details</value></data>
+  <data name="PatternEvery2" xml:space="preserve"><value>Every 2</value></data>
+  <data name="PatternEvery3" xml:space="preserve"><value>Every 3</value></data>
+  <data name="PatternEvery4" xml:space="preserve"><value>Every 4</value></data>
+  <data name="PatternEvery5" xml:space="preserve"><value>Every 5</value></data>
+  <data name="BowLeft" xml:space="preserve"><value>Bow left</value></data>
+  <data name="SternLeft" xml:space="preserve"><value>Stern left</value></data>
+  <data name="Bow" xml:space="preserve"><value>Bow</value></data>
+  <data name="Stern" xml:space="preserve"><value>Stern</value></data>
+  <data name="Meters" xml:space="preserve"><value>Meters</value></data>
+  <data name="Feet" xml:space="preserve"><value>Feet</value></data>
+  <data name="DecimalScaleMode" xml:space="preserve"><value>Decimal scale 1:N</value></data>
+  <data name="ImperialScaleMode" xml:space="preserve"><value>Imperial inches per foot</value></data>
+  <data name="ManualRows" xml:space="preserve"><value>Manual rows</value></data>
+  <data name="FromDeckWidth" xml:space="preserve"><value>From deck width</value></data>
+  <data name="ValidationPositiveValues" xml:space="preserve"><value>Enter positive values for length, scale, and widths.</value></data>
   <data name="Language" xml:space="preserve"><value>Language</value></data>
   <data name="Theme" xml:space="preserve"><value>Theme</value></data>
   <data name="DisplayUnits" xml:space="preserve"><value>Display units</value></data>

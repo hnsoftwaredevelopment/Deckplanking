@@ -5,7 +5,7 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="AppTitle" xml:space="preserve"><value>Entablado de cubierta para modelismo naval</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Inicio</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Entablado de cubierta</value></data>
   <data name="SettingsTitle" xml:space="preserve"><value>Ajustes</value></data>
   <data name="SettingsButton" xml:space="preserve"><value>Ajustes</value></data>
   <data name="IntroText" xml:space="preserve"><value>Escala una tabla real y prepara la longitud de corte para el patron seleccionado.</value></data>
@@ -44,6 +44,23 @@
   <data name="Row" xml:space="preserve"><value>Fila</value></data>
   <data name="Offset" xml:space="preserve"><value>Desplazamiento</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Juntas (mm)</value></data>
+  <data name="ShowSeamDetails" xml:space="preserve"><value>Mostrar detalles de juntas</value></data>
+  <data name="HideSeamDetails" xml:space="preserve"><value>Ocultar detalles de juntas</value></data>
+  <data name="PatternEvery2" xml:space="preserve"><value>Cada 2</value></data>
+  <data name="PatternEvery3" xml:space="preserve"><value>Cada 3</value></data>
+  <data name="PatternEvery4" xml:space="preserve"><value>Cada 4</value></data>
+  <data name="PatternEvery5" xml:space="preserve"><value>Cada 5</value></data>
+  <data name="BowLeft" xml:space="preserve"><value>Proa izquierda</value></data>
+  <data name="SternLeft" xml:space="preserve"><value>Popa izquierda</value></data>
+  <data name="Bow" xml:space="preserve"><value>Proa</value></data>
+  <data name="Stern" xml:space="preserve"><value>Popa</value></data>
+  <data name="Meters" xml:space="preserve"><value>Metros</value></data>
+  <data name="Feet" xml:space="preserve"><value>Pies</value></data>
+  <data name="DecimalScaleMode" xml:space="preserve"><value>Escala decimal 1:N</value></data>
+  <data name="ImperialScaleMode" xml:space="preserve"><value>Pulgadas imperiales por pie</value></data>
+  <data name="ManualRows" xml:space="preserve"><value>Filas manuales</value></data>
+  <data name="FromDeckWidth" xml:space="preserve"><value>Desde ancho de cubierta</value></data>
+  <data name="ValidationPositiveValues" xml:space="preserve"><value>Introduzca valores positivos para longitud, escala y anchos.</value></data>
   <data name="Language" xml:space="preserve"><value>Idioma</value></data>
   <data name="Theme" xml:space="preserve"><value>Tema</value></data>
   <data name="DisplayUnits" xml:space="preserve"><value>Unidades de visualizacion</value></data>

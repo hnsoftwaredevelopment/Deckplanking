@@ -5,7 +5,7 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="AppTitle" xml:space="preserve"><value>Bordage de pont de modele reduit</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Accueil</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Bordage de pont</value></data>
   <data name="SettingsTitle" xml:space="preserve"><value>Parametres</value></data>
   <data name="SettingsButton" xml:space="preserve"><value>Parametres</value></data>
   <data name="IntroText" xml:space="preserve"><value>Mettez une latte grandeur reelle a l'echelle et preparez la longueur de coupe pour le motif choisi.</value></data>
@@ -44,6 +44,23 @@
   <data name="Row" xml:space="preserve"><value>Rangee</value></data>
   <data name="Offset" xml:space="preserve"><value>Decalage</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Joints (mm)</value></data>
+  <data name="ShowSeamDetails" xml:space="preserve"><value>Afficher les details des joints</value></data>
+  <data name="HideSeamDetails" xml:space="preserve"><value>Masquer les details des joints</value></data>
+  <data name="PatternEvery2" xml:space="preserve"><value>Tous les 2</value></data>
+  <data name="PatternEvery3" xml:space="preserve"><value>Tous les 3</value></data>
+  <data name="PatternEvery4" xml:space="preserve"><value>Tous les 4</value></data>
+  <data name="PatternEvery5" xml:space="preserve"><value>Tous les 5</value></data>
+  <data name="BowLeft" xml:space="preserve"><value>Proue a gauche</value></data>
+  <data name="SternLeft" xml:space="preserve"><value>Poupe a gauche</value></data>
+  <data name="Bow" xml:space="preserve"><value>Proue</value></data>
+  <data name="Stern" xml:space="preserve"><value>Poupe</value></data>
+  <data name="Meters" xml:space="preserve"><value>Metres</value></data>
+  <data name="Feet" xml:space="preserve"><value>Pieds</value></data>
+  <data name="DecimalScaleMode" xml:space="preserve"><value>Echelle decimale 1:N</value></data>
+  <data name="ImperialScaleMode" xml:space="preserve"><value>Pouces imperiaux par pied</value></data>
+  <data name="ManualRows" xml:space="preserve"><value>Rangees manuelles</value></data>
+  <data name="FromDeckWidth" xml:space="preserve"><value>Depuis la largeur du pont</value></data>
+  <data name="ValidationPositiveValues" xml:space="preserve"><value>Saisissez des valeurs positives pour la longueur, l'echelle et les largeurs.</value></data>
   <data name="Language" xml:space="preserve"><value>Langue</value></data>
   <data name="Theme" xml:space="preserve"><value>Theme</value></data>
   <data name="DisplayUnits" xml:space="preserve"><value>Unites d'affichage</value></data>

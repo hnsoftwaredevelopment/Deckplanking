@@ -5,7 +5,7 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="AppTitle" xml:space="preserve"><value>Modelboot dekbeplanking</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Home</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Dekbeplanking</value></data>
   <data name="SettingsTitle" xml:space="preserve"><value>Instellingen</value></data>
   <data name="SettingsButton" xml:space="preserve"><value>Instellingen</value></data>
   <data name="IntroText" xml:space="preserve"><value>Schaal een plank op ware grootte en bepaal de zaaglengte voor het gekozen verspringingspatroon.</value></data>
@@ -44,6 +44,23 @@
   <data name="Row" xml:space="preserve"><value>Rij</value></data>
   <data name="Offset" xml:space="preserve"><value>Offset</value></data>
   <data name="SeamsMillimeters" xml:space="preserve"><value>Naden (mm)</value></data>
+  <data name="ShowSeamDetails" xml:space="preserve"><value>Naaddetails tonen</value></data>
+  <data name="HideSeamDetails" xml:space="preserve"><value>Naaddetails verbergen</value></data>
+  <data name="PatternEvery2" xml:space="preserve"><value>Iedere 2</value></data>
+  <data name="PatternEvery3" xml:space="preserve"><value>Iedere 3</value></data>
+  <data name="PatternEvery4" xml:space="preserve"><value>Iedere 4</value></data>
+  <data name="PatternEvery5" xml:space="preserve"><value>Iedere 5</value></data>
+  <data name="BowLeft" xml:space="preserve"><value>Boeg links</value></data>
+  <data name="SternLeft" xml:space="preserve"><value>Hek links</value></data>
+  <data name="Bow" xml:space="preserve"><value>Boeg</value></data>
+  <data name="Stern" xml:space="preserve"><value>Hek</value></data>
+  <data name="Meters" xml:space="preserve"><value>Meters</value></data>
+  <data name="Feet" xml:space="preserve"><value>Voeten</value></data>
+  <data name="DecimalScaleMode" xml:space="preserve"><value>Decimale schaal 1:N</value></data>
+  <data name="ImperialScaleMode" xml:space="preserve"><value>Imperial inch per voet</value></data>
+  <data name="ManualRows" xml:space="preserve"><value>Handmatige rijen</value></data>
+  <data name="FromDeckWidth" xml:space="preserve"><value>Van dekbreedte</value></data>
+  <data name="ValidationPositiveValues" xml:space="preserve"><value>Voer positieve waarden in voor lengte, schaal en breedtes.</value></data>
   <data name="Language" xml:space="preserve"><value>Taal</value></data>
   <data name="Theme" xml:space="preserve"><value>Thema</value></data>
   <data name="DisplayUnits" xml:space="preserve"><value>Maatvoering</value></data>

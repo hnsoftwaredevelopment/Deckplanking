@@ -41,6 +41,10 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public DeckOrientation DeckOrientation { get; set; } = DeckOrientation.BowLeft;
 
+    public string BowLabel { get; set; } = "Bow";
+
+    public string SternLabel { get; set; } = "Stern";
+
     public PreviewSegmentInspection? SelectedSegment { get; set; }
 
     public double Zoom { get; set; } = 1;
@@ -66,6 +70,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             ShowTrenails = ShowTrenails,
             TrenailPatternKind = TrenailPatternKind,
             DeckOrientation = DeckOrientation,
+            BowLabel = BowLabel,
+            SternLabel = SternLabel,
             SelectedSegment = null,
             Zoom = 1,
             PanX = 0,
@@ -147,7 +153,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             DrawTrenails(canvas, renderedRows, deckLength, TrenailPatternKind);
         }
 
-        DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation);
+        DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation, BowLabel, SternLabel);
 
         canvas.RestoreState();
     }
@@ -458,13 +464,22 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         canvas.DrawRectangle(rowRect);
     }
 
-    private static void DrawDirectionGuide(ICanvas canvas, float left, float right, float y, DeckOrientation orientation)
+    private static void DrawDirectionGuide(
+        ICanvas canvas,
+        float left,
+        float right,
+        float y,
+        DeckOrientation orientation,
+        string bowLabel,
+        string sternLabel)
     {
         var center = (left + right) / 2;
         var labelWidth = 58;
         var labelHeight = 18;
         var arrowY = y + (labelHeight / 2);
-        var guide = DirectionGuideBuilder.Build(orientation);
+        var guide = orientation == DeckOrientation.BowLeft
+            ? new DirectionGuide(bowLabel, sternLabel)
+            : new DirectionGuide(sternLabel, bowLabel);
 
         canvas.FontSize = 11;
         canvas.FontColor = Color.FromArgb("#1F1F1F");

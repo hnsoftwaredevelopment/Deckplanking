@@ -1,11 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DeckPlanking.App.Localization;
 using DeckPlanking.Core.Configuration;
 using DeckPlanking.Core.Measurement;
 using DeckPlanking.Core.Patterns;
 using DeckPlanking.Core.Preview;
 using DeckPlanking.Core.Projects;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace DeckPlanking.App.ViewModels;
 
@@ -39,41 +41,11 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public ScaleInputViewModel()
     {
-        LengthUnits =
-        [
-            new("Meters", LengthUnit.Meters),
-            new("Feet", LengthUnit.Feet)
-        ];
-
-        ScaleModes =
-        [
-            new("Decimal scale 1:N", ScaleMode.Decimal),
-            new("Imperial inches per foot", ScaleMode.ImperialInchesPerFoot)
-        ];
-
-        RowInputModes =
-        [
-            new("Manual rows", RowInputMode.Manual),
-            new("From deck width", RowInputMode.FromDeckWidth)
-        ];
-
-        Patterns =
-        [
-            new("Every 2", ShiftPatternKind.Every2),
-            new("Every 3", ShiftPatternKind.Every3),
-            new("Every 4", ShiftPatternKind.Every4),
-            new("Every 5", ShiftPatternKind.Every5)
-        ];
-
-        DeckOrientations =
-        [
-            new("Bow left", DeckOrientation.BowLeft),
-            new("Stern left", DeckOrientation.SternLeft)
-        ];
+        RefreshLocalizedOptions();
 
         TrenailPatterns =
         [
-            new("None", TrenailPatternKind.None),
+            new(T("NoTrenails"), TrenailPatternKind.None),
             new("oo|oo", TrenailPatternKind.TwoPerPlankEnd),
             new("o|o", TrenailPatternKind.OneCentered),
             new("^|v", TrenailPatternKind.OneAlternating)
@@ -88,18 +60,19 @@ public sealed class ScaleInputViewModel : ObservableObject
 
         ToggleSeamTableCommand = new RelayCommand(ToggleSeamTable);
         SelectTrenailPatternCommand = new RelayCommand<TrenailPatternKind>(SelectTrenailPattern);
+        LocalizationResourceManager.Instance.PropertyChanged += OnLocalizationChanged;
         Recalculate();
     }
 
-    public IReadOnlyList<OptionItem<LengthUnit>> LengthUnits { get; }
+    public IReadOnlyList<OptionItem<LengthUnit>> LengthUnits { get; private set; } = [];
 
-    public IReadOnlyList<OptionItem<ScaleMode>> ScaleModes { get; }
+    public IReadOnlyList<OptionItem<ScaleMode>> ScaleModes { get; private set; } = [];
 
-    public IReadOnlyList<OptionItem<RowInputMode>> RowInputModes { get; }
+    public IReadOnlyList<OptionItem<RowInputMode>> RowInputModes { get; private set; } = [];
 
-    public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; }
+    public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; private set; } = [];
 
-    public IReadOnlyList<OptionItem<DeckOrientation>> DeckOrientations { get; }
+    public IReadOnlyList<OptionItem<DeckOrientation>> DeckOrientations { get; private set; } = [];
 
     public IReadOnlyList<OptionItem<TrenailPatternKind>> TrenailPatterns { get; }
 
@@ -253,11 +226,11 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public string SelectedTrenailPatternDescription => SelectedTrenailPattern.Value switch
     {
-        TrenailPatternKind.None => "No trenails",
-        TrenailPatternKind.TwoPerPlankEnd => "Two trenails per plank end",
-        TrenailPatternKind.OneCentered => "One centered trenail per plank end",
-        TrenailPatternKind.OneAlternating => "One alternating trenail per plank end",
-        _ => "Two trenails per plank end"
+        TrenailPatternKind.None => T("NoTrenails"),
+        TrenailPatternKind.TwoPerPlankEnd => T("TwoTrenailsPerPlankEnd"),
+        TrenailPatternKind.OneCentered => T("OneCenteredTrenail"),
+        TrenailPatternKind.OneAlternating => T("OneAlternatingTrenail"),
+        _ => T("TwoTrenailsPerPlankEnd")
     };
 
     public bool IsNoTrenailsSelected => SelectedTrenailPattern.Value == TrenailPatternKind.None;
@@ -344,7 +317,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         }
     }
 
-    public string SeamTableToggleText => IsSeamTableVisible ? "Hide seam details" : "Show seam details";
+    public string SeamTableToggleText => IsSeamTableVisible ? T("HideSeamDetails") : T("ShowSeamDetails");
 
     public DeckPlankingProjectSettings CaptureProjectSettings()
     {
@@ -444,7 +417,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             SegmentLengthMillimeters = 0;
             ImperialDisplayText = "-";
             PatternRows.Clear();
-            ValidationMessage = "Enter positive values for length, scale, and widths.";
+            ValidationMessage = T("ValidationPositiveValues");
         }
     }
 
@@ -456,6 +429,81 @@ public sealed class ScaleInputViewModel : ObservableObject
     private void SelectTrenailPattern(TrenailPatternKind trenailPatternKind)
     {
         SelectedTrenailPattern = TrenailPatterns.First(pattern => pattern.Value == trenailPatternKind);
+    }
+
+    private void OnLocalizationChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        var lengthUnit = SelectedLengthUnit.Value;
+        var scaleMode = SelectedScaleMode.Value;
+        var rowInputMode = SelectedRowInputMode.Value;
+        var pattern = SelectedPattern.Value;
+        var orientation = SelectedDeckOrientation.Value;
+
+        RefreshLocalizedOptions();
+
+        selectedLengthUnit = FindOption(LengthUnits, lengthUnit);
+        selectedScaleMode = FindOption(ScaleModes, scaleMode);
+        selectedRowInputMode = FindOption(RowInputModes, rowInputMode);
+        selectedPattern = FindOption(Patterns, pattern);
+        selectedDeckOrientation = FindOption(DeckOrientations, orientation);
+
+        OnPropertyChanged(nameof(LengthUnits));
+        OnPropertyChanged(nameof(ScaleModes));
+        OnPropertyChanged(nameof(RowInputModes));
+        OnPropertyChanged(nameof(Patterns));
+        OnPropertyChanged(nameof(DeckOrientations));
+        OnPropertyChanged(nameof(SelectedLengthUnit));
+        OnPropertyChanged(nameof(SelectedScaleMode));
+        OnPropertyChanged(nameof(SelectedRowInputMode));
+        OnPropertyChanged(nameof(SelectedPattern));
+        OnPropertyChanged(nameof(SelectedDeckOrientation));
+        OnPropertyChanged(nameof(SeamTableToggleText));
+        OnPropertyChanged(nameof(SelectedTrenailPatternDescription));
+
+        if (!string.IsNullOrWhiteSpace(ValidationMessage))
+        {
+            ValidationMessage = T("ValidationPositiveValues");
+        }
+    }
+
+    private void RefreshLocalizedOptions()
+    {
+        LengthUnits =
+        [
+            new(T("Meters"), LengthUnit.Meters),
+            new(T("Feet"), LengthUnit.Feet)
+        ];
+
+        ScaleModes =
+        [
+            new(T("DecimalScaleMode"), ScaleMode.Decimal),
+            new(T("ImperialScaleMode"), ScaleMode.ImperialInchesPerFoot)
+        ];
+
+        RowInputModes =
+        [
+            new(T("ManualRows"), RowInputMode.Manual),
+            new(T("FromDeckWidth"), RowInputMode.FromDeckWidth)
+        ];
+
+        Patterns =
+        [
+            new(T("PatternEvery2"), ShiftPatternKind.Every2),
+            new(T("PatternEvery3"), ShiftPatternKind.Every3),
+            new(T("PatternEvery4"), ShiftPatternKind.Every4),
+            new(T("PatternEvery5"), ShiftPatternKind.Every5)
+        ];
+
+        DeckOrientations =
+        [
+            new(T("BowLeft"), DeckOrientation.BowLeft),
+            new(T("SternLeft"), DeckOrientation.SternLeft)
+        ];
+    }
+
+    private static string T(string key)
+    {
+        return LocalizationResourceManager.Instance[key];
     }
 
     private static OptionItem<T> FindOption<T>(IReadOnlyList<OptionItem<T>> options, T value)
