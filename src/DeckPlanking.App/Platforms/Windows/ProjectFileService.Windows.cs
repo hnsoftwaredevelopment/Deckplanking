@@ -44,7 +44,7 @@ public static partial class ProjectFileService
             SuggestedFileName = suggestedFileName,
             DefaultFileExtension = ".json"
         };
-        picker.FileTypeChoices.Add("Deckplanking project", [".json"]);
+        picker.FileTypeChoices.Add("Deckplanking project (*.deckplanking.json)", [".json"]);
         InitializePicker(picker);
 
         var targetFile = await picker.PickSaveFileAsync();
@@ -142,7 +142,7 @@ public static partial class ProjectFileService
         {
             SuggestedStartLocation = PickerLocationId.DocumentsLibrary
         };
-        picker.FileTypeFilter.Add("*");
+        picker.FileTypeFilter.Add(".json");
         InitializePicker(picker);
 
         var sourceFile = await picker.PickSingleFileAsync();
@@ -151,9 +151,9 @@ public static partial class ProjectFileService
             return null;
         }
 
-        if (!sourceFile.Name.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+        if (!sourceFile.Name.EndsWith(".deckplanking.json", StringComparison.OrdinalIgnoreCase))
         {
-            throw new InvalidDataException("Select a Deckplanking project JSON file.");
+            throw new InvalidDataException("Select a Deckplanking project file (*.deckplanking.json).");
         }
 
         var json = await FileIO.ReadTextAsync(sourceFile);

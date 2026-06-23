@@ -41,17 +41,36 @@ public static partial class ProjectFileService
     private static string BuildProjectFileName(string projectName)
     {
         var sanitizedName = SanitizeProjectName(projectName);
-        return sanitizedName.EndsWith(".json", StringComparison.OrdinalIgnoreCase)
-            ? sanitizedName
-            : $"{sanitizedName}.deckplanking.json";
+        return $"{sanitizedName}.deckplanking.json";
+    }
+
+    public static string GetProjectDisplayName(string? fileName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return string.Empty;
+        }
+
+        return fileName.EndsWith(".deckplanking.json", StringComparison.OrdinalIgnoreCase)
+            ? fileName[..^".deckplanking.json".Length]
+            : Path.GetFileNameWithoutExtension(fileName);
     }
 
     private static string SanitizeProjectName(string projectName)
     {
+        var trimmedProjectName = projectName.Trim();
+        if (trimmedProjectName.EndsWith(".deckplanking.json", StringComparison.OrdinalIgnoreCase))
+        {
+            trimmedProjectName = trimmedProjectName[..^".deckplanking.json".Length];
+        }
+        else if (trimmedProjectName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+        {
+            trimmedProjectName = trimmedProjectName[..^".json".Length];
+        }
+
         var name = string.Join(
             "_",
-            projectName
-                .Trim()
+            trimmedProjectName
                 .Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
 
         return string.IsNullOrWhiteSpace(name)

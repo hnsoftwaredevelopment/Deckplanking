@@ -333,7 +333,7 @@ public partial class MainPage : ContentPage
 
             var delete = await DisplayAlertAsync(
                 T("DeleteProject"),
-                string.Format(T("DeleteProjectConfirmation"), currentProjectFileName),
+                string.Format(T("DeleteProjectConfirmation"), ProjectFileService.GetProjectDisplayName(currentProjectFileName)),
                 T("DeleteProject"),
                 T("Cancel"));
             if (!delete)
@@ -409,7 +409,7 @@ public partial class MainPage : ContentPage
     {
         var initialValue = string.IsNullOrWhiteSpace(currentName)
             ? T("UntitledProject")
-            : Path.GetFileNameWithoutExtension(currentName);
+            : ProjectFileService.GetProjectDisplayName(currentName);
 
         var projectName = await DisplayPromptAsync(
             title,
@@ -480,7 +480,7 @@ public partial class MainPage : ContentPage
     {
         var projectName = string.IsNullOrWhiteSpace(currentProjectFileName)
             ? T("UntitledProject")
-            : currentProjectFileName;
+            : ProjectFileService.GetProjectDisplayName(currentProjectFileName);
 
         ProjectNameLabel.Text = hasUnsavedProjectChanges
             ? string.Format(T("UnsavedProjectName"), projectName)

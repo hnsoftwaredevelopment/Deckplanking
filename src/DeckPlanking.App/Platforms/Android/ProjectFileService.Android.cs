@@ -116,7 +116,7 @@ public static partial class ProjectFileService
             PickerTitle = "Open Deckplanking project",
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                [DevicePlatform.Android] = ["*/*"],
+                [DevicePlatform.Android] = ["application/json", "text/json", "text/plain", "*/*"],
                 [DevicePlatform.WinUI] = [".json"]
             })
         };
@@ -125,6 +125,11 @@ public static partial class ProjectFileService
         if (fileResult is null)
         {
             return null;
+        }
+
+        if (!fileResult.FileName.EndsWith(".deckplanking.json", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidDataException("Select a Deckplanking project file (*.deckplanking.json).");
         }
 
         await using var stream = await fileResult.OpenReadAsync();
