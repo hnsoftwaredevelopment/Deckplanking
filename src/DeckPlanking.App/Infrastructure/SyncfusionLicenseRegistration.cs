@@ -18,8 +18,14 @@ public static class SyncfusionLicenseRegistration
 
     public static void Register()
     {
-        var license = Environment.GetEnvironmentVariable(EnvironmentVariableName);
-        var registrationSource = EnvironmentVariableName;
+        var license = SyncfusionBuildLicense.License;
+        var registrationSource = "Build-generated license";
+
+        if (string.IsNullOrWhiteSpace(license))
+        {
+            license = Environment.GetEnvironmentVariable(EnvironmentVariableName);
+            registrationSource = EnvironmentVariableName;
+        }
 
         if (string.IsNullOrWhiteSpace(license))
         {

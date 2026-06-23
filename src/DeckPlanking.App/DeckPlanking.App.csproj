@@ -48,6 +48,64 @@
 		<DebugSymbols>False</DebugSymbols>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<GeneratedSyncfusionLicenseFile>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\GeneratedSyncfusionLicense.g.cs</GeneratedSyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\SynfusionLicense.txt')">$(MSBuildProjectDirectory)\..\..\docs\SynfusionLicense.txt</SyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\SyncfusionLicense.txt')">$(MSBuildProjectDirectory)\..\..\docs\SyncfusionLicense.txt</SyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\synfusion.txt')">$(MSBuildProjectDirectory)\..\..\docs\synfusion.txt</SyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\syncfusion-license.txt')">$(MSBuildProjectDirectory)\..\..\syncfusion-license.txt</SyncfusionLicenseFile>
+	</PropertyGroup>
+
+	<UsingTask
+		TaskName="GenerateSyncfusionLicenseSourceTask"
+		TaskFactory="RoslynCodeTaskFactory"
+		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<LicenseFile ParameterType="System.String" Required="false" />
+			<OutputFile ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System" />
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.Text" />
+			<Code Type="Fragment" Language="cs"><![CDATA[
+var license = string.Empty;
+if (!string.IsNullOrWhiteSpace(LicenseFile) && File.Exists(LicenseFile))
+{
+    license = File.ReadAllText(LicenseFile).Trim();
+}
+
+var outputDirectory = Path.GetDirectoryName(OutputFile);
+if (!string.IsNullOrWhiteSpace(outputDirectory))
+{
+    Directory.CreateDirectory(outputDirectory);
+}
+
+var encodedLicense = Convert.ToBase64String(Encoding.UTF8.GetBytes(license));
+var source =
+    "using System;" + Environment.NewLine +
+    "using System.Text;" + Environment.NewLine +
+    "namespace DeckPlanking.App.Infrastructure;" + Environment.NewLine +
+    "internal static class SyncfusionBuildLicense" + Environment.NewLine +
+    "{" + Environment.NewLine +
+    "    public static string License => Encoding.UTF8.GetString(Convert.FromBase64String(\"" + encodedLicense + "\"));" + Environment.NewLine +
+    "}" + Environment.NewLine;
+
+File.WriteAllText(OutputFile, source, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+]]></Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="GenerateSyncfusionLicenseSource" BeforeTargets="PrepareForBuild">
+		<GenerateSyncfusionLicenseSourceTask
+			LicenseFile="$(SyncfusionLicenseFile)"
+			OutputFile="$(GeneratedSyncfusionLicenseFile)" />
+
+		<ItemGroup>
+			<Compile Include="$(GeneratedSyncfusionLicenseFile)" Visible="false" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
