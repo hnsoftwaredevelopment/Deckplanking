@@ -12,10 +12,14 @@
   <data name="InputsHeader" xml:space="preserve"><value>Invoer</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Project opslaan</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Opslaan als</value></data>
+  <data name="RenameProject" xml:space="preserve"><value>Hernoemen</value></data>
+  <data name="DeleteProject" xml:space="preserve"><value>Verwijderen</value></data>
   <data name="NewProject" xml:space="preserve"><value>Nieuw project</value></data>
   <data name="OpenProject" xml:space="preserve"><value>Project openen</value></data>
   <data name="SaveProjectDescription" xml:space="preserve"><value>Projectinstellingen opslaan</value></data>
   <data name="SaveProjectAsDescription" xml:space="preserve"><value>Projectinstellingen opslaan in een nieuw bestand</value></data>
+  <data name="RenameProjectDescription" xml:space="preserve"><value>Het huidige projectbestand hernoemen</value></data>
+  <data name="DeleteProjectDescription" xml:space="preserve"><value>Het huidige projectbestand verwijderen</value></data>
   <data name="NewProjectDescription" xml:space="preserve"><value>Een nieuw project starten</value></data>
   <data name="OpenProjectDescription" xml:space="preserve"><value>Opgeslagen projectinstellingen openen</value></data>
   <data name="CurrentProject" xml:space="preserve"><value>Huidig project</value></data>
@@ -28,6 +32,14 @@
   <data name="UnsavedChangesMessage" xml:space="preserve"><value>Het huidige project heeft niet-opgeslagen wijzigingen. Wil je deze weggooien?</value></data>
   <data name="DiscardChanges" xml:space="preserve"><value>Weggooien</value></data>
   <data name="Cancel" xml:space="preserve"><value>Annuleren</value></data>
+  <data name="ProjectNamePrompt" xml:space="preserve"><value>Projectnaam</value></data>
+  <data name="ProjectRenameRequiresSaveTitle" xml:space="preserve"><value>Project eerst opslaan</value></data>
+  <data name="ProjectRenameRequiresSaveMessage" xml:space="preserve"><value>Sla het huidige project eerst op voordat je het hernoemt.</value></data>
+  <data name="ProjectDeleteRequiresSaveTitle" xml:space="preserve"><value>Geen projectbestand</value></data>
+  <data name="ProjectDeleteRequiresSaveMessage" xml:space="preserve"><value>Dit project is nog niet opgeslagen, dus er is geen projectbestand om te verwijderen.</value></data>
+  <data name="DeleteProjectConfirmation" xml:space="preserve"><value>Het momenteel geladen projectbestand '{0}' verwijderen? Dit kan niet ongedaan worden gemaakt.</value></data>
+  <data name="ProjectCouldNotBeRenamed" xml:space="preserve"><value>Project kon niet worden hernoemd</value></data>
+  <data name="ProjectCouldNotBeDeleted" xml:space="preserve"><value>Project kon niet worden verwijderd</value></data>
   <data name="FullSizePlankLength" xml:space="preserve"><value>Planklengte ware grootte</value></data>
   <data name="LengthUnit" xml:space="preserve"><value>Lengte-eenheid</value></data>
   <data name="ScaleMode" xml:space="preserve"><value>Schaalmethode</value></data>

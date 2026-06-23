@@ -40,6 +40,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private bool isSeamTableVisible;
     private bool useKingPlank;
     private bool isDecimalScale = true;
+    private bool isApplyingProjectSettings;
 
     public ScaleInputViewModel()
     {
@@ -195,7 +196,10 @@ public sealed class ScaleInputViewModel : ObservableObject
             if (SetProperty(ref useKingPlank, value) && SelectedRowInputMode.Value == RowInputMode.FromDeckWidth)
             {
                 OnPropertyChanged(nameof(IsKingPlankWidthVisible));
-                Recalculate();
+                if (!isApplyingProjectSettings)
+                {
+                    Recalculate();
+                }
             }
         }
     }
@@ -214,7 +218,10 @@ public sealed class ScaleInputViewModel : ObservableObject
             if (SetProperty(ref selectedScaleMode, value))
             {
                 IsDecimalScale = selectedScaleMode.Value == ScaleMode.Decimal;
-                Recalculate();
+                if (!isApplyingProjectSettings)
+                {
+                    Recalculate();
+                }
             }
         }
     }
@@ -399,24 +406,35 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         ArgumentNullException.ThrowIfNull(settings);
 
-        RealPlankLength = settings.RealPlankLength;
-        SelectedLengthUnit = FindOption(LengthUnits, settings.LengthUnit);
-        SelectedScaleMode = FindOption(ScaleModes, settings.ScaleMode);
-        DecimalScale = settings.DecimalScale;
-        ImperialInchesPerFoot = settings.ImperialInchesPerFoot;
-        DeckLengthMillimeters = settings.DeckLengthMillimeters;
-        DeckWidthMillimeters = settings.DeckWidthMillimeters > 0 ? settings.DeckWidthMillimeters : DeckWidthMillimeters;
-        PlankWidthMillimeters = settings.PlankWidthMillimeters > 0 ? settings.PlankWidthMillimeters : PlankWidthMillimeters;
-        KingPlankWidthMillimeters = settings.KingPlankWidthMillimeters > 0
-            ? settings.KingPlankWidthMillimeters
-            : PlankWidthMillimeters;
-        SelectedRowInputMode = FindOption(RowInputModes, settings.RowInputMode);
-        RowCount = settings.RowCount;
-        StartPoint = settings.StartPoint;
-        SelectedPattern = FindOption(Patterns, settings.ShiftPattern);
-        UseKingPlank = settings.UseKingPlank;
-        SelectedDeckOrientation = FindOption(DeckOrientations, settings.DeckOrientation);
-        SelectedTrenailPattern = FindOption(TrenailPatterns, settings.TrenailPattern);
+        isApplyingProjectSettings = true;
+        try
+        {
+            RealPlankLength = settings.RealPlankLength;
+            SelectedLengthUnit = FindOption(LengthUnits, settings.LengthUnit);
+            SelectedScaleMode = FindOption(ScaleModes, settings.ScaleMode);
+            DecimalScale = settings.DecimalScale;
+            ImperialInchesPerFoot = settings.ImperialInchesPerFoot;
+            DeckLengthMillimeters = settings.DeckLengthMillimeters;
+            DeckWidthMillimeters = settings.DeckWidthMillimeters > 0 ? settings.DeckWidthMillimeters : DeckWidthMillimeters;
+            PlankWidthMillimeters = settings.PlankWidthMillimeters > 0 ? settings.PlankWidthMillimeters : PlankWidthMillimeters;
+            KingPlankWidthMillimeters = settings.KingPlankWidthMillimeters > 0
+                ? settings.KingPlankWidthMillimeters
+                : PlankWidthMillimeters;
+            SelectedRowInputMode = FindOption(RowInputModes, settings.RowInputMode);
+            RowCount = settings.RowCount;
+            StartPoint = settings.StartPoint;
+            SelectedPattern = FindOption(Patterns, settings.ShiftPattern);
+            UseKingPlank = settings.UseKingPlank;
+            SelectedDeckOrientation = FindOption(DeckOrientations, settings.DeckOrientation);
+            SelectedTrenailPattern = FindOption(TrenailPatterns, settings.TrenailPattern);
+        }
+        finally
+        {
+            isApplyingProjectSettings = false;
+        }
+
+        Recalculate();
+        NotifyProjectInputBindingsChanged();
     }
 
     private void SetAndRecalculate<T>(ref T field, T value)
@@ -428,7 +446,10 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         if (SetProperty(ref field, value))
         {
-            Recalculate();
+            if (!isApplyingProjectSettings)
+            {
+                Recalculate();
+            }
             return true;
         }
 
@@ -559,6 +580,28 @@ public sealed class ScaleInputViewModel : ObservableObject
         OnPropertyChanged(nameof(KingPlankWidthInput));
         OnPropertyChanged(nameof(DimensionInputUnitText));
         OnPropertyChanged(nameof(SeamPositionsHeaderText));
+    }
+
+    private void NotifyProjectInputBindingsChanged()
+    {
+        NotifyDimensionInputsChanged();
+        OnPropertyChanged(nameof(RealPlankLength));
+        OnPropertyChanged(nameof(DecimalScale));
+        OnPropertyChanged(nameof(ImperialInchesPerFoot));
+        OnPropertyChanged(nameof(RowCount));
+        OnPropertyChanged(nameof(StartPoint));
+        OnPropertyChanged(nameof(UseKingPlank));
+        OnPropertyChanged(nameof(SelectedLengthUnit));
+        OnPropertyChanged(nameof(SelectedScaleMode));
+        OnPropertyChanged(nameof(SelectedRowInputMode));
+        OnPropertyChanged(nameof(SelectedPattern));
+        OnPropertyChanged(nameof(SelectedDeckOrientation));
+        OnPropertyChanged(nameof(SelectedTrenailPattern));
+        OnPropertyChanged(nameof(IsDecimalScale));
+        OnPropertyChanged(nameof(IsImperialScale));
+        OnPropertyChanged(nameof(IsManualRowInput));
+        OnPropertyChanged(nameof(IsWidthBasedRowInput));
+        OnPropertyChanged(nameof(IsKingPlankWidthVisible));
     }
 
     private void RefreshLocalizedOptions()

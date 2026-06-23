@@ -12,10 +12,14 @@
   <data name="InputsHeader" xml:space="preserve"><value>Input</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Salva progetto</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Salva con nome</value></data>
+  <data name="RenameProject" xml:space="preserve"><value>Rinomina</value></data>
+  <data name="DeleteProject" xml:space="preserve"><value>Elimina</value></data>
   <data name="NewProject" xml:space="preserve"><value>Nuovo progetto</value></data>
   <data name="OpenProject" xml:space="preserve"><value>Apri progetto</value></data>
   <data name="SaveProjectDescription" xml:space="preserve"><value>Salva le impostazioni del progetto</value></data>
   <data name="SaveProjectAsDescription" xml:space="preserve"><value>Salva le impostazioni del progetto in un nuovo file</value></data>
+  <data name="RenameProjectDescription" xml:space="preserve"><value>Rinomina il file progetto corrente</value></data>
+  <data name="DeleteProjectDescription" xml:space="preserve"><value>Elimina il file progetto corrente</value></data>
   <data name="NewProjectDescription" xml:space="preserve"><value>Avvia un nuovo progetto</value></data>
   <data name="OpenProjectDescription" xml:space="preserve"><value>Apri impostazioni progetto salvate</value></data>
   <data name="CurrentProject" xml:space="preserve"><value>Progetto corrente</value></data>
@@ -28,6 +32,14 @@
   <data name="UnsavedChangesMessage" xml:space="preserve"><value>Il progetto corrente contiene modifiche non salvate. Scartarle?</value></data>
   <data name="DiscardChanges" xml:space="preserve"><value>Scarta</value></data>
   <data name="Cancel" xml:space="preserve"><value>Annulla</value></data>
+  <data name="ProjectNamePrompt" xml:space="preserve"><value>Nome progetto</value></data>
+  <data name="ProjectRenameRequiresSaveTitle" xml:space="preserve"><value>Salva prima il progetto</value></data>
+  <data name="ProjectRenameRequiresSaveMessage" xml:space="preserve"><value>Salva il progetto corrente prima di rinominarlo.</value></data>
+  <data name="ProjectDeleteRequiresSaveTitle" xml:space="preserve"><value>Nessun file progetto</value></data>
+  <data name="ProjectDeleteRequiresSaveMessage" xml:space="preserve"><value>Questo progetto non e ancora stato salvato, quindi non c'e alcun file da eliminare.</value></data>
+  <data name="DeleteProjectConfirmation" xml:space="preserve"><value>Eliminare il file progetto attualmente caricato '{0}'? L'operazione non puo essere annullata.</value></data>
+  <data name="ProjectCouldNotBeRenamed" xml:space="preserve"><value>Impossibile rinominare il progetto</value></data>
+  <data name="ProjectCouldNotBeDeleted" xml:space="preserve"><value>Impossibile eliminare il progetto</value></data>
   <data name="FullSizePlankLength" xml:space="preserve"><value>Lunghezza tavola reale</value></data>
   <data name="LengthUnit" xml:space="preserve"><value>Unita di lunghezza</value></data>
   <data name="ScaleMode" xml:space="preserve"><value>Modo scala</value></data>

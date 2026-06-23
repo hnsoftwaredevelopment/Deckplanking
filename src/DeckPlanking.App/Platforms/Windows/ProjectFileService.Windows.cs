@@ -14,7 +14,30 @@ public static partial class ProjectFileService
     {
         ArgumentNullException.ThrowIfNull(document);
 
-        var suggestedFileName = Path.GetFileNameWithoutExtension(BuildSuggestedFileName(DateTimeOffset.Now));
+        return await SaveWithPickerAsync(
+            document,
+            Path.GetFileNameWithoutExtension(BuildSuggestedFileName(DateTimeOffset.Now)),
+            cancellationToken);
+    }
+
+    public static async partial Task<ProjectFileResult> SaveNamedAsync(
+        DeckPlankingProjectDocument document,
+        string projectName,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+
+        return await SaveWithPickerAsync(
+            document,
+            Path.GetFileNameWithoutExtension(BuildProjectFileName(projectName)),
+            cancellationToken);
+    }
+
+    private static async Task<ProjectFileResult> SaveWithPickerAsync(
+        DeckPlankingProjectDocument document,
+        string suggestedFileName,
+        CancellationToken cancellationToken)
+    {
         var picker = new FileSavePicker
         {
             SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
@@ -57,6 +80,52 @@ public static partial class ProjectFileService
             Path.GetFileName(filePath),
             filePath,
             filePath);
+    }
+
+    public static async partial Task<ProjectFileResult> RenameAsync(
+        string? filePath,
+        string projectName,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new InvalidOperationException("Save the project before renaming it.");
+        }
+
+        var newFileName = BuildProjectFileName(projectName);
+        var directory = Path.GetDirectoryName(filePath)
+            ?? throw new InvalidOperationException("Project location is not available.");
+        var newFilePath = Path.Combine(directory, newFileName);
+
+        if (File.Exists(newFilePath)
+            && !string.Equals(filePath, newFilePath, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new IOException("A project with that name already exists.");
+        }
+
+        if (!string.Equals(filePath, newFilePath, StringComparison.OrdinalIgnoreCase))
+        {
+            File.Move(filePath, newFilePath);
+        }
+
+        await Task.CompletedTask;
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return new ProjectFileResult(true, newFileName, newFilePath, newFilePath);
+    }
+
+    public static async partial Task DeleteAsync(
+        string? filePath,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new InvalidOperationException("This project has not been saved yet.");
+        }
+
+        File.Delete(filePath);
+        await Task.CompletedTask;
+        cancellationToken.ThrowIfCancellationRequested();
     }
 
     public static async partial Task<DeckPlankingProjectDocument?> OpenAsync(

@@ -3,6 +3,7 @@ using Android.Provider;
 using DeckPlanking.App.Projects;
 using DeckPlanking.Core.Projects;
 using System.Runtime.Versioning;
+using AndroidUri = Android.Net.Uri;
 
 namespace DeckPlanking.App.Projects;
 
@@ -27,7 +28,77 @@ public static partial class ProjectFileService
         string? filePath,
         CancellationToken cancellationToken)
     {
-        return await SaveAsync(document, cancellationToken);
+        ArgumentNullException.ThrowIfNull(document);
+
+        if (!OperatingSystem.IsAndroidVersionAtLeast(29) || string.IsNullOrWhiteSpace(filePath))
+        {
+            return await SaveAsync(document, cancellationToken);
+        }
+
+        return await SaveToExistingUriAsync(document, filePath, cancellationToken);
+    }
+
+    public static async partial Task<ProjectFileResult> SaveNamedAsync(
+        DeckPlankingProjectDocument document,
+        string projectName,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+
+        if (!OperatingSystem.IsAndroidVersionAtLeast(29))
+        {
+            throw new PlatformNotSupportedException("Saving projects to Downloads requires Android 10 or newer.");
+        }
+
+        return await SaveToDownloadsAsync(document, cancellationToken, BuildProjectFileName(projectName));
+    }
+
+    public static async partial Task<ProjectFileResult> RenameAsync(
+        string? filePath,
+        string projectName,
+        CancellationToken cancellationToken)
+    {
+        if (!OperatingSystem.IsAndroidVersionAtLeast(29))
+        {
+            throw new PlatformNotSupportedException("Renaming projects requires Android 10 or newer.");
+        }
+
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new InvalidOperationException("Save the project before renaming it.");
+        }
+
+        var resolver = GetContentResolver();
+        var uri = ParseProjectUri(filePath);
+        var fileName = BuildProjectFileName(projectName);
+
+        using var values = new ContentValues();
+        values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+        resolver.Update(uri, values, null, null);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.CompletedTask;
+        return new ProjectFileResult(true, fileName, "Downloads", filePath);
+    }
+
+    public static async partial Task DeleteAsync(
+        string? filePath,
+        CancellationToken cancellationToken)
+    {
+        if (!OperatingSystem.IsAndroidVersionAtLeast(29))
+        {
+            throw new PlatformNotSupportedException("Deleting projects requires Android 10 or newer.");
+        }
+
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new InvalidOperationException("This project has not been saved by this app yet.");
+        }
+
+        var resolver = GetContentResolver();
+        resolver.Delete(ParseProjectUri(filePath), null, null);
+        cancellationToken.ThrowIfCancellationRequested();
+        await Task.CompletedTask;
     }
 
     public static async partial Task<DeckPlankingProjectDocument?> OpenAsync(
@@ -71,13 +142,19 @@ public static partial class ProjectFileService
         DeckPlankingProjectDocument document,
         CancellationToken cancellationToken)
     {
-        var fileName = BuildSuggestedFileName(DateTimeOffset.Now);
-        var resolver = Platform.CurrentActivity?.ContentResolver
-            ?? Android.App.Application.Context.ContentResolver;
-        if (resolver is null)
-        {
-            throw new InvalidOperationException("Android content resolver is not available.");
-        }
+        return await SaveToDownloadsAsync(
+            document,
+            cancellationToken,
+            BuildSuggestedFileName(DateTimeOffset.Now));
+    }
+
+    [SupportedOSPlatform("android29.0")]
+    private static async Task<ProjectFileResult> SaveToDownloadsAsync(
+        DeckPlankingProjectDocument document,
+        CancellationToken cancellationToken,
+        string fileName)
+    {
+        var resolver = GetContentResolver();
 
         using var values = new ContentValues();
         values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
@@ -101,6 +178,37 @@ public static partial class ProjectFileService
             throw;
         }
 
-        return new ProjectFileResult(true, fileName, "Downloads");
+        return new ProjectFileResult(true, fileName, "Downloads", targetUri.ToString());
+    }
+
+    [SupportedOSPlatform("android29.0")]
+    private static async Task<ProjectFileResult> SaveToExistingUriAsync(
+        DeckPlankingProjectDocument document,
+        string filePath,
+        CancellationToken cancellationToken)
+    {
+        var resolver = GetContentResolver();
+        var targetUri = ParseProjectUri(filePath);
+
+        await using var targetStream = resolver.OpenOutputStream(targetUri, "wt")
+            ?? throw new IOException("Could not open the project file for writing.");
+        await using var writer = new StreamWriter(targetStream);
+        await writer.WriteAsync(ProjectJsonSerializer.Serialize(document));
+        await writer.FlushAsync(cancellationToken);
+
+        return new ProjectFileResult(true, string.Empty, string.Empty, filePath);
+    }
+
+    private static ContentResolver GetContentResolver()
+    {
+        return Platform.CurrentActivity?.ContentResolver
+            ?? Android.App.Application.Context.ContentResolver
+            ?? throw new InvalidOperationException("Android content resolver is not available.");
+    }
+
+    private static AndroidUri ParseProjectUri(string filePath)
+    {
+        return AndroidUri.Parse(filePath)
+            ?? throw new InvalidOperationException("Project file location is not available.");
     }
 }

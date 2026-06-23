@@ -290,30 +290,107 @@ public partial class MainPage : ContentPage
 
     private async void OnSaveProjectClicked(object? sender, EventArgs e)
     {
-        await SaveProjectAsync(saveAs: false);
+        await SaveProjectAsync();
     }
 
-    private async void OnSaveProjectAsClicked(object? sender, EventArgs e)
+    private async void OnRenameProjectClicked(object? sender, EventArgs e)
     {
-        await SaveProjectAsync(saveAs: true);
+        try
+        {
+            if (string.IsNullOrWhiteSpace(currentProjectFileName))
+            {
+                await DisplayAlertAsync(T("ProjectRenameRequiresSaveTitle"), T("ProjectRenameRequiresSaveMessage"), T("Ok"));
+                return;
+            }
+
+            var projectName = await PromptForProjectNameAsync(T("RenameProject"), currentProjectFileName);
+            if (projectName is null)
+            {
+                return;
+            }
+
+            var renameResult = await ProjectFileService.RenameAsync(currentProjectFilePath, projectName);
+            currentProjectFileName = renameResult.FileName;
+            currentProjectFilePath = renameResult.FilePath;
+            currentProjectDisplayLocation = renameResult.DisplayLocation;
+            UpdateProjectUi();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync(T("ProjectCouldNotBeRenamed"), ex.Message, T("Ok"));
+        }
     }
 
-    private async Task SaveProjectAsync(bool saveAs)
+    private async void OnDeleteProjectClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(currentProjectFileName))
+            {
+                await DisplayAlertAsync(T("ProjectDeleteRequiresSaveTitle"), T("ProjectDeleteRequiresSaveMessage"), T("Ok"));
+                return;
+            }
+
+            var delete = await DisplayAlertAsync(
+                T("DeleteProject"),
+                string.Format(T("DeleteProjectConfirmation"), currentProjectFileName),
+                T("DeleteProject"),
+                T("Cancel"));
+            if (!delete)
+            {
+                return;
+            }
+
+            await ProjectFileService.DeleteAsync(currentProjectFilePath);
+            ApplyProjectSettings(defaultProjectSettings);
+            currentProjectFileName = null;
+            currentProjectFilePath = null;
+            currentProjectDisplayLocation = null;
+            hasUnsavedProjectChanges = false;
+            UpdateProjectUi();
+            await SaveLastProjectSettingsAsync();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync(T("ProjectCouldNotBeDeleted"), ex.Message, T("Ok"));
+        }
+    }
+
+    private async Task SaveProjectAsync()
     {
         try
         {
             var document = CreateCurrentProjectDocument();
-            var saveResult = saveAs
-                ? await ProjectFileService.SaveAsync(document)
-                : await ProjectFileService.SaveExistingAsync(document, currentProjectFilePath);
+            ProjectFileResult saveResult;
+
+            if (string.IsNullOrWhiteSpace(currentProjectFileName)
+                || string.IsNullOrWhiteSpace(currentProjectFilePath))
+            {
+                var projectName = await PromptForProjectNameAsync(T("SaveProject"), currentProjectFileName);
+                if (projectName is null)
+                {
+                    return;
+                }
+
+                saveResult = await ProjectFileService.SaveNamedAsync(document, projectName);
+            }
+            else
+            {
+                saveResult = await ProjectFileService.SaveExistingAsync(document, currentProjectFilePath);
+            }
+
             if (!saveResult.Saved)
             {
                 return;
             }
 
-            currentProjectFileName = saveResult.FileName;
-            currentProjectFilePath = saveResult.FilePath;
-            currentProjectDisplayLocation = saveResult.DisplayLocation;
+            currentProjectFileName = string.IsNullOrWhiteSpace(saveResult.FileName)
+                ? currentProjectFileName
+                : saveResult.FileName;
+            currentProjectFilePath = saveResult.FilePath ?? currentProjectFilePath;
+            currentProjectDisplayLocation = string.IsNullOrWhiteSpace(saveResult.DisplayLocation)
+                ? currentProjectDisplayLocation
+                : saveResult.DisplayLocation;
             hasUnsavedProjectChanges = false;
             UpdateProjectUi();
 
@@ -326,6 +403,25 @@ public partial class MainPage : ContentPage
         {
             await DisplayAlertAsync(T("ProjectCouldNotBeSaved"), ex.Message, T("Ok"));
         }
+    }
+
+    private async Task<string?> PromptForProjectNameAsync(string title, string? currentName)
+    {
+        var initialValue = string.IsNullOrWhiteSpace(currentName)
+            ? T("UntitledProject")
+            : Path.GetFileNameWithoutExtension(currentName);
+
+        var projectName = await DisplayPromptAsync(
+            title,
+            T("ProjectNamePrompt"),
+            T("Ok"),
+            T("Cancel"),
+            initialValue: initialValue,
+            maxLength: 80);
+
+        return string.IsNullOrWhiteSpace(projectName)
+            ? null
+            : projectName.Trim();
     }
 
     private async void OnOpenProjectClicked(object? sender, EventArgs e)

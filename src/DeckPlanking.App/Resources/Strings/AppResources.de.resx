@@ -12,10 +12,14 @@
   <data name="InputsHeader" xml:space="preserve"><value>Eingaben</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Projekt speichern</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Speichern unter</value></data>
+  <data name="RenameProject" xml:space="preserve"><value>Umbenennen</value></data>
+  <data name="DeleteProject" xml:space="preserve"><value>Loeschen</value></data>
   <data name="NewProject" xml:space="preserve"><value>Neues Projekt</value></data>
   <data name="OpenProject" xml:space="preserve"><value>Projekt oeffnen</value></data>
   <data name="SaveProjectDescription" xml:space="preserve"><value>Projekteinstellungen speichern</value></data>
   <data name="SaveProjectAsDescription" xml:space="preserve"><value>Projekteinstellungen in einer neuen Datei speichern</value></data>
+  <data name="RenameProjectDescription" xml:space="preserve"><value>Aktuelle Projektdatei umbenennen</value></data>
+  <data name="DeleteProjectDescription" xml:space="preserve"><value>Aktuelle Projektdatei loeschen</value></data>
   <data name="NewProjectDescription" xml:space="preserve"><value>Ein neues Projekt starten</value></data>
   <data name="OpenProjectDescription" xml:space="preserve"><value>Gespeicherte Projekteinstellungen oeffnen</value></data>
   <data name="CurrentProject" xml:space="preserve"><value>Aktuelles Projekt</value></data>
@@ -28,6 +32,14 @@
   <data name="UnsavedChangesMessage" xml:space="preserve"><value>Das aktuelle Projekt hat nicht gespeicherte Aenderungen. Verwerfen?</value></data>
   <data name="DiscardChanges" xml:space="preserve"><value>Verwerfen</value></data>
   <data name="Cancel" xml:space="preserve"><value>Abbrechen</value></data>
+  <data name="ProjectNamePrompt" xml:space="preserve"><value>Projektname</value></data>
+  <data name="ProjectRenameRequiresSaveTitle" xml:space="preserve"><value>Projekt zuerst speichern</value></data>
+  <data name="ProjectRenameRequiresSaveMessage" xml:space="preserve"><value>Speichern Sie das aktuelle Projekt, bevor Sie es umbenennen.</value></data>
+  <data name="ProjectDeleteRequiresSaveTitle" xml:space="preserve"><value>Keine Projektdatei</value></data>
+  <data name="ProjectDeleteRequiresSaveMessage" xml:space="preserve"><value>Dieses Projekt wurde noch nicht gespeichert, daher gibt es keine Projektdatei zum Loeschen.</value></data>
+  <data name="DeleteProjectConfirmation" xml:space="preserve"><value>Die aktuell geladene Projektdatei '{0}' loeschen? Dies kann nicht rueckgaengig gemacht werden.</value></data>
+  <data name="ProjectCouldNotBeRenamed" xml:space="preserve"><value>Projekt konnte nicht umbenannt werden</value></data>
+  <data name="ProjectCouldNotBeDeleted" xml:space="preserve"><value>Projekt konnte nicht geloescht werden</value></data>
   <data name="FullSizePlankLength" xml:space="preserve"><value>Plankenlaenge Original</value></data>
   <data name="LengthUnit" xml:space="preserve"><value>Laengeneinheit</value></data>
   <data name="ScaleMode" xml:space="preserve"><value>Massstabsmethode</value></data>
