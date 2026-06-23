@@ -11,9 +11,23 @@
   <data name="IntroText" xml:space="preserve"><value>Scale a full-size plank and prepare the cut length for the selected butt-shift pattern.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Inputs</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Save project</value></data>
+  <data name="SaveProjectAs" xml:space="preserve"><value>Save as</value></data>
+  <data name="NewProject" xml:space="preserve"><value>New project</value></data>
   <data name="OpenProject" xml:space="preserve"><value>Open project</value></data>
   <data name="SaveProjectDescription" xml:space="preserve"><value>Save project settings</value></data>
+  <data name="SaveProjectAsDescription" xml:space="preserve"><value>Save project settings to a new file</value></data>
+  <data name="NewProjectDescription" xml:space="preserve"><value>Start a new project</value></data>
   <data name="OpenProjectDescription" xml:space="preserve"><value>Open saved project settings</value></data>
+  <data name="CurrentProject" xml:space="preserve"><value>Current project</value></data>
+  <data name="UntitledProject" xml:space="preserve"><value>Untitled project</value></data>
+  <data name="UnsavedProjectName" xml:space="preserve"><value>{0} *</value></data>
+  <data name="ProjectHasUnsavedChanges" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="ProjectNotSavedYet" xml:space="preserve"><value>Not saved yet</value></data>
+  <data name="ProjectSavedAt" xml:space="preserve"><value>Saved at {0}</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>The current project has unsaved changes. Discard them?</value></data>
+  <data name="DiscardChanges" xml:space="preserve"><value>Discard</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="FullSizePlankLength" xml:space="preserve"><value>Full-size plank length</value></data>
   <data name="LengthUnit" xml:space="preserve"><value>Length unit</value></data>
   <data name="ScaleMode" xml:space="preserve"><value>Scale mode</value></data>

@@ -40,23 +40,60 @@
                                FontSize="18"
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
 
-                        <FlexLayout Direction="Row"
-                                    Wrap="Wrap"
-                                    AlignItems="Center"
-                                    JustifyContent="Start">
-                            <Button Text="{loc:Translate SaveProject}"
-                                    Clicked="OnSaveProjectClicked"
-                                    MinimumHeightRequest="36"
-                                    Padding="12,0"
-                                    Margin="0,0,8,8"
-                                    SemanticProperties.Description="{loc:Translate SaveProjectDescription}" />
-                            <Button Text="{loc:Translate OpenProject}"
-                                    Clicked="OnOpenProjectClicked"
-                                    MinimumHeightRequest="36"
-                                    Padding="12,0"
-                                    Margin="0,0,8,8"
-                                    SemanticProperties.Description="{loc:Translate OpenProjectDescription}" />
-                        </FlexLayout>
+                        <Border Padding="12"
+                                Stroke="{DynamicResource AppSecondaryTextColor}"
+                                StrokeThickness="1"
+                                BackgroundColor="{DynamicResource AppBackgroundColor}">
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="Auto,*"
+                                      RowDefinitions="Auto,Auto"
+                                      ColumnSpacing="10"
+                                      RowSpacing="4">
+                                    <Label Text="{loc:Translate CurrentProject}"
+                                           TextColor="{DynamicResource AppSecondaryTextColor}" />
+                                    <Label x:Name="ProjectNameLabel"
+                                           Grid.Column="1"
+                                           FontAttributes="Bold"
+                                           LineBreakMode="MiddleTruncation"
+                                           TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                    <Label x:Name="ProjectStatusLabel"
+                                           Grid.Row="1"
+                                           Grid.ColumnSpan="2"
+                                           TextColor="{DynamicResource AppSecondaryTextColor}" />
+                                </Grid>
+
+                                <FlexLayout Direction="Row"
+                                            Wrap="Wrap"
+                                            AlignItems="Center"
+                                            JustifyContent="Start">
+                                    <Button Text="{loc:Translate NewProject}"
+                                            Clicked="OnNewProjectClicked"
+                                            MinimumHeightRequest="36"
+                                            Padding="12,0"
+                                            Margin="0,0,8,8"
+                                            SemanticProperties.Description="{loc:Translate NewProjectDescription}" />
+                                    <Button Text="{loc:Translate OpenProject}"
+                                            Clicked="OnOpenProjectClicked"
+                                            MinimumHeightRequest="36"
+                                            Padding="12,0"
+                                            Margin="0,0,8,8"
+                                            SemanticProperties.Description="{loc:Translate OpenProjectDescription}" />
+                                    <Button x:Name="SaveProjectButton"
+                                            Text="{loc:Translate SaveProject}"
+                                            Clicked="OnSaveProjectClicked"
+                                            MinimumHeightRequest="36"
+                                            Padding="12,0"
+                                            Margin="0,0,8,8"
+                                            SemanticProperties.Description="{loc:Translate SaveProjectDescription}" />
+                                    <Button Text="{loc:Translate SaveProjectAs}"
+                                            Clicked="OnSaveProjectAsClicked"
+                                            MinimumHeightRequest="36"
+                                            Padding="12,0"
+                                            Margin="0,0,8,8"
+                                            SemanticProperties.Description="{loc:Translate SaveProjectAsDescription}" />
+                                </FlexLayout>
+                            </VerticalStackLayout>
+                        </Border>
 
                         <Grid ColumnDefinitions="220,*,Auto"
                               RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"

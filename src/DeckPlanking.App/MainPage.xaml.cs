@@ -21,11 +21,17 @@ public partial class MainPage : ContentPage
     private double previousPinchScale = 1;
     private bool hasLoadedLastProjectSettings;
     private bool isApplyingProjectSettings;
+    private DeckPlankingProjectSettings defaultProjectSettings = null!;
+    private string? currentProjectFileName;
+    private string? currentProjectFilePath;
+    private string? currentProjectDisplayLocation;
+    private bool hasUnsavedProjectChanges;
 
     public MainPage()
     {
         InitializeComponent();
         BindingContext = viewModel;
+        defaultProjectSettings = viewModel.CaptureProjectSettings();
 
         PatternGraphics.Drawable = patternPreviewDrawable;
         Loaded += OnPageLoaded;
@@ -33,6 +39,7 @@ public partial class MainPage : ContentPage
         viewModel.PropertyChanged += OnViewModelPropertyChanged;
         LocalizationResourceManager.Instance.PropertyChanged += OnLocalizationChanged;
         AppPreferencesStore.PreferenceChanged += OnAppPreferenceChanged;
+        UpdateProjectUi();
         UpdatePatternPreview();
     }
 
@@ -116,6 +123,7 @@ public partial class MainPage : ContentPage
 
         if (!isApplyingProjectSettings && IsProjectSettingProperty(e.PropertyName))
         {
+            MarkProjectChanged();
             _ = SaveLastProjectSettingsAsync();
         }
     }
@@ -188,6 +196,7 @@ public partial class MainPage : ContentPage
 
     private void OnLocalizationChanged(object? sender, PropertyChangedEventArgs e)
     {
+        UpdateProjectUi();
         UpdatePatternPreview();
     }
 
@@ -263,19 +272,50 @@ public partial class MainPage : ContentPage
             T("Ok"));
     }
 
+    private async void OnNewProjectClicked(object? sender, EventArgs e)
+    {
+        if (!await ConfirmDiscardUnsavedChangesAsync())
+        {
+            return;
+        }
+
+        ApplyProjectSettings(defaultProjectSettings);
+        currentProjectFileName = null;
+        currentProjectFilePath = null;
+        currentProjectDisplayLocation = null;
+        hasUnsavedProjectChanges = false;
+        UpdateProjectUi();
+        await SaveLastProjectSettingsAsync();
+    }
+
     private async void OnSaveProjectClicked(object? sender, EventArgs e)
+    {
+        await SaveProjectAsync(saveAs: false);
+    }
+
+    private async void OnSaveProjectAsClicked(object? sender, EventArgs e)
+    {
+        await SaveProjectAsync(saveAs: true);
+    }
+
+    private async Task SaveProjectAsync(bool saveAs)
     {
         try
         {
-            var document = DeckPlankingProjectDocument.Create(
-                viewModel.CaptureProjectSettings(),
-                DateTimeOffset.UtcNow);
-
-            var saveResult = await ProjectFileService.SaveAsync(document);
+            var document = CreateCurrentProjectDocument();
+            var saveResult = saveAs
+                ? await ProjectFileService.SaveAsync(document)
+                : await ProjectFileService.SaveExistingAsync(document, currentProjectFilePath);
             if (!saveResult.Saved)
             {
                 return;
             }
+
+            currentProjectFileName = saveResult.FileName;
+            currentProjectFilePath = saveResult.FilePath;
+            currentProjectDisplayLocation = saveResult.DisplayLocation;
+            hasUnsavedProjectChanges = false;
+            UpdateProjectUi();
 
             await DisplayAlertAsync(
                 T("ProjectSaved"),
@@ -292,13 +332,23 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            var document = await ProjectFileService.OpenAsync();
-            if (document is null)
+            if (!await ConfirmDiscardUnsavedChangesAsync())
             {
                 return;
             }
 
-            ApplyProjectSettings(document.Settings);
+            var openResult = await ProjectFileService.OpenProjectAsync();
+            if (openResult is null)
+            {
+                return;
+            }
+
+            ApplyProjectSettings(openResult.Document.Settings);
+            currentProjectFileName = openResult.FileName;
+            currentProjectFilePath = openResult.FilePath;
+            currentProjectDisplayLocation = openResult.DisplayLocation;
+            hasUnsavedProjectChanges = false;
+            UpdateProjectUi();
             await SaveLastProjectSettingsAsync();
 
             await DisplayAlertAsync(
@@ -310,6 +360,55 @@ public partial class MainPage : ContentPage
         {
             await DisplayAlertAsync(T("ProjectCouldNotBeOpened"), ex.Message, T("Ok"));
         }
+    }
+
+    private DeckPlankingProjectDocument CreateCurrentProjectDocument()
+    {
+        return DeckPlankingProjectDocument.Create(
+            viewModel.CaptureProjectSettings(),
+            DateTimeOffset.UtcNow);
+    }
+
+    private void MarkProjectChanged()
+    {
+        if (hasUnsavedProjectChanges)
+        {
+            return;
+        }
+
+        hasUnsavedProjectChanges = true;
+        UpdateProjectUi();
+    }
+
+    private void UpdateProjectUi()
+    {
+        var projectName = string.IsNullOrWhiteSpace(currentProjectFileName)
+            ? T("UntitledProject")
+            : currentProjectFileName;
+
+        ProjectNameLabel.Text = hasUnsavedProjectChanges
+            ? string.Format(T("UnsavedProjectName"), projectName)
+            : projectName;
+
+        ProjectStatusLabel.Text = hasUnsavedProjectChanges
+            ? T("ProjectHasUnsavedChanges")
+            : string.IsNullOrWhiteSpace(currentProjectDisplayLocation)
+                ? T("ProjectNotSavedYet")
+                : string.Format(T("ProjectSavedAt"), currentProjectDisplayLocation);
+    }
+
+    private async Task<bool> ConfirmDiscardUnsavedChangesAsync()
+    {
+        if (!hasUnsavedProjectChanges)
+        {
+            return true;
+        }
+
+        return await DisplayAlertAsync(
+            T("UnsavedChangesTitle"),
+            T("UnsavedChangesMessage"),
+            T("DiscardChanges"),
+            T("Cancel"));
     }
 
     private void ApplyProjectSettings(DeckPlankingProjectSettings settings)

@@ -8,7 +8,15 @@ public static partial class ProjectFileService
         DeckPlankingProjectDocument document,
         CancellationToken cancellationToken = default);
 
+    public static partial Task<ProjectFileResult> SaveExistingAsync(
+        DeckPlankingProjectDocument document,
+        string? filePath,
+        CancellationToken cancellationToken = default);
+
     public static partial Task<DeckPlankingProjectDocument?> OpenAsync(
+        CancellationToken cancellationToken = default);
+
+    public static partial Task<ProjectOpenResult?> OpenProjectAsync(
         CancellationToken cancellationToken = default);
 
     private static string BuildSuggestedFileName(DateTimeOffset timestamp)

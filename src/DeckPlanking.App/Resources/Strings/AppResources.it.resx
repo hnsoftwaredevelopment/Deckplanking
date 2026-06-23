@@ -11,9 +11,23 @@
   <data name="IntroText" xml:space="preserve"><value>Scala una tavola reale e prepara la lunghezza di taglio per il motivo scelto.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Input</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Salva progetto</value></data>
+  <data name="SaveProjectAs" xml:space="preserve"><value>Salva con nome</value></data>
+  <data name="NewProject" xml:space="preserve"><value>Nuovo progetto</value></data>
   <data name="OpenProject" xml:space="preserve"><value>Apri progetto</value></data>
   <data name="SaveProjectDescription" xml:space="preserve"><value>Salva le impostazioni del progetto</value></data>
+  <data name="SaveProjectAsDescription" xml:space="preserve"><value>Salva le impostazioni del progetto in un nuovo file</value></data>
+  <data name="NewProjectDescription" xml:space="preserve"><value>Avvia un nuovo progetto</value></data>
   <data name="OpenProjectDescription" xml:space="preserve"><value>Apri impostazioni progetto salvate</value></data>
+  <data name="CurrentProject" xml:space="preserve"><value>Progetto corrente</value></data>
+  <data name="UntitledProject" xml:space="preserve"><value>Progetto senza nome</value></data>
+  <data name="UnsavedProjectName" xml:space="preserve"><value>{0} *</value></data>
+  <data name="ProjectHasUnsavedChanges" xml:space="preserve"><value>Modifiche non salvate</value></data>
+  <data name="ProjectNotSavedYet" xml:space="preserve"><value>Non ancora salvato</value></data>
+  <data name="ProjectSavedAt" xml:space="preserve"><value>Salvato in {0}</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Modifiche non salvate</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Il progetto corrente contiene modifiche non salvate. Scartarle?</value></data>
+  <data name="DiscardChanges" xml:space="preserve"><value>Scarta</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annulla</value></data>
   <data name="FullSizePlankLength" xml:space="preserve"><value>Lunghezza tavola reale</value></data>
   <data name="LengthUnit" xml:space="preserve"><value>Unita di lunghezza</value></data>
   <data name="ScaleMode" xml:space="preserve"><value>Modo scala</value></data>

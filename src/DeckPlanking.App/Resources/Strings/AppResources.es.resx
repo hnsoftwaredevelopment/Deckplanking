@@ -11,9 +11,23 @@
   <data name="IntroText" xml:space="preserve"><value>Escala una tabla real y prepara la longitud de corte para el patron seleccionado.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Entradas</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Guardar proyecto</value></data>
+  <data name="SaveProjectAs" xml:space="preserve"><value>Guardar como</value></data>
+  <data name="NewProject" xml:space="preserve"><value>Nuevo proyecto</value></data>
   <data name="OpenProject" xml:space="preserve"><value>Abrir proyecto</value></data>
   <data name="SaveProjectDescription" xml:space="preserve"><value>Guardar ajustes del proyecto</value></data>
+  <data name="SaveProjectAsDescription" xml:space="preserve"><value>Guardar ajustes del proyecto en un archivo nuevo</value></data>
+  <data name="NewProjectDescription" xml:space="preserve"><value>Iniciar un proyecto nuevo</value></data>
   <data name="OpenProjectDescription" xml:space="preserve"><value>Abrir ajustes guardados del proyecto</value></data>
+  <data name="CurrentProject" xml:space="preserve"><value>Proyecto actual</value></data>
+  <data name="UntitledProject" xml:space="preserve"><value>Proyecto sin titulo</value></data>
+  <data name="UnsavedProjectName" xml:space="preserve"><value>{0} *</value></data>
+  <data name="ProjectHasUnsavedChanges" xml:space="preserve"><value>Cambios sin guardar</value></data>
+  <data name="ProjectNotSavedYet" xml:space="preserve"><value>Aun no guardado</value></data>
+  <data name="ProjectSavedAt" xml:space="preserve"><value>Guardado en {0}</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Cambios sin guardar</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>El proyecto actual tiene cambios sin guardar. Desecharlos?</value></data>
+  <data name="DiscardChanges" xml:space="preserve"><value>Desechar</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancelar</value></data>
   <data name="FullSizePlankLength" xml:space="preserve"><value>Longitud real de tabla</value></data>
   <data name="LengthUnit" xml:space="preserve"><value>Unidad de longitud</value></data>
   <data name="ScaleMode" xml:space="preserve"><value>Modo de escala</value></data>

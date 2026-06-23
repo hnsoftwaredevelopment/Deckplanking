@@ -22,7 +22,22 @@ public static partial class ProjectFileService
         return await SaveToDownloadsAsync(document, cancellationToken);
     }
 
+    public static async partial Task<ProjectFileResult> SaveExistingAsync(
+        DeckPlankingProjectDocument document,
+        string? filePath,
+        CancellationToken cancellationToken)
+    {
+        return await SaveAsync(document, cancellationToken);
+    }
+
     public static async partial Task<DeckPlankingProjectDocument?> OpenAsync(
+        CancellationToken cancellationToken)
+    {
+        var openResult = await OpenProjectAsync(cancellationToken);
+        return openResult?.Document;
+    }
+
+    public static async partial Task<ProjectOpenResult?> OpenProjectAsync(
         CancellationToken cancellationToken)
     {
         var pickOptions = new PickOptions
@@ -44,7 +59,11 @@ public static partial class ProjectFileService
         await using var stream = await fileResult.OpenReadAsync();
         using var reader = new StreamReader(stream);
         var json = await reader.ReadToEndAsync(cancellationToken);
-        return ProjectJsonSerializer.Deserialize(json);
+        return new ProjectOpenResult(
+            ProjectJsonSerializer.Deserialize(json),
+            fileResult.FileName,
+            fileResult.FullPath,
+            null);
     }
 
     [SupportedOSPlatform("android29.0")]

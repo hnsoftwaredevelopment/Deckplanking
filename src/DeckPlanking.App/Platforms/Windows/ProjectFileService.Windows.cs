@@ -34,10 +34,39 @@ public static partial class ProjectFileService
         await FileIO.WriteTextAsync(targetFile, json);
         cancellationToken.ThrowIfCancellationRequested();
 
-        return new ProjectFileResult(true, targetFile.Name, targetFile.Path);
+        return new ProjectFileResult(true, targetFile.Name, targetFile.Path, targetFile.Path);
+    }
+
+    public static async partial Task<ProjectFileResult> SaveExistingAsync(
+        DeckPlankingProjectDocument document,
+        string? filePath,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            return await SaveAsync(document, cancellationToken);
+        }
+
+        var json = ProjectJsonSerializer.Serialize(document);
+        await File.WriteAllTextAsync(filePath, json, cancellationToken);
+
+        return new ProjectFileResult(
+            true,
+            Path.GetFileName(filePath),
+            filePath,
+            filePath);
     }
 
     public static async partial Task<DeckPlankingProjectDocument?> OpenAsync(
+        CancellationToken cancellationToken)
+    {
+        var openResult = await OpenProjectAsync(cancellationToken);
+        return openResult?.Document;
+    }
+
+    public static async partial Task<ProjectOpenResult?> OpenProjectAsync(
         CancellationToken cancellationToken)
     {
         var picker = new FileOpenPicker
@@ -61,7 +90,11 @@ public static partial class ProjectFileService
         var json = await FileIO.ReadTextAsync(sourceFile);
         cancellationToken.ThrowIfCancellationRequested();
 
-        return ProjectJsonSerializer.Deserialize(json);
+        return new ProjectOpenResult(
+            ProjectJsonSerializer.Deserialize(json),
+            sourceFile.Name,
+            sourceFile.Path,
+            sourceFile.Path);
     }
 
     private static void InitializePicker(object picker)
