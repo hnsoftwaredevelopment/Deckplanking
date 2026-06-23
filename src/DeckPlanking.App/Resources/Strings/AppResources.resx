@@ -37,6 +37,8 @@
   <data name="Print" xml:space="preserve"><value>Print</value></data>
   <data name="PrintDescription" xml:space="preserve"><value>Print preview</value></data>
   <data name="PrintFailed" xml:space="preserve"><value>Print failed</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF opened</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows has no direct PDF print action configured, so the PDF has been opened. Use the print option in the PDF viewer.</value></data>
   <data name="KingPlank" xml:space="preserve"><value>King plank</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientation</value></data>
   <data name="Trenails" xml:space="preserve"><value>Trenails</value></data>

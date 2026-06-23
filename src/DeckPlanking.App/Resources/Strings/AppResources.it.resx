@@ -37,6 +37,8 @@
   <data name="Print" xml:space="preserve"><value>Stampa</value></data>
   <data name="PrintDescription" xml:space="preserve"><value>Stampa anteprima</value></data>
   <data name="PrintFailed" xml:space="preserve"><value>Stampa non riuscita</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF aperto</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows non ha un'azione diretta configurata per stampare i PDF, quindi il PDF e stato aperto. Usa l'opzione di stampa nel visualizzatore PDF.</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Tavola centrale</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientamento</value></data>
   <data name="Trenails" xml:space="preserve"><value>Chiodi tavola</value></data>

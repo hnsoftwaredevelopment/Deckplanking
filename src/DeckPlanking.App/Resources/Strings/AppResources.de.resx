@@ -37,6 +37,8 @@
   <data name="Print" xml:space="preserve"><value>Drucken</value></data>
   <data name="PrintDescription" xml:space="preserve"><value>Vorschau drucken</value></data>
   <data name="PrintFailed" xml:space="preserve"><value>Drucken fehlgeschlagen</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF geoeffnet</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows hat keine direkte PDF-Druckaktion eingerichtet, daher wurde die PDF geoeffnet. Verwenden Sie die Druckoption im PDF-Viewer.</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Koenigsplanke</value></data>
   <data name="Orientation" xml:space="preserve"><value>Ausrichtung</value></data>
   <data name="Trenails" xml:space="preserve"><value>Plankennagel</value></data>

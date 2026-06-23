@@ -237,7 +237,11 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            await PreviewPrinter.PrintAsync(patternPreviewDrawable);
+            var result = await PreviewPrinter.PrintAsync(patternPreviewDrawable);
+            if (result == PrintResult.OpenedPdfForPrinting)
+            {
+                await DisplayAlertAsync(T("PrintPdfOpenedTitle"), T("PrintPdfOpenedMessage"), T("Ok"));
+            }
         }
         catch (Exception ex)
         {

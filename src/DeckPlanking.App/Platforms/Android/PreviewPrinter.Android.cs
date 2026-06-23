@@ -5,7 +5,7 @@ namespace DeckPlanking.App.Export;
 
 public static partial class PreviewPrinter
 {
-    private static partial Task PrintPdfAsync(
+    private static partial Task<PrintResult> PrintPdfAsync(
         string pdfPath,
         CancellationToken cancellationToken)
     {
@@ -26,6 +26,6 @@ public static partial class PreviewPrinter
                 .SetColorMode(PrintColorMode.Color)
                 .Build());
 
-        return Task.CompletedTask;
+        return Task.FromResult(PrintResult.SubmittedToPrintService);
     }
 }

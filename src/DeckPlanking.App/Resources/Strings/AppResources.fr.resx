@@ -37,6 +37,8 @@
   <data name="Print" xml:space="preserve"><value>Imprimer</value></data>
   <data name="PrintDescription" xml:space="preserve"><value>Imprimer l'apercu</value></data>
   <data name="PrintFailed" xml:space="preserve"><value>Echec de l'impression</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF ouvert</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows n'a pas d'action d'impression PDF directe configuree, le PDF a donc ete ouvert. Utilisez l'option d'impression dans le lecteur PDF.</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Latte centrale</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientation</value></data>
   <data name="Trenails" xml:space="preserve"><value>Clous de latte</value></data>

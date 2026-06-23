@@ -37,6 +37,8 @@
   <data name="Print" xml:space="preserve"><value>Imprimir</value></data>
   <data name="PrintDescription" xml:space="preserve"><value>Imprimir vista previa</value></data>
   <data name="PrintFailed" xml:space="preserve"><value>Error al imprimir</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF abierto</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows no tiene configurada una accion directa para imprimir PDF, por eso se ha abierto el PDF. Use la opcion de imprimir en el visor PDF.</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Tabla central</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientacion</value></data>
   <data name="Trenails" xml:space="preserve"><value>Clavos de tabla</value></data>

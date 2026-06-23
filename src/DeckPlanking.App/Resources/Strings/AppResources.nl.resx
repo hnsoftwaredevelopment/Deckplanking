@@ -37,6 +37,8 @@
   <data name="Print" xml:space="preserve"><value>Afdrukken</value></data>
   <data name="PrintDescription" xml:space="preserve"><value>Voorbeeld afdrukken</value></data>
   <data name="PrintFailed" xml:space="preserve"><value>Afdrukken mislukt</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF geopend</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows heeft geen directe PDF-afdrukactie ingesteld, daarom is de PDF geopend. Gebruik de afdrukoptie in de PDF-viewer.</value></data>
   <data name="KingPlank" xml:space="preserve"><value>Koningsplank</value></data>
   <data name="Orientation" xml:space="preserve"><value>Orientatie</value></data>
   <data name="Trenails" xml:space="preserve"><value>Plankspijkers</value></data>
