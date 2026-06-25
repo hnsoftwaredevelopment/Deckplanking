@@ -17,6 +17,7 @@ public sealed record DeckPlankingProjectSettings(
     double SternWidthPercentage,
     double BowTaperLengthPercentage,
     double SternTaperLengthPercentage,
+    double BowRoundnessPercentage,
     double DeckWidthMillimeters,
     double PlankWidthMillimeters,
     double KingPlankWidthMillimeters,

@@ -22,6 +22,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private double sternWidthPercentage = 95;
     private double bowTaperLengthPercentage = 25;
     private double sternTaperLengthPercentage = 10;
+    private double bowRoundnessPercentage;
     private double deckWidthMillimeters = 80;
     private double plankWidthMillimeters = 5;
     private double kingPlankWidthMillimeters = 5;
@@ -159,6 +160,12 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         get => sternTaperLengthPercentage;
         set => SetAndRecalculate(ref sternTaperLengthPercentage, value);
+    }
+
+    public double BowRoundnessPercentage
+    {
+        get => bowRoundnessPercentage;
+        set => SetAndRecalculate(ref bowRoundnessPercentage, value);
     }
 
     public double DeckWidthMillimeters
@@ -455,6 +462,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             SternWidthPercentage,
             BowTaperLengthPercentage,
             SternTaperLengthPercentage,
+            BowRoundnessPercentage,
             DeckWidthMillimeters,
             PlankWidthMillimeters,
             KingPlankWidthMillimeters,
@@ -485,6 +493,7 @@ public sealed class ScaleInputViewModel : ObservableObject
             SternWidthPercentage = settings.SternWidthPercentage > 0 ? settings.SternWidthPercentage : 100;
             BowTaperLengthPercentage = settings.BowTaperLengthPercentage > 0 ? settings.BowTaperLengthPercentage : 25;
             SternTaperLengthPercentage = settings.SternTaperLengthPercentage > 0 ? settings.SternTaperLengthPercentage : 10;
+            BowRoundnessPercentage = settings.BowRoundnessPercentage >= 0 ? settings.BowRoundnessPercentage : 0;
             DeckWidthMillimeters = settings.DeckWidthMillimeters > 0 ? settings.DeckWidthMillimeters : DeckWidthMillimeters;
             PlankWidthMillimeters = settings.PlankWidthMillimeters > 0 ? settings.PlankWidthMillimeters : PlankWidthMillimeters;
             KingPlankWidthMillimeters = settings.KingPlankWidthMillimeters > 0
@@ -658,6 +667,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         OnPropertyChanged(nameof(SternWidthPercentage));
         OnPropertyChanged(nameof(BowTaperLengthPercentage));
         OnPropertyChanged(nameof(SternTaperLengthPercentage));
+        OnPropertyChanged(nameof(BowRoundnessPercentage));
         OnPropertyChanged(nameof(DeckWidthInput));
         OnPropertyChanged(nameof(PlankWidthInput));
         OnPropertyChanged(nameof(KingPlankWidthInput));
@@ -766,7 +776,8 @@ public sealed class ScaleInputViewModel : ObservableObject
             (decimal)BowWidthPercentage,
             (decimal)SternWidthPercentage,
             (decimal)BowTaperLengthPercentage,
-            (decimal)SternTaperLengthPercentage));
+            (decimal)SternTaperLengthPercentage,
+            (decimal)BowRoundnessPercentage));
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)

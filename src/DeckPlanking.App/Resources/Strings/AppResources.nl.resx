@@ -53,6 +53,7 @@
   <data name="BowWidthPercentage" xml:space="preserve"><value>Boegbreedte</value></data>
   <data name="SternWidthPercentage" xml:space="preserve"><value>Hekbreedte</value></data>
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Lengte boegversmalling</value></data>
+  <data name="BowRoundnessPercentage" xml:space="preserve"><value>Boegronding</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Lengte hekversmalling</value></data>
   <data name="RowInput" xml:space="preserve"><value>Rijinvoer</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Dekbreedte</value></data>

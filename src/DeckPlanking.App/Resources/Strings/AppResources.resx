@@ -53,6 +53,7 @@
   <data name="BowWidthPercentage" xml:space="preserve"><value>Bow width</value></data>
   <data name="SternWidthPercentage" xml:space="preserve"><value>Stern width</value></data>
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Bow taper length</value></data>
+  <data name="BowRoundnessPercentage" xml:space="preserve"><value>Bow rounding</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Stern taper length</value></data>
   <data name="RowInput" xml:space="preserve"><value>Row input</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Deck width</value></data>

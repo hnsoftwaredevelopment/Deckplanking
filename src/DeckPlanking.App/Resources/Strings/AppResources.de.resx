@@ -53,6 +53,7 @@
   <data name="BowWidthPercentage" xml:space="preserve"><value>Bugbreite</value></data>
   <data name="SternWidthPercentage" xml:space="preserve"><value>Heckbreite</value></data>
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Laenge der Bugverjuengung</value></data>
+  <data name="BowRoundnessPercentage" xml:space="preserve"><value>Bugrundung</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Laenge der Heckverjuengung</value></data>
   <data name="RowInput" xml:space="preserve"><value>Reiheneingabe</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Deckbreite</value></data>

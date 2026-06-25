@@ -53,6 +53,7 @@ public sealed class ProjectJsonSerializerTests
                 SternWidthPercentage: 90,
                 BowTaperLengthPercentage: 30,
                 SternTaperLengthPercentage: 10,
+                BowRoundnessPercentage: 75,
                 DeckWidthMillimeters: 72,
                 PlankWidthMillimeters: 4,
                 KingPlankWidthMillimeters: 7,
@@ -73,6 +74,7 @@ public sealed class ProjectJsonSerializerTests
         Assert.Contains("\"deckShape\": \"NarrowedBowAndStern\"", json);
         Assert.Contains("\"bowWidthPercentage\": 60", json);
         Assert.Contains("\"bowTaperLengthPercentage\": 30", json);
+        Assert.Contains("\"bowRoundnessPercentage\": 75", json);
     }
 
     [Fact]
@@ -119,6 +121,7 @@ public sealed class ProjectJsonSerializerTests
             SternWidthPercentage: 100,
             BowTaperLengthPercentage: 25,
             SternTaperLengthPercentage: 10,
+            BowRoundnessPercentage: 50,
             DeckWidthMillimeters: 85,
             PlankWidthMillimeters: 5,
             KingPlankWidthMillimeters: 10,

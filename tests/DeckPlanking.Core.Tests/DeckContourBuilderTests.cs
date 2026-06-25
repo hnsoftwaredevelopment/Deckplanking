@@ -43,6 +43,57 @@ public sealed class DeckContourBuilderTests
     }
 
     [Fact]
+    public void KeepsStraightBowContourWhenRoundnessIsZero()
+    {
+        var contour = DeckContourBuilder.Build(new DeckContourSettings(
+            DeckShapeKind.NarrowedBow,
+            BowWidthPercentage: 60m,
+            SternWidthPercentage: 100m,
+            BowTaperLengthPercentage: 25m,
+            SternTaperLengthPercentage: 10m,
+            BowRoundnessPercentage: 0m));
+
+        Assert.Equal(
+            [
+                new DeckContourPoint(0m, 0m),
+                new DeckContourPoint(0.75m, 0m),
+                new DeckContourPoint(1m, 0.2m),
+                new DeckContourPoint(1m, 0.8m),
+                new DeckContourPoint(0.75m, 1m),
+                new DeckContourPoint(0m, 1m)
+            ],
+            contour);
+    }
+
+    [Fact]
+    public void BuildsRoundedBowContour()
+    {
+        var contour = DeckContourBuilder.Build(new DeckContourSettings(
+            DeckShapeKind.NarrowedBow,
+            BowWidthPercentage: 60m,
+            SternWidthPercentage: 100m,
+            BowTaperLengthPercentage: 25m,
+            SternTaperLengthPercentage: 10m,
+            BowRoundnessPercentage: 100m));
+
+        Assert.Equal(
+            [
+                new DeckContourPoint(0m, 0m),
+                new DeckContourPoint(0.75m, 0m),
+                new DeckContourPoint(0.859375m, 0.0125m),
+                new DeckContourPoint(0.9375m, 0.05m),
+                new DeckContourPoint(0.984375m, 0.1125m),
+                new DeckContourPoint(1m, 0.2m),
+                new DeckContourPoint(0.984375m, 0.8875m),
+                new DeckContourPoint(0.9375m, 0.95m),
+                new DeckContourPoint(0.859375m, 0.9875m),
+                new DeckContourPoint(0.75m, 1m),
+                new DeckContourPoint(0m, 1m)
+            ],
+            contour);
+    }
+
+    [Fact]
     public void BuildsSymmetricalBowAndSternNarrowedContour()
     {
         var contour = DeckContourBuilder.Build(new DeckContourSettings(
@@ -89,6 +140,20 @@ public sealed class DeckContourBuilderTests
             BowWidthPercentage: 60m,
             SternWidthPercentage: 100m,
             BowTaperLengthPercentage: percentage);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => DeckContourBuilder.Build(settings));
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(101)]
+    public void RejectsInvalidBowRoundnessPercentages(decimal percentage)
+    {
+        var settings = new DeckContourSettings(
+            DeckShapeKind.NarrowedBow,
+            BowWidthPercentage: 60m,
+            SternWidthPercentage: 100m,
+            BowRoundnessPercentage: percentage);
 
         Assert.Throws<ArgumentOutOfRangeException>(() => DeckContourBuilder.Build(settings));
     }

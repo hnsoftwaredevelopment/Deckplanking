@@ -53,6 +53,7 @@
   <data name="BowWidthPercentage" xml:space="preserve"><value>Larghezza prua</value></data>
   <data name="SternWidthPercentage" xml:space="preserve"><value>Larghezza poppa</value></data>
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Lunghezza rastrematura prua</value></data>
+  <data name="BowRoundnessPercentage" xml:space="preserve"><value>Arrotondamento prua</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Lunghezza rastrematura poppa</value></data>
   <data name="RowInput" xml:space="preserve"><value>Input file</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Larghezza ponte</value></data>

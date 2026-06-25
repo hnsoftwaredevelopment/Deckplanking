@@ -4,6 +4,8 @@ namespace DeckPlanking.Core.Preview;
 
 public static class DeckContourBuilder
 {
+    private const int BowCurveSegments = 4;
+
     public static IReadOnlyList<DeckContourPoint> Build(DeckContourSettings settings)
     {
         ArgumentNullException.ThrowIfNull(settings);
@@ -12,6 +14,7 @@ public static class DeckContourBuilder
         ValidatePercentage(settings.SternWidthPercentage, nameof(settings.SternWidthPercentage));
         ValidateTaperPercentage(settings.BowTaperLengthPercentage, nameof(settings.BowTaperLengthPercentage));
         ValidateTaperPercentage(settings.SternTaperLengthPercentage, nameof(settings.SternTaperLengthPercentage));
+        ValidateRoundnessPercentage(settings.BowRoundnessPercentage, nameof(settings.BowRoundnessPercentage));
 
         var sternWidth = settings.Shape == DeckShapeKind.NarrowedBowAndStern
             ? settings.SternWidthPercentage / 100m
@@ -29,17 +32,35 @@ public static class DeckContourBuilder
             ? 1m
             : 1m - (settings.BowTaperLengthPercentage / 100m);
 
-        DeckContourPoint[] points =
-        [
+        var points = new List<DeckContourPoint>
+        {
             new(0m, sternInset),
             new(sternTaperEnd, 0m),
-            new(bowTaperStart, 0m),
-            new(1m, bowInset),
-            new(1m, 1m - bowInset),
-            new(bowTaperStart, 1m),
-            new(sternTaperEnd, 1m),
-            new(0m, 1m - sternInset)
-        ];
+            new(bowTaperStart, 0m)
+        };
+
+        if (settings.Shape == DeckShapeKind.Rectangular || settings.BowRoundnessPercentage == 0m)
+        {
+            points.Add(new(1m, bowInset));
+            points.Add(new(1m, 1m - bowInset));
+            points.Add(new(bowTaperStart, 1m));
+        }
+        else
+        {
+            points.AddRange(BuildBowCurve(
+                new DeckContourPoint(bowTaperStart, 0m),
+                new DeckContourPoint(1m, bowInset),
+                new DeckContourPoint(1m, 0m),
+                settings.BowRoundnessPercentage));
+            points.AddRange(BuildBowCurve(
+                new DeckContourPoint(1m, 1m - bowInset),
+                new DeckContourPoint(bowTaperStart, 1m),
+                new DeckContourPoint(1m, 1m),
+                settings.BowRoundnessPercentage));
+        }
+
+        points.Add(new(sternTaperEnd, 1m));
+        points.Add(new(0m, 1m - sternInset));
 
         return RemoveConsecutiveDuplicates(points);
     }
@@ -62,6 +83,61 @@ public static class DeckContourBuilder
                 parameterName,
             "Deck contour taper percentages must be between 0 and 50.");
         }
+    }
+
+    private static void ValidateRoundnessPercentage(decimal percentage, string parameterName)
+    {
+        if (percentage is < 0m or > 100m)
+        {
+            throw new ArgumentOutOfRangeException(
+                parameterName,
+                "Deck contour roundness percentages must be between 0 and 100.");
+        }
+    }
+
+    private static IReadOnlyList<DeckContourPoint> BuildBowCurve(
+        DeckContourPoint start,
+        DeckContourPoint end,
+        DeckContourPoint roundedControl,
+        decimal roundnessPercentage)
+    {
+        var roundness = roundnessPercentage / 100m;
+        var straightControl = new DeckContourPoint(
+            (start.XRatio + end.XRatio) / 2m,
+            (start.YRatio + end.YRatio) / 2m);
+        var control = new DeckContourPoint(
+            Interpolate(straightControl.XRatio, roundedControl.XRatio, roundness),
+            Interpolate(straightControl.YRatio, roundedControl.YRatio, roundness));
+        var points = new List<DeckContourPoint>(BowCurveSegments);
+
+        for (var segment = 1; segment <= BowCurveSegments; segment++)
+        {
+            var t = (decimal)segment / BowCurveSegments;
+            points.Add(CalculateQuadraticBezierPoint(start, control, end, t));
+        }
+
+        return points;
+    }
+
+    private static DeckContourPoint CalculateQuadraticBezierPoint(
+        DeckContourPoint start,
+        DeckContourPoint control,
+        DeckContourPoint end,
+        decimal t)
+    {
+        var inverseT = 1m - t;
+        var startWeight = inverseT * inverseT;
+        var controlWeight = 2m * inverseT * t;
+        var endWeight = t * t;
+
+        return new DeckContourPoint(
+            (startWeight * start.XRatio) + (controlWeight * control.XRatio) + (endWeight * end.XRatio),
+            (startWeight * start.YRatio) + (controlWeight * control.YRatio) + (endWeight * end.YRatio));
+    }
+
+    private static decimal Interpolate(decimal start, decimal end, decimal amount)
+    {
+        return start + ((end - start) * amount);
     }
 
     private static IReadOnlyList<DeckContourPoint> RemoveConsecutiveDuplicates(IReadOnlyList<DeckContourPoint> points)
