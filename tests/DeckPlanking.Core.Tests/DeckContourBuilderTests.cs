@@ -140,6 +140,63 @@ public sealed class DeckContourBuilderTests
             contour);
     }
 
+    [Fact]
+    public void KeepsStraightSternContourWhenRoundnessIsZero()
+    {
+        var contour = DeckContourBuilder.Build(new DeckContourSettings(
+            DeckShapeKind.NarrowedBowAndStern,
+            BowWidthPercentage: 50m,
+            SternWidthPercentage: 80m,
+            BowTaperLengthPercentage: 30m,
+            SternTaperLengthPercentage: 10m,
+            SternRoundnessPercentage: 0m));
+
+        Assert.Equal(
+            [
+                new DeckContourPoint(0m, 0.1m),
+                new DeckContourPoint(0.1m, 0m),
+                new DeckContourPoint(0.7m, 0m),
+                new DeckContourPoint(1m, 0.25m),
+                new DeckContourPoint(1m, 0.75m),
+                new DeckContourPoint(0.7m, 1m),
+                new DeckContourPoint(0.1m, 1m),
+                new DeckContourPoint(0m, 0.9m)
+            ],
+            contour);
+    }
+
+    [Fact]
+    public void BuildsMirroredRoundedSternCurve()
+    {
+        var contour = DeckContourBuilder.Build(new DeckContourSettings(
+            DeckShapeKind.NarrowedBowAndStern,
+            BowWidthPercentage: 50m,
+            SternWidthPercentage: 60m,
+            BowTaperLengthPercentage: 30m,
+            SternTaperLengthPercentage: 10m,
+            SternRoundnessPercentage: 80m));
+
+        var upperCurve = contour
+            .Skip(1)
+            .Take(12)
+            .ToArray();
+        var lowerCurve = contour
+            .Skip(contour.Count - 13)
+            .Take(13)
+            .ToArray();
+
+        Assert.Equal(new DeckContourPoint(0.1m, 0m), upperCurve[^1]);
+        Assert.Equal(new DeckContourPoint(0m, 0.8m), lowerCurve[^1]);
+        for (var index = 0; index < upperCurve.Length; index++)
+        {
+            var upperPoint = upperCurve[index];
+            var lowerPoint = lowerCurve[^(index + 2)];
+
+            Assert.Equal(upperPoint.XRatio, lowerPoint.XRatio, precision: 12);
+            Assert.Equal(1m - upperPoint.YRatio, lowerPoint.YRatio, precision: 12);
+        }
+    }
+
     [Theory]
     [InlineData(9)]
     [InlineData(101)]
@@ -177,6 +234,20 @@ public sealed class DeckContourBuilderTests
             BowWidthPercentage: 60m,
             SternWidthPercentage: 100m,
             BowRoundnessPercentage: percentage);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => DeckContourBuilder.Build(settings));
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(101)]
+    public void RejectsInvalidSternRoundnessPercentages(decimal percentage)
+    {
+        var settings = new DeckContourSettings(
+            DeckShapeKind.NarrowedBowAndStern,
+            BowWidthPercentage: 60m,
+            SternWidthPercentage: 90m,
+            SternRoundnessPercentage: percentage);
 
         Assert.Throws<ArgumentOutOfRangeException>(() => DeckContourBuilder.Build(settings));
     }

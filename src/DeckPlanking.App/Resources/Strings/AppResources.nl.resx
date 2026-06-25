@@ -55,6 +55,7 @@
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Lengte boegversmalling</value></data>
   <data name="BowRoundnessPercentage" xml:space="preserve"><value>Boegronding</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Lengte hekversmalling</value></data>
+  <data name="SternRoundnessPercentage" xml:space="preserve"><value>Hekronding</value></data>
   <data name="RowInput" xml:space="preserve"><value>Rijinvoer</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Dekbreedte</value></data>
   <data name="PlankWidth" xml:space="preserve"><value>Plankbreedte</value></data>

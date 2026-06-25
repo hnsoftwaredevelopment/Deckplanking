@@ -5,6 +5,7 @@ namespace DeckPlanking.Core.Preview;
 public static class DeckContourBuilder
 {
     private const int BowCurveSegments = 12;
+    private const int SternCurveSegments = 12;
 
     public static IReadOnlyList<DeckContourPoint> Build(DeckContourSettings settings)
     {
@@ -15,6 +16,7 @@ public static class DeckContourBuilder
         ValidateTaperPercentage(settings.BowTaperLengthPercentage, nameof(settings.BowTaperLengthPercentage));
         ValidateTaperPercentage(settings.SternTaperLengthPercentage, nameof(settings.SternTaperLengthPercentage));
         ValidateRoundnessPercentage(settings.BowRoundnessPercentage, nameof(settings.BowRoundnessPercentage));
+        ValidateRoundnessPercentage(settings.SternRoundnessPercentage, nameof(settings.SternRoundnessPercentage));
 
         var sternWidth = settings.Shape == DeckShapeKind.NarrowedBowAndStern
             ? settings.SternWidthPercentage / 100m
@@ -34,10 +36,24 @@ public static class DeckContourBuilder
 
         var points = new List<DeckContourPoint>
         {
-            new(0m, sternInset),
-            new(sternTaperEnd, 0m),
-            new(bowTaperStart, 0m)
+            new(0m, sternInset)
         };
+
+        if (settings.Shape == DeckShapeKind.NarrowedBowAndStern && settings.SternRoundnessPercentage > 0m)
+        {
+            points.AddRange(BuildCurve(
+                new DeckContourPoint(0m, sternInset),
+                new DeckContourPoint(sternTaperEnd, 0m),
+                new DeckContourPoint(0m, 0m),
+                settings.SternRoundnessPercentage,
+                SternCurveSegments));
+        }
+        else
+        {
+            points.Add(new(sternTaperEnd, 0m));
+        }
+
+        points.Add(new(bowTaperStart, 0m));
 
         if (settings.Shape == DeckShapeKind.Rectangular || settings.BowRoundnessPercentage == 0m)
         {
@@ -51,21 +67,38 @@ public static class DeckContourBuilder
             var lowerBowFront = new DeckContourPoint(1m, 1m - bowInset);
             var lowerBowTaper = new DeckContourPoint(bowTaperStart, 1m);
 
-            points.AddRange(BuildBowCurve(
+            points.AddRange(BuildCurve(
                 new DeckContourPoint(bowTaperStart, 0m),
                 upperBowFront,
                 new DeckContourPoint(1m, 0m),
-                settings.BowRoundnessPercentage));
+                settings.BowRoundnessPercentage,
+                BowCurveSegments));
             points.Add(lowerBowFront);
-            points.AddRange(BuildBowCurve(
+            points.AddRange(BuildCurve(
                 lowerBowFront,
                 lowerBowTaper,
                 new DeckContourPoint(1m, 1m),
-                settings.BowRoundnessPercentage));
+                settings.BowRoundnessPercentage,
+                BowCurveSegments));
         }
 
-        points.Add(new(sternTaperEnd, 1m));
-        points.Add(new(0m, 1m - sternInset));
+        if (settings.Shape == DeckShapeKind.NarrowedBowAndStern && settings.SternRoundnessPercentage > 0m)
+        {
+            var lowerSternTaper = new DeckContourPoint(sternTaperEnd, 1m);
+
+            points.Add(lowerSternTaper);
+            points.AddRange(BuildCurve(
+                lowerSternTaper,
+                new DeckContourPoint(0m, 1m - sternInset),
+                new DeckContourPoint(0m, 1m),
+                settings.SternRoundnessPercentage,
+                SternCurveSegments));
+        }
+        else
+        {
+            points.Add(new(sternTaperEnd, 1m));
+            points.Add(new(0m, 1m - sternInset));
+        }
 
         return RemoveConsecutiveDuplicates(points);
     }
@@ -100,11 +133,12 @@ public static class DeckContourBuilder
         }
     }
 
-    private static IReadOnlyList<DeckContourPoint> BuildBowCurve(
+    private static IReadOnlyList<DeckContourPoint> BuildCurve(
         DeckContourPoint start,
         DeckContourPoint end,
         DeckContourPoint roundedControl,
-        decimal roundnessPercentage)
+        decimal roundnessPercentage,
+        int segments)
     {
         var roundness = roundnessPercentage / 100m;
         var straightControl = new DeckContourPoint(
@@ -113,11 +147,11 @@ public static class DeckContourBuilder
         var control = new DeckContourPoint(
             Interpolate(straightControl.XRatio, roundedControl.XRatio, roundness),
             Interpolate(straightControl.YRatio, roundedControl.YRatio, roundness));
-        var points = new List<DeckContourPoint>(BowCurveSegments);
+        var points = new List<DeckContourPoint>(segments);
 
-        for (var segment = 1; segment <= BowCurveSegments; segment++)
+        for (var segment = 1; segment <= segments; segment++)
         {
-            var t = (decimal)segment / BowCurveSegments;
+            var t = (decimal)segment / segments;
             points.Add(CalculateQuadraticBezierPoint(start, control, end, t));
         }
 

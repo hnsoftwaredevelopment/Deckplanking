@@ -87,7 +87,8 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.SternWidthPercentage)
             or nameof(ScaleInputViewModel.BowTaperLengthPercentage)
             or nameof(ScaleInputViewModel.SternTaperLengthPercentage)
-            or nameof(ScaleInputViewModel.BowRoundnessPercentage))
+            or nameof(ScaleInputViewModel.BowRoundnessPercentage)
+            or nameof(ScaleInputViewModel.SternRoundnessPercentage))
         {
             UpdatePatternPreview();
         }
@@ -148,6 +149,7 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.BowTaperLengthPercentage = viewModel.BowTaperLengthPercentage;
         patternPreviewDrawable.SternTaperLengthPercentage = viewModel.SternTaperLengthPercentage;
         patternPreviewDrawable.BowRoundnessPercentage = viewModel.BowRoundnessPercentage;
+        patternPreviewDrawable.SternRoundnessPercentage = viewModel.SternRoundnessPercentage;
         patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
         patternPreviewDrawable.PlankWidthMillimeters = viewModel.PlankWidthMillimeters;
         patternPreviewDrawable.KingPlankWidthMillimeters = viewModel.KingPlankWidthMillimeters;
@@ -591,6 +593,7 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.BowTaperLengthPercentage)
             or nameof(ScaleInputViewModel.SternTaperLengthPercentage)
             or nameof(ScaleInputViewModel.BowRoundnessPercentage)
+            or nameof(ScaleInputViewModel.SternRoundnessPercentage)
             or nameof(ScaleInputViewModel.DeckWidthMillimeters)
             or nameof(ScaleInputViewModel.DeckWidthInput)
             or nameof(ScaleInputViewModel.PlankWidthMillimeters)

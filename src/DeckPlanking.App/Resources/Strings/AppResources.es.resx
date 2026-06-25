@@ -55,6 +55,7 @@
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Longitud de estrechamiento de proa</value></data>
   <data name="BowRoundnessPercentage" xml:space="preserve"><value>Redondeo de proa</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Longitud de estrechamiento de popa</value></data>
+  <data name="SternRoundnessPercentage" xml:space="preserve"><value>Redondeo de popa</value></data>
   <data name="RowInput" xml:space="preserve"><value>Entrada de filas</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Ancho de cubierta</value></data>
   <data name="PlankWidth" xml:space="preserve"><value>Ancho de tabla</value></data>

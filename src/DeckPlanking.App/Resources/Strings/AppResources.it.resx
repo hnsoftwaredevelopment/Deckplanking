@@ -55,6 +55,7 @@
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Lunghezza rastrematura prua</value></data>
   <data name="BowRoundnessPercentage" xml:space="preserve"><value>Arrotondamento prua</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Lunghezza rastrematura poppa</value></data>
+  <data name="SternRoundnessPercentage" xml:space="preserve"><value>Arrotondamento poppa</value></data>
   <data name="RowInput" xml:space="preserve"><value>Input file</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Larghezza ponte</value></data>
   <data name="PlankWidth" xml:space="preserve"><value>Larghezza tavola</value></data>

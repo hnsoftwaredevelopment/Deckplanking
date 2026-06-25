@@ -55,6 +55,7 @@
   <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Longueur du retrecissement de proue</value></data>
   <data name="BowRoundnessPercentage" xml:space="preserve"><value>Arrondi de proue</value></data>
   <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Longueur du retrecissement de poupe</value></data>
+  <data name="SternRoundnessPercentage" xml:space="preserve"><value>Arrondi de poupe</value></data>
   <data name="RowInput" xml:space="preserve"><value>Saisie des rangees</value></data>
   <data name="DeckWidth" xml:space="preserve"><value>Largeur du pont</value></data>
   <data name="PlankWidth" xml:space="preserve"><value>Largeur de latte</value></data>

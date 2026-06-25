@@ -6,7 +6,8 @@ public sealed record DeckContourSettings(
     decimal SternWidthPercentage,
     decimal BowTaperLengthPercentage = 25m,
     decimal SternTaperLengthPercentage = 10m,
-    decimal BowRoundnessPercentage = 0m)
+    decimal BowRoundnessPercentage = 0m,
+    decimal SternRoundnessPercentage = 0m)
 {
     public static DeckContourSettings Rectangular { get; } = new(
         DeckShapeKind.Rectangular,
@@ -14,5 +15,6 @@ public sealed record DeckContourSettings(
         SternWidthPercentage: 100m,
         BowTaperLengthPercentage: 25m,
         SternTaperLengthPercentage: 10m,
-        BowRoundnessPercentage: 0m);
+        BowRoundnessPercentage: 0m,
+        SternRoundnessPercentage: 0m);
 }

@@ -40,6 +40,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public double BowRoundnessPercentage { get; set; }
 
+    public double SternRoundnessPercentage { get; set; }
+
     public double SegmentLengthMillimeters { get; set; }
 
     public double PlankWidthMillimeters { get; set; }
@@ -82,6 +84,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             BowTaperLengthPercentage = BowTaperLengthPercentage,
             SternTaperLengthPercentage = SternTaperLengthPercentage,
             BowRoundnessPercentage = BowRoundnessPercentage,
+            SternRoundnessPercentage = SternRoundnessPercentage,
             SegmentLengthMillimeters = SegmentLengthMillimeters,
             PlankWidthMillimeters = PlankWidthMillimeters,
             KingPlankWidthMillimeters = KingPlankWidthMillimeters,
@@ -403,7 +406,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             (decimal)SternWidthPercentage,
             (decimal)BowTaperLengthPercentage,
             (decimal)SternTaperLengthPercentage,
-            (decimal)BowRoundnessPercentage);
+            (decimal)BowRoundnessPercentage,
+            (decimal)SternRoundnessPercentage);
         var points = DeckContourBuilder.Build(settings);
         var path = new PathF();
 
@@ -435,7 +439,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             (decimal)SternWidthPercentage,
             (decimal)BowTaperLengthPercentage,
             (decimal)SternTaperLengthPercentage,
-            (decimal)BowRoundnessPercentage);
+            (decimal)BowRoundnessPercentage,
+            (decimal)SternRoundnessPercentage);
         var points = DeckContourBuilder.Build(settings)
             .Select(contourPoint => new PointF(
                 deckRect.Left + ((float)contourPoint.XRatio * deckRect.Width),
