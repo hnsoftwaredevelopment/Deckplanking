@@ -245,7 +245,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
                 continue;
             }
 
-            var positionMillimeters = (decimal)((localPoint.X - rect.Left) / rect.Width * deckLength);
+            var positionMillimeters = MapXToPosition(localPoint.X, deckLength, rect);
             var segment = PlankSegmentBuilder.Build(row.SourceRow, (decimal)deckLength)
                 .FirstOrDefault(candidate =>
                     positionMillimeters >= candidate.StartMillimeters
@@ -283,7 +283,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             UseKingPlank);
     }
 
-    private static void DrawRows(
+    private void DrawRows(
         ICanvas canvas,
         IReadOnlyList<CenterlinePatternPreviewRow> centerlineRows,
         float deckLength,
@@ -314,7 +314,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
     }
 
-    private static void DrawTrenails(
+    private void DrawTrenails(
         ICanvas canvas,
         IReadOnlyList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows,
         float deckLength,
@@ -339,7 +339,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         foreach (var point in points)
         {
             var rowRect = renderedRows[point.RowIndex].Rect;
-            var x = rowRect.Left + ((float)point.PositionMillimeters / deckLength * rowRect.Width);
+            var x = MapPositionToX(point.PositionMillimeters, deckLength, rowRect);
             var y = point.VerticalPlacement switch
             {
                 TrenailVerticalPlacement.Upper => rowRect.Top + (rowRect.Height * 0.28f),
@@ -353,7 +353,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
     }
 
-    private static void DrawSelectedSegment(
+    private void DrawSelectedSegment(
         ICanvas canvas,
         IReadOnlyList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows,
         float deckLength,
@@ -368,9 +368,11 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
 
         var rowRect = renderedRows[selectedSegment.RenderedRowIndex].Rect;
-        var startX = rowRect.Left + ((float)selectedSegment.StartMillimeters / deckLength * rowRect.Width);
-        var endX = rowRect.Left + ((float)selectedSegment.EndMillimeters / deckLength * rowRect.Width);
-        var selectedRect = new RectF(startX, rowRect.Top, Math.Max(1, endX - startX), rowRect.Height);
+        var startX = MapPositionToX(selectedSegment.StartMillimeters, deckLength, rowRect);
+        var endX = MapPositionToX(selectedSegment.EndMillimeters, deckLength, rowRect);
+        var selectedLeft = Math.Min(startX, endX);
+        var selectedRight = Math.Max(startX, endX);
+        var selectedRect = new RectF(selectedLeft, rowRect.Top, Math.Max(1, selectedRight - selectedLeft), rowRect.Height);
 
         canvas.FillColor = Color.FromRgba(255, 243, 109, 95);
         canvas.FillRectangle(selectedRect);
@@ -414,7 +416,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         for (var index = 0; index < points.Count; index++)
         {
             var point = points[index];
-            var x = deckRect.Left + ((float)point.XRatio * deckRect.Width);
+            var xRatio = PreviewOrientationMapper.MapRatio((float)point.XRatio, DeckOrientation);
+            var x = deckRect.Left + (xRatio * deckRect.Width);
             var y = deckRect.Top + ((float)point.YRatio * deckRect.Height);
 
             if (index == 0)
@@ -443,7 +446,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             (decimal)SternRoundnessPercentage);
         var points = DeckContourBuilder.Build(settings)
             .Select(contourPoint => new PointF(
-                deckRect.Left + ((float)contourPoint.XRatio * deckRect.Width),
+                deckRect.Left + (PreviewOrientationMapper.MapRatio((float)contourPoint.XRatio, DeckOrientation) * deckRect.Width),
                 deckRect.Top + ((float)contourPoint.YRatio * deckRect.Height)))
             .ToArray();
 
@@ -458,6 +461,24 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
 
         return isInside;
+    }
+
+    private float MapPositionToX(decimal positionMillimeters, float deckLength, RectF rect)
+    {
+        var sternOriginRatio = deckLength <= 0
+            ? 0f
+            : (float)positionMillimeters / deckLength;
+        var displayRatio = PreviewOrientationMapper.MapRatio(sternOriginRatio, DeckOrientation);
+
+        return rect.Left + (displayRatio * rect.Width);
+    }
+
+    private decimal MapXToPosition(float x, float deckLength, RectF rect)
+    {
+        var displayRatio = (decimal)((x - rect.Left) / rect.Width);
+        var sternOriginRatio = PreviewOrientationMapper.UnmapRatio(displayRatio, DeckOrientation);
+
+        return sternOriginRatio * (decimal)deckLength;
     }
 
     private static void DrawContour(ICanvas canvas, PathF contourPath)
@@ -503,7 +524,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         for (var index = 0; index < ticks.Length; index++)
         {
             var tick = ticks[index];
-            var x = deckRect.Left + ((float)tick.PositionMillimeters / deckLength * deckRect.Width);
+            var x = MapPositionToX(tick.PositionMillimeters, deckLength, deckRect);
 
             canvas.StrokeColor = Color.FromArgb("#8A5A25");
             canvas.StrokeSize = 1;
@@ -637,7 +658,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         return path;
     }
 
-    private static void DrawSeams(ICanvas canvas, PatternPreviewRow row, float deckLength, RectF rowRect)
+    private void DrawSeams(ICanvas canvas, PatternPreviewRow row, float deckLength, RectF rowRect)
     {
         if (deckLength <= 0)
         {
@@ -649,7 +670,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
         foreach (var position in row.SeamPositionsMillimeters)
         {
-            var x = rowRect.Left + ((float)position / deckLength * rowRect.Width);
+            var x = MapPositionToX(position, deckLength, rowRect);
             if (x <= rowRect.Left || x >= rowRect.Right)
             {
                 continue;
