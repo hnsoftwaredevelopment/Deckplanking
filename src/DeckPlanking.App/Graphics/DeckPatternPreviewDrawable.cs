@@ -144,7 +144,7 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         DrawRuler(canvas, deckLength, deckRect);
 
         canvas.SaveState();
-        canvas.ClipPath(contourPath);
+        canvas.ClipPath(contourPath, WindingMode.EvenOdd);
 
         DrawRows(canvas, upperRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows, drawLabels: false);
 
