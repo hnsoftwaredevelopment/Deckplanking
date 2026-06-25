@@ -48,6 +48,11 @@ public sealed class ProjectJsonSerializerTests
                 DecimalScale: 48,
                 ImperialInchesPerFoot: 0.25,
                 DeckLengthMillimeters: 480,
+                DeckShape: DeckShapeKind.NarrowedBowAndStern,
+                BowWidthPercentage: 60,
+                SternWidthPercentage: 90,
+                BowTaperLengthPercentage: 30,
+                SternTaperLengthPercentage: 10,
                 DeckWidthMillimeters: 72,
                 PlankWidthMillimeters: 4,
                 KingPlankWidthMillimeters: 7,
@@ -65,6 +70,9 @@ public sealed class ProjectJsonSerializerTests
         Assert.Contains("\"shiftPattern\": \"Every3\"", json);
         Assert.Contains("\"rowInputMode\": \"FromDeckWidth\"", json);
         Assert.Contains("\"kingPlankWidthMillimeters\": 7", json);
+        Assert.Contains("\"deckShape\": \"NarrowedBowAndStern\"", json);
+        Assert.Contains("\"bowWidthPercentage\": 60", json);
+        Assert.Contains("\"bowTaperLengthPercentage\": 30", json);
     }
 
     [Fact]
@@ -106,6 +114,11 @@ public sealed class ProjectJsonSerializerTests
             DecimalScale: 64,
             ImperialInchesPerFoot: 1d / 6d,
             DeckLengthMillimeters: 600,
+            DeckShape: DeckShapeKind.NarrowedBow,
+            BowWidthPercentage: 65,
+            SternWidthPercentage: 100,
+            BowTaperLengthPercentage: 25,
+            SternTaperLengthPercentage: 10,
             DeckWidthMillimeters: 85,
             PlankWidthMillimeters: 5,
             KingPlankWidthMillimeters: 10,

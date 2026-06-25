@@ -1,8 +1,11 @@
+using DeckPlanking.Core.Preview;
+
 namespace DeckPlanking.App.Graphics;
 
 public sealed record PreviewSegmentInspection(
     int RenderedRowIndex,
-    string RowLabel,
+    PatternPreviewSide Side,
+    int RowNumber,
     int SegmentNumber,
     decimal StartMillimeters,
     decimal EndMillimeters)

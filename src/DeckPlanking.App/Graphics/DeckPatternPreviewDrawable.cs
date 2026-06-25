@@ -28,6 +28,16 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
     public double DeckLengthMillimeters { get; set; }
 
+    public DeckShapeKind DeckShape { get; set; } = DeckShapeKind.Rectangular;
+
+    public double BowWidthPercentage { get; set; } = 100;
+
+    public double SternWidthPercentage { get; set; } = 100;
+
+    public double BowTaperLengthPercentage { get; set; } = 25;
+
+    public double SternTaperLengthPercentage { get; set; } = 10;
+
     public double SegmentLengthMillimeters { get; set; }
 
     public double PlankWidthMillimeters { get; set; }
@@ -64,6 +74,11 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             StartPoint = StartPoint,
             PlankLengthMillimeters = PlankLengthMillimeters,
             DeckLengthMillimeters = DeckLengthMillimeters,
+            DeckShape = DeckShape,
+            BowWidthPercentage = BowWidthPercentage,
+            SternWidthPercentage = SternWidthPercentage,
+            BowTaperLengthPercentage = BowTaperLengthPercentage,
+            SternTaperLengthPercentage = SternTaperLengthPercentage,
             SegmentLengthMillimeters = SegmentLengthMillimeters,
             PlankWidthMillimeters = PlankWidthMillimeters,
             KingPlankWidthMillimeters = KingPlankWidthMillimeters,
@@ -116,12 +131,16 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         var rowHeight = Math.Max(4, (drawingHeight - centerGapTotal - internalRowGaps) / Math.Max(1, rowUnits));
         var kingPlankHeight = Math.Max(4, rowHeight * kingPlankVisualRatio);
         var deckRect = new RectF(LeftMargin, TopMargin, drawingWidth, drawingHeight);
+        var contourPath = CreateContourPath(deckRect);
         var currentY = TopMargin;
         var renderedRows = new List<(CenterlinePatternPreviewRow Row, RectF Rect)>();
 
         DrawRuler(canvas, deckLength, deckRect);
 
-        DrawRows(canvas, upperRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows);
+        canvas.SaveState();
+        canvas.ClipPath(contourPath);
+
+        DrawRows(canvas, upperRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows, drawLabels: false);
 
         if (kingPlankRow is not null)
         {
@@ -132,7 +151,6 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             var kingRect = new RectF(LeftMargin, currentY, drawingWidth, kingPlankHeight);
             DrawKingPlank(canvas, kingRect);
             DrawSeams(canvas, kingPlankRow.SourceRow, deckLength, kingRect);
-            DrawRowLabel(canvas, "K", currentY, kingPlankHeight);
             renderedRows.Add((kingPlankRow, kingRect));
 
             currentY += kingPlankHeight;
@@ -147,13 +165,16 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             currentY += CenterlineGap;
         }
 
-        DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows);
+        DrawRows(canvas, lowerRows, deckLength, drawingWidth, rowHeight, ref currentY, renderedRows, drawLabels: false);
         DrawSelectedSegment(canvas, renderedRows, deckLength, SelectedSegment);
         if (ShowTrenails)
         {
             DrawTrenails(canvas, renderedRows, deckLength, TrenailPatternKind);
         }
 
+        canvas.RestoreState();
+        DrawContour(canvas, contourPath);
+        DrawRenderedRowLabels(canvas, renderedRows);
         DrawDirectionGuide(canvas, deckRect.Left, deckRect.Right, dirtyRect.Bottom - 28, DeckOrientation, BowLabel, SternLabel);
 
         canvas.RestoreState();
@@ -177,10 +198,16 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
             return null;
         }
 
+        var deckRect = new RectF(LeftMargin, TopMargin, drawingWidth, Math.Max(1, bounds.Height - TopMargin - BottomMargin));
+        if (!IsPointInsideContour(localPoint, deckRect))
+        {
+            return null;
+        }
+
         var upperRows = centerlineRows.Where(row => row.Side == PatternPreviewSide.Upper).ToArray();
         var lowerRows = centerlineRows.Where(row => row.Side == PatternPreviewSide.Lower).ToArray();
         var kingPlankRow = centerlineRows.FirstOrDefault(row => row.Side == PatternPreviewSide.KingPlank);
-        var drawingHeight = Math.Max(1, bounds.Height - TopMargin - BottomMargin);
+        var drawingHeight = deckRect.Height;
         var internalRowGaps = Math.Max(0, (upperRows.Length - 1) + (lowerRows.Length - 1)) * RowGap;
         var centerGapTotal = UseKingPlank ? CenterlineGap * 2 : CenterlineGap;
         var kingPlankVisualRatio = CalculateKingPlankVisualRatio();
@@ -224,7 +251,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
             return new PreviewSegmentInspection(
                 rowIndex,
-                BuildInspectionRowLabel(row),
+                row.Side,
+                row.SourceRow.RowNumber,
                 segment.SegmentNumber,
                 segment.StartMillimeters,
                 segment.EndMillimeters);
@@ -256,7 +284,8 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         float drawingWidth,
         float rowHeight,
         ref float currentY,
-        IList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows)
+        IList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows,
+        bool drawLabels = true)
     {
         for (var index = 0; index < centerlineRows.Count; index++)
         {
@@ -265,7 +294,10 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
 
             DrawRow(canvas, plankRect, row.RowNumber);
             DrawSeams(canvas, row, deckLength, plankRect);
-            DrawRowLabel(canvas, row.Phase.ToString(), currentY, rowHeight);
+            if (drawLabels)
+            {
+                DrawRowLabel(canvas, row.Phase.ToString(), currentY, rowHeight);
+            }
             renderedRows.Add((centerlineRows[index], plankRect));
 
             currentY += rowHeight;
@@ -360,15 +392,82 @@ public sealed class DeckPatternPreviewDrawable : IDrawable
         }
     }
 
-    private static string BuildInspectionRowLabel(CenterlinePatternPreviewRow row)
+    private PathF CreateContourPath(RectF deckRect)
     {
-        return row.Side switch
+        var settings = new DeckContourSettings(
+            DeckShape,
+            (decimal)BowWidthPercentage,
+            (decimal)SternWidthPercentage,
+            (decimal)BowTaperLengthPercentage,
+            (decimal)SternTaperLengthPercentage);
+        var points = DeckContourBuilder.Build(settings);
+        var path = new PathF();
+
+        for (var index = 0; index < points.Count; index++)
         {
-            PatternPreviewSide.KingPlank => "King plank",
-            PatternPreviewSide.Upper => $"Upper row {row.SourceRow.RowNumber}",
-            PatternPreviewSide.Lower => $"Lower row {row.SourceRow.RowNumber}",
-            _ => $"Row {row.SourceRow.RowNumber}"
-        };
+            var point = points[index];
+            var x = deckRect.Left + ((float)point.XRatio * deckRect.Width);
+            var y = deckRect.Top + ((float)point.YRatio * deckRect.Height);
+
+            if (index == 0)
+            {
+                path.MoveTo(x, y);
+            }
+            else
+            {
+                path.LineTo(x, y);
+            }
+        }
+
+        path.Close();
+        return path;
+    }
+
+    private bool IsPointInsideContour(PointF point, RectF deckRect)
+    {
+        var settings = new DeckContourSettings(
+            DeckShape,
+            (decimal)BowWidthPercentage,
+            (decimal)SternWidthPercentage,
+            (decimal)BowTaperLengthPercentage,
+            (decimal)SternTaperLengthPercentage);
+        var points = DeckContourBuilder.Build(settings)
+            .Select(contourPoint => new PointF(
+                deckRect.Left + ((float)contourPoint.XRatio * deckRect.Width),
+                deckRect.Top + ((float)contourPoint.YRatio * deckRect.Height)))
+            .ToArray();
+
+        var isInside = false;
+        for (int i = 0, j = points.Length - 1; i < points.Length; j = i++)
+        {
+            if (((points[i].Y > point.Y) != (points[j].Y > point.Y))
+                && point.X < (points[j].X - points[i].X) * (point.Y - points[i].Y) / (points[j].Y - points[i].Y) + points[i].X)
+            {
+                isInside = !isInside;
+            }
+        }
+
+        return isInside;
+    }
+
+    private static void DrawContour(ICanvas canvas, PathF contourPath)
+    {
+        canvas.StrokeColor = Color.FromArgb("#6F4B00");
+        canvas.StrokeSize = 1.6f;
+        canvas.DrawPath(contourPath);
+    }
+
+    private static void DrawRenderedRowLabels(
+        ICanvas canvas,
+        IReadOnlyList<(CenterlinePatternPreviewRow Row, RectF Rect)> renderedRows)
+    {
+        foreach (var (row, rect) in renderedRows)
+        {
+            var label = row.Side == PatternPreviewSide.KingPlank
+                ? "K"
+                : row.SourceRow.Phase.ToString();
+            DrawRowLabel(canvas, label, rect.Top, rect.Height);
+        }
     }
 
     private void DrawRuler(ICanvas canvas, float deckLength, RectF deckRect)

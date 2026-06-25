@@ -36,3 +36,7 @@ The local license file is ignored by Git and must not be committed.
 dotnet test
 dotnet build
 ```
+
+## Technical TODO
+
+- Review the Windows build output before release and remove avoidable generated clutter from the distributable package, including unused image scales and unnecessary localization folders where MAUI allows this safely.

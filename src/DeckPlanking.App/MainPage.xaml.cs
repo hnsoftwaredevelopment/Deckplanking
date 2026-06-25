@@ -81,7 +81,12 @@ public partial class MainPage : ContentPage
         }
 
         if (e.PropertyName is nameof(ScaleInputViewModel.DeckLengthMillimeters)
-            or nameof(ScaleInputViewModel.DeckLengthInput))
+            or nameof(ScaleInputViewModel.DeckLengthInput)
+            or nameof(ScaleInputViewModel.SelectedDeckShape)
+            or nameof(ScaleInputViewModel.BowWidthPercentage)
+            or nameof(ScaleInputViewModel.SternWidthPercentage)
+            or nameof(ScaleInputViewModel.BowTaperLengthPercentage)
+            or nameof(ScaleInputViewModel.SternTaperLengthPercentage))
         {
             UpdatePatternPreview();
         }
@@ -136,6 +141,11 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.StartPoint = viewModel.StartPoint;
         patternPreviewDrawable.PlankLengthMillimeters = (double)viewModel.CutLengthMillimeters;
         patternPreviewDrawable.DeckLengthMillimeters = viewModel.DeckLengthMillimeters;
+        patternPreviewDrawable.DeckShape = viewModel.SelectedDeckShape.Value;
+        patternPreviewDrawable.BowWidthPercentage = viewModel.BowWidthPercentage;
+        patternPreviewDrawable.SternWidthPercentage = viewModel.SternWidthPercentage;
+        patternPreviewDrawable.BowTaperLengthPercentage = viewModel.BowTaperLengthPercentage;
+        patternPreviewDrawable.SternTaperLengthPercentage = viewModel.SternTaperLengthPercentage;
         patternPreviewDrawable.SegmentLengthMillimeters = (double)viewModel.SegmentLengthMillimeters;
         patternPreviewDrawable.PlankWidthMillimeters = viewModel.PlankWidthMillimeters;
         patternPreviewDrawable.KingPlankWidthMillimeters = viewModel.KingPlankWidthMillimeters;
@@ -187,16 +197,14 @@ public partial class MainPage : ContentPage
             new RectF(0, 0, (float)PatternGraphics.Width, (float)PatternGraphics.Height));
 
         patternPreviewDrawable.SelectedSegment = inspection;
-        SegmentInspectionLabel.Text = inspection is null
-            ? string.Empty
-            : $"{inspection.RowLabel}, segment {inspection.SegmentNumber}: {DisplayLengthFormatter.Format(inspection.StartMillimeters)} - {DisplayLengthFormatter.Format(inspection.EndMillimeters)}, length {DisplayLengthFormatter.Format(inspection.LengthMillimeters)}";
-        SegmentInspectionLabel.IsVisible = inspection is not null;
+        UpdateSegmentInspectionLabel();
         PatternGraphics.Invalidate();
     }
 
     private void OnLocalizationChanged(object? sender, PropertyChangedEventArgs e)
     {
         UpdateProjectUi();
+        UpdateSegmentInspectionLabel();
         UpdatePatternPreview();
     }
 
@@ -214,6 +222,38 @@ public partial class MainPage : ContentPage
         patternPreviewDrawable.SelectedSegment = null;
         SegmentInspectionLabel.Text = string.Empty;
         SegmentInspectionLabel.IsVisible = false;
+    }
+
+    private void UpdateSegmentInspectionLabel()
+    {
+        var inspection = patternPreviewDrawable.SelectedSegment;
+        SegmentInspectionLabel.Text = inspection is null
+            ? string.Empty
+            : FormatSegmentInspection(inspection);
+        SegmentInspectionLabel.IsVisible = inspection is not null;
+    }
+
+    private string FormatSegmentInspection(PreviewSegmentInspection inspection)
+    {
+        var rowLabel = FormatInspectionRowLabel(inspection);
+        return string.Format(
+            T("SegmentInspectionText"),
+            rowLabel,
+            inspection.SegmentNumber,
+            DisplayLengthFormatter.Format(inspection.StartMillimeters),
+            DisplayLengthFormatter.Format(inspection.EndMillimeters),
+            DisplayLengthFormatter.Format(inspection.LengthMillimeters));
+    }
+
+    private string FormatInspectionRowLabel(PreviewSegmentInspection inspection)
+    {
+        return inspection.Side switch
+        {
+            PatternPreviewSide.KingPlank => T("InspectionKingPlank"),
+            PatternPreviewSide.Upper => string.Format(T("InspectionUpperRow"), inspection.RowNumber),
+            PatternPreviewSide.Lower => string.Format(T("InspectionLowerRow"), inspection.RowNumber),
+            _ => string.Format(T("InspectionRow"), inspection.RowNumber)
+        };
     }
 
     private async void OnExportPngClicked(object? sender, EventArgs e)
@@ -543,6 +583,11 @@ public partial class MainPage : ContentPage
             or nameof(ScaleInputViewModel.ImperialInchesPerFoot)
             or nameof(ScaleInputViewModel.DeckLengthMillimeters)
             or nameof(ScaleInputViewModel.DeckLengthInput)
+            or nameof(ScaleInputViewModel.SelectedDeckShape)
+            or nameof(ScaleInputViewModel.BowWidthPercentage)
+            or nameof(ScaleInputViewModel.SternWidthPercentage)
+            or nameof(ScaleInputViewModel.BowTaperLengthPercentage)
+            or nameof(ScaleInputViewModel.SternTaperLengthPercentage)
             or nameof(ScaleInputViewModel.DeckWidthMillimeters)
             or nameof(ScaleInputViewModel.DeckWidthInput)
             or nameof(ScaleInputViewModel.PlankWidthMillimeters)

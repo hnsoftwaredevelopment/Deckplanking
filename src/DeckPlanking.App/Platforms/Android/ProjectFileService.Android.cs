@@ -9,6 +9,9 @@ namespace DeckPlanking.App.Projects;
 
 public static partial class ProjectFileService
 {
+    private const string ProjectMimeType = "application/vnd.hnsoftwaredevelopment.deckplanking+json";
+    private const string JsonMimeType = "application/json";
+
     public static async partial Task<ProjectFileResult> SaveAsync(
         DeckPlankingProjectDocument document,
         CancellationToken cancellationToken)
@@ -116,7 +119,7 @@ public static partial class ProjectFileService
             PickerTitle = "Open Deckplanking project",
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                [DevicePlatform.Android] = ["application/json", "text/json", "text/plain", "*/*"],
+                [DevicePlatform.Android] = [ProjectMimeType, JsonMimeType],
                 [DevicePlatform.WinUI] = [".json"]
             })
         };
@@ -138,7 +141,7 @@ public static partial class ProjectFileService
         return new ProjectOpenResult(
             ProjectJsonSerializer.Deserialize(json),
             fileResult.FileName,
-            fileResult.FullPath,
+            "Downloads",
             null);
     }
 
@@ -163,7 +166,7 @@ public static partial class ProjectFileService
 
         using var values = new ContentValues();
         values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-        values.Put(MediaStore.IMediaColumns.MimeType, "application/json");
+        values.Put(MediaStore.IMediaColumns.MimeType, ProjectMimeType);
         values.Put(MediaStore.IMediaColumns.RelativePath, Android.OS.Environment.DirectoryDownloads);
 
         var targetUri = resolver.Insert(MediaStore.Downloads.ExternalContentUri, values)

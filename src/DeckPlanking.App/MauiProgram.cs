@@ -8,8 +8,6 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        SyncfusionLicenseRegistration.Register();
-
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
@@ -23,6 +21,8 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+
+        SyncfusionLicenseRegistration.Register();
 
         return builder.Build();
     }

@@ -18,6 +18,10 @@ public sealed class ScaleInputViewModel : ObservableObject
     private double realPlankLength = 9;
     private double decimalScale = 64;
     private double deckLengthMillimeters = 600;
+    private double bowWidthPercentage = 60;
+    private double sternWidthPercentage = 95;
+    private double bowTaperLengthPercentage = 25;
+    private double sternTaperLengthPercentage = 10;
     private double deckWidthMillimeters = 80;
     private double plankWidthMillimeters = 5;
     private double kingPlankWidthMillimeters = 5;
@@ -27,6 +31,7 @@ public sealed class ScaleInputViewModel : ObservableObject
     private OptionItem<LengthUnit> selectedLengthUnit;
     private OptionItem<ScaleMode> selectedScaleMode;
     private OptionItem<RowInputMode> selectedRowInputMode;
+    private OptionItem<DeckShapeKind> selectedDeckShape;
     private OptionItem<ShiftPatternKind> selectedPattern;
     private OptionItem<DeckOrientation> selectedDeckOrientation;
     private OptionItem<TrenailPatternKind> selectedTrenailPattern;
@@ -57,6 +62,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         selectedLengthUnit = LengthUnits[0];
         selectedScaleMode = ScaleModes[0];
         selectedRowInputMode = RowInputModes[0];
+        selectedDeckShape = DeckShapes[0];
         selectedPattern = Patterns[3];
         selectedDeckOrientation = DeckOrientations[0];
         selectedTrenailPattern = TrenailPatterns[1];
@@ -73,6 +79,8 @@ public sealed class ScaleInputViewModel : ObservableObject
     public IReadOnlyList<OptionItem<ScaleMode>> ScaleModes { get; private set; } = [];
 
     public IReadOnlyList<OptionItem<RowInputMode>> RowInputModes { get; private set; } = [];
+
+    public IReadOnlyList<OptionItem<DeckShapeKind>> DeckShapes { get; private set; } = [];
 
     public IReadOnlyList<OptionItem<ShiftPatternKind>> Patterns { get; private set; } = [];
 
@@ -114,6 +122,43 @@ public sealed class ScaleInputViewModel : ObservableObject
     {
         get => DisplayLengthFormatter.ToInputValue(DeckLengthMillimeters);
         set => DeckLengthMillimeters = DisplayLengthFormatter.FromInputValue(value);
+    }
+
+    public OptionItem<DeckShapeKind> SelectedDeckShape
+    {
+        get => selectedDeckShape;
+        set
+        {
+            if (SetAndRecalculateProperty(ref selectedDeckShape, value))
+            {
+                OnPropertyChanged(nameof(IsBowWidthPercentageVisible));
+                OnPropertyChanged(nameof(IsSternWidthPercentageVisible));
+            }
+        }
+    }
+
+    public double BowWidthPercentage
+    {
+        get => bowWidthPercentage;
+        set => SetAndRecalculate(ref bowWidthPercentage, value);
+    }
+
+    public double SternWidthPercentage
+    {
+        get => sternWidthPercentage;
+        set => SetAndRecalculate(ref sternWidthPercentage, value);
+    }
+
+    public double BowTaperLengthPercentage
+    {
+        get => bowTaperLengthPercentage;
+        set => SetAndRecalculate(ref bowTaperLengthPercentage, value);
+    }
+
+    public double SternTaperLengthPercentage
+    {
+        get => sternTaperLengthPercentage;
+        set => SetAndRecalculate(ref sternTaperLengthPercentage, value);
     }
 
     public double DeckWidthMillimeters
@@ -193,7 +238,14 @@ public sealed class ScaleInputViewModel : ObservableObject
         get => useKingPlank;
         set
         {
-            if (SetProperty(ref useKingPlank, value) && SelectedRowInputMode.Value == RowInputMode.FromDeckWidth)
+            if (!SetProperty(ref useKingPlank, value))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(StartPointHelpText));
+
+            if (SelectedRowInputMode.Value == RowInputMode.FromDeckWidth)
             {
                 OnPropertyChanged(nameof(IsKingPlankWidthVisible));
                 if (!isApplyingProjectSettings)
@@ -363,6 +415,14 @@ public sealed class ScaleInputViewModel : ObservableObject
 
     public bool IsKingPlankWidthVisible => IsWidthBasedRowInput && UseKingPlank;
 
+    public string StartPointHelpText => UseKingPlank
+        ? T("StartPointRelativeToKingPlank")
+        : T("StartPointRelativeToCenterlineRow");
+
+    public bool IsBowWidthPercentageVisible => SelectedDeckShape.Value != DeckShapeKind.Rectangular;
+
+    public bool IsSternWidthPercentageVisible => SelectedDeckShape.Value == DeckShapeKind.NarrowedBowAndStern;
+
     public bool IsSeamTableVisible
     {
         get => isSeamTableVisible;
@@ -390,6 +450,11 @@ public sealed class ScaleInputViewModel : ObservableObject
             DecimalScale,
             ImperialInchesPerFoot,
             DeckLengthMillimeters,
+            SelectedDeckShape.Value,
+            BowWidthPercentage,
+            SternWidthPercentage,
+            BowTaperLengthPercentage,
+            SternTaperLengthPercentage,
             DeckWidthMillimeters,
             PlankWidthMillimeters,
             KingPlankWidthMillimeters,
@@ -415,6 +480,11 @@ public sealed class ScaleInputViewModel : ObservableObject
             DecimalScale = settings.DecimalScale;
             ImperialInchesPerFoot = settings.ImperialInchesPerFoot;
             DeckLengthMillimeters = settings.DeckLengthMillimeters;
+            SelectedDeckShape = FindOption(DeckShapes, settings.DeckShape);
+            BowWidthPercentage = settings.BowWidthPercentage > 0 ? settings.BowWidthPercentage : 100;
+            SternWidthPercentage = settings.SternWidthPercentage > 0 ? settings.SternWidthPercentage : 100;
+            BowTaperLengthPercentage = settings.BowTaperLengthPercentage > 0 ? settings.BowTaperLengthPercentage : 25;
+            SternTaperLengthPercentage = settings.SternTaperLengthPercentage > 0 ? settings.SternTaperLengthPercentage : 10;
             DeckWidthMillimeters = settings.DeckWidthMillimeters > 0 ? settings.DeckWidthMillimeters : DeckWidthMillimeters;
             PlankWidthMillimeters = settings.PlankWidthMillimeters > 0 ? settings.PlankWidthMillimeters : PlankWidthMillimeters;
             KingPlankWidthMillimeters = settings.KingPlankWidthMillimeters > 0
@@ -462,6 +532,8 @@ public sealed class ScaleInputViewModel : ObservableObject
 
         try
         {
+            ValidateDeckContour();
+
             var scaleSettings = SelectedScaleMode.Value == ScaleMode.Decimal
                 ? ScaleSettings.DecimalScale((decimal)DecimalScale)
                 : ScaleSettings.ImperialInchesPerFoot((decimal)ImperialInchesPerFoot);
@@ -512,6 +584,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         var lengthUnit = SelectedLengthUnit.Value;
         var scaleMode = SelectedScaleMode.Value;
         var rowInputMode = SelectedRowInputMode.Value;
+        var deckShape = SelectedDeckShape.Value;
         var pattern = SelectedPattern.Value;
         var orientation = SelectedDeckOrientation.Value;
 
@@ -520,21 +593,27 @@ public sealed class ScaleInputViewModel : ObservableObject
         selectedLengthUnit = FindOption(LengthUnits, lengthUnit);
         selectedScaleMode = FindOption(ScaleModes, scaleMode);
         selectedRowInputMode = FindOption(RowInputModes, rowInputMode);
+        selectedDeckShape = FindOption(DeckShapes, deckShape);
         selectedPattern = FindOption(Patterns, pattern);
         selectedDeckOrientation = FindOption(DeckOrientations, orientation);
 
         OnPropertyChanged(nameof(LengthUnits));
         OnPropertyChanged(nameof(ScaleModes));
         OnPropertyChanged(nameof(RowInputModes));
+        OnPropertyChanged(nameof(DeckShapes));
         OnPropertyChanged(nameof(Patterns));
         OnPropertyChanged(nameof(DeckOrientations));
         OnPropertyChanged(nameof(SelectedLengthUnit));
         OnPropertyChanged(nameof(SelectedScaleMode));
         OnPropertyChanged(nameof(SelectedRowInputMode));
+        OnPropertyChanged(nameof(SelectedDeckShape));
         OnPropertyChanged(nameof(SelectedPattern));
         OnPropertyChanged(nameof(SelectedDeckOrientation));
         OnPropertyChanged(nameof(SeamTableToggleText));
         OnPropertyChanged(nameof(SelectedTrenailPatternDescription));
+        OnPropertyChanged(nameof(StartPointHelpText));
+        OnPropertyChanged(nameof(IsBowWidthPercentageVisible));
+        OnPropertyChanged(nameof(IsSternWidthPercentageVisible));
 
         if (!string.IsNullOrWhiteSpace(ValidationMessage))
         {
@@ -575,6 +654,10 @@ public sealed class ScaleInputViewModel : ObservableObject
     private void NotifyDimensionInputsChanged()
     {
         OnPropertyChanged(nameof(DeckLengthInput));
+        OnPropertyChanged(nameof(BowWidthPercentage));
+        OnPropertyChanged(nameof(SternWidthPercentage));
+        OnPropertyChanged(nameof(BowTaperLengthPercentage));
+        OnPropertyChanged(nameof(SternTaperLengthPercentage));
         OnPropertyChanged(nameof(DeckWidthInput));
         OnPropertyChanged(nameof(PlankWidthInput));
         OnPropertyChanged(nameof(KingPlankWidthInput));
@@ -594,6 +677,7 @@ public sealed class ScaleInputViewModel : ObservableObject
         OnPropertyChanged(nameof(SelectedLengthUnit));
         OnPropertyChanged(nameof(SelectedScaleMode));
         OnPropertyChanged(nameof(SelectedRowInputMode));
+        OnPropertyChanged(nameof(SelectedDeckShape));
         OnPropertyChanged(nameof(SelectedPattern));
         OnPropertyChanged(nameof(SelectedDeckOrientation));
         OnPropertyChanged(nameof(SelectedTrenailPattern));
@@ -602,6 +686,8 @@ public sealed class ScaleInputViewModel : ObservableObject
         OnPropertyChanged(nameof(IsManualRowInput));
         OnPropertyChanged(nameof(IsWidthBasedRowInput));
         OnPropertyChanged(nameof(IsKingPlankWidthVisible));
+        OnPropertyChanged(nameof(IsBowWidthPercentageVisible));
+        OnPropertyChanged(nameof(IsSternWidthPercentageVisible));
     }
 
     private void RefreshLocalizedOptions()
@@ -622,6 +708,13 @@ public sealed class ScaleInputViewModel : ObservableObject
         [
             new(T("ManualRows"), RowInputMode.Manual),
             new(T("FromDeckWidth"), RowInputMode.FromDeckWidth)
+        ];
+
+        DeckShapes =
+        [
+            new(T("DeckShapeRectangular"), DeckShapeKind.Rectangular),
+            new(T("DeckShapeNarrowedBow"), DeckShapeKind.NarrowedBow),
+            new(T("DeckShapeNarrowedBowAndStern"), DeckShapeKind.NarrowedBowAndStern)
         ];
 
         Patterns =
@@ -664,6 +757,16 @@ public sealed class ScaleInputViewModel : ObservableObject
             (decimal)KingPlankWidthMillimeters);
 
         SetProperty(ref rowCount, calculatedRows, nameof(RowCount));
+    }
+
+    private void ValidateDeckContour()
+    {
+        DeckContourBuilder.Build(new DeckContourSettings(
+            SelectedDeckShape.Value,
+            (decimal)BowWidthPercentage,
+            (decimal)SternWidthPercentage,
+            (decimal)BowTaperLengthPercentage,
+            (decimal)SternTaperLengthPercentage));
     }
 
     private void UpdatePatternRows(decimal plankLengthMillimeters)
