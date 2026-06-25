@@ -134,4 +134,23 @@
   <data name="Ok" xml:space="preserve"><value>OK</value></data>
   <data name="FoundationStatus" xml:space="preserve"><value>Projectbasis gereed voor schaal- en dekbeplankingberekeningen.</value></data>
   <data name="ShowTrenails" xml:space="preserve"><value>Plankspijkers</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>Over</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Dekbeplanking ontwerpen voor modelbouwers.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Versie</value></data>
+  <data name="Platform" xml:space="preserve"><value>Platform</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>OS-versie</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Een bug melden of een functie aanvragen</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Type</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Bug</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Functieverzoek</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Titel</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Beschrijving</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Naam</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Contact</value></data>
+  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Feedback voorbereiden</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Vul een titel en beschrijving in.</value></data>
+  <data name="FeedbackPrepared" xml:space="preserve"><value>De feedback is voorbereid en naar het klembord gekopieerd. Automatisch verzenden wordt in een latere stap gekoppeld.</value></data>
 </root>

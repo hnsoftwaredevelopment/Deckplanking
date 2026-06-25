@@ -134,4 +134,23 @@
   <data name="Ok" xml:space="preserve"><value>OK</value></data>
   <data name="FoundationStatus" xml:space="preserve"><value>Base del progetto pronta per calcoli di scala e tavolato.</value></data>
   <data name="ShowTrenails" xml:space="preserve"><value>Chiodi tavola</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>Informazioni</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Progettazione del fasciame del ponte per modellisti.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Versione</value></data>
+  <data name="Platform" xml:space="preserve"><value>Piattaforma</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>Versione sistema</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Segnala un bug o richiedi una funzione</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Tipo</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Bug</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Richiesta funzione</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Titolo</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Descrizione</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Nome</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Contatto</value></data>
+  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Prepara feedback</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Inserisci un titolo e una descrizione.</value></data>
+  <data name="FeedbackPrepared" xml:space="preserve"><value>Il feedback e stato preparato e copiato negli appunti. L'invio automatico verra collegato in un passaggio successivo.</value></data>
 </root>

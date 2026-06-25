@@ -6,6 +6,9 @@
              x:Class="DeckPlanking.App.MainPage">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="about.png"
+                     Text="{loc:Translate AboutTitle}"
+                     Clicked="OnAboutClicked" />
         <ToolbarItem IconImageSource="settings.png"
                      Text="{loc:Translate SettingsButton}"
                      Clicked="OnSettingsClicked" />

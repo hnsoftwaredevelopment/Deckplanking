@@ -134,4 +134,23 @@
   <data name="Ok" xml:space="preserve"><value>OK</value></data>
   <data name="FoundationStatus" xml:space="preserve"><value>Project foundation ready for scale and planking calculations.</value></data>
   <data name="ShowTrenails" xml:space="preserve"><value>Trenails</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>About</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Deck planking layout tool for model ship builders.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Version</value></data>
+  <data name="Platform" xml:space="preserve"><value>Platform</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>OS version</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Report a bug or request a feature</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Type</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Bug</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Feature request</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Title</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Name</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Contact</value></data>
+  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Prepare feedback</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Enter a title and description.</value></data>
+  <data name="FeedbackPrepared" xml:space="preserve"><value>Feedback has been prepared and copied to the clipboard. Automatic sending will be connected in a later step.</value></data>
 </root>

@@ -134,4 +134,23 @@
   <data name="Ok" xml:space="preserve"><value>OK</value></data>
   <data name="FoundationStatus" xml:space="preserve"><value>Base du projet prete pour les calculs d'echelle et de bordage.</value></data>
   <data name="ShowTrenails" xml:space="preserve"><value>Clous de latte</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>A propos</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Concevoir le bordage de pont pour les modelistes.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Version</value></data>
+  <data name="Platform" xml:space="preserve"><value>Plateforme</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>Version du systeme</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Signaler un bug ou demander une fonction</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Type</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Bug</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Demande de fonction</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Titre</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Nom</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Contact</value></data>
+  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Preparer le feedback</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Saisissez un titre et une description.</value></data>
+  <data name="FeedbackPrepared" xml:space="preserve"><value>Le feedback a ete prepare et copie dans le presse-papiers. L'envoi automatique sera connecte lors d'une prochaine etape.</value></data>
 </root>

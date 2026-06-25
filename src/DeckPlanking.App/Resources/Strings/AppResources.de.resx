@@ -134,4 +134,23 @@
   <data name="Ok" xml:space="preserve"><value>OK</value></data>
   <data name="FoundationStatus" xml:space="preserve"><value>Projektbasis bereit fuer Massstabs- und Deckbeplankungsberechnungen.</value></data>
   <data name="ShowTrenails" xml:space="preserve"><value>Plankennagel</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>Info</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Deckbeplankung fuer Modellbauer entwerfen.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Version</value></data>
+  <data name="Platform" xml:space="preserve"><value>Plattform</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>Betriebssystemversion</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Einen Fehler melden oder eine Funktion anfragen</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Typ</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Fehler</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Funktionswunsch</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Titel</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Beschreibung</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Name</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Kontakt</value></data>
+  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Feedback vorbereiten</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Geben Sie einen Titel und eine Beschreibung ein.</value></data>
+  <data name="FeedbackPrepared" xml:space="preserve"><value>Das Feedback wurde vorbereitet und in die Zwischenablage kopiert. Automatisches Senden wird in einem spaeteren Schritt verbunden.</value></data>
 </root>

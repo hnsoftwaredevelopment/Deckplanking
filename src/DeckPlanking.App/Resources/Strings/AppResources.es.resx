@@ -134,4 +134,23 @@
   <data name="Ok" xml:space="preserve"><value>OK</value></data>
   <data name="FoundationStatus" xml:space="preserve"><value>Base del proyecto lista para calculos de escala y entablado.</value></data>
   <data name="ShowTrenails" xml:space="preserve"><value>Clavos de tabla</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>Acerca de</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Diseno de entablado de cubierta para modelistas.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Version</value></data>
+  <data name="Platform" xml:space="preserve"><value>Plataforma</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>Version del sistema</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Informar de un error o solicitar una funcion</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Tipo</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Error</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Solicitud de funcion</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Titulo</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Descripcion</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Nombre</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Contacto</value></data>
+  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Preparar feedback</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Introduce un titulo y una descripcion.</value></data>
+  <data name="FeedbackPrepared" xml:space="preserve"><value>El feedback se ha preparado y copiado al portapapeles. El envio automatico se conectara en un paso posterior.</value></data>
 </root>
