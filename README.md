@@ -37,6 +37,8 @@ dotnet test
 dotnet build
 ```
 
-## Technical TODO
+## Build Output Notes
 
-- Review the Windows build output before release and remove avoidable generated clutter from the distributable package, including unused image scales and unnecessary localization folders where MAUI allows this safely.
+- The app intentionally keeps satellite resources only for English, Dutch, German, French, Spanish, and Italian.
+- Debug logging is referenced only in Debug builds.
+- MAUI still generates scaled PNG assets from SVG resources for Windows and Android. These generated image files are part of the platform asset pipeline and should not be removed manually from build output.
