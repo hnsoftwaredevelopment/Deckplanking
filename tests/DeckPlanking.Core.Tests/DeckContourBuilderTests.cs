@@ -76,21 +76,44 @@ public sealed class DeckContourBuilderTests
             SternTaperLengthPercentage: 10m,
             BowRoundnessPercentage: 100m));
 
-        Assert.Equal(
-            [
-                new DeckContourPoint(0m, 0m),
-                new DeckContourPoint(0.75m, 0m),
-                new DeckContourPoint(0.859375m, 0.0125m),
-                new DeckContourPoint(0.9375m, 0.05m),
-                new DeckContourPoint(0.984375m, 0.1125m),
-                new DeckContourPoint(1m, 0.2m),
-                new DeckContourPoint(0.984375m, 0.8875m),
-                new DeckContourPoint(0.9375m, 0.95m),
-                new DeckContourPoint(0.859375m, 0.9875m),
-                new DeckContourPoint(0.75m, 1m),
-                new DeckContourPoint(0m, 1m)
-            ],
-            contour);
+        Assert.Equal(new DeckContourPoint(0m, 0m), contour[0]);
+        Assert.Equal(new DeckContourPoint(0.75m, 0m), contour[1]);
+        Assert.Equal(new DeckContourPoint(1m, 0.2m), contour[13]);
+        Assert.Equal(new DeckContourPoint(1m, 0.8m), contour[14]);
+        Assert.Equal(new DeckContourPoint(0.75m, 1m), contour[26]);
+        Assert.Equal(new DeckContourPoint(0m, 1m), contour[^1]);
+        Assert.Equal(28, contour.Count);
+    }
+
+    [Fact]
+    public void BuildsMirroredRoundedBowCurve()
+    {
+        var contour = DeckContourBuilder.Build(new DeckContourSettings(
+            DeckShapeKind.NarrowedBow,
+            BowWidthPercentage: 20m,
+            SternWidthPercentage: 100m,
+            BowTaperLengthPercentage: 25m,
+            SternTaperLengthPercentage: 10m,
+            BowRoundnessPercentage: 80m));
+
+        var upperCurve = contour
+            .Skip(2)
+            .Take(12)
+            .ToArray();
+        var lowerCurve = contour
+            .Skip(14)
+            .Take(13)
+            .ToArray();
+
+        Assert.Equal(new DeckContourPoint(1m, 0.6m), lowerCurve[0]);
+        for (var index = 0; index < upperCurve.Length; index++)
+        {
+            var upperPoint = upperCurve[index];
+            var lowerPoint = lowerCurve[^(index + 2)];
+
+            Assert.Equal(upperPoint.XRatio, lowerPoint.XRatio, precision: 12);
+            Assert.Equal(1m - upperPoint.YRatio, lowerPoint.YRatio, precision: 12);
+        }
     }
 
     [Fact]

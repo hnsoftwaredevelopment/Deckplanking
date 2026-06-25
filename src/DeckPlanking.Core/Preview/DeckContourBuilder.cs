@@ -4,7 +4,7 @@ namespace DeckPlanking.Core.Preview;
 
 public static class DeckContourBuilder
 {
-    private const int BowCurveSegments = 4;
+    private const int BowCurveSegments = 12;
 
     public static IReadOnlyList<DeckContourPoint> Build(DeckContourSettings settings)
     {
@@ -47,14 +47,19 @@ public static class DeckContourBuilder
         }
         else
         {
+            var upperBowFront = new DeckContourPoint(1m, bowInset);
+            var lowerBowFront = new DeckContourPoint(1m, 1m - bowInset);
+            var lowerBowTaper = new DeckContourPoint(bowTaperStart, 1m);
+
             points.AddRange(BuildBowCurve(
                 new DeckContourPoint(bowTaperStart, 0m),
-                new DeckContourPoint(1m, bowInset),
+                upperBowFront,
                 new DeckContourPoint(1m, 0m),
                 settings.BowRoundnessPercentage));
+            points.Add(lowerBowFront);
             points.AddRange(BuildBowCurve(
-                new DeckContourPoint(1m, 1m - bowInset),
-                new DeckContourPoint(bowTaperStart, 1m),
+                lowerBowFront,
+                lowerBowTaper,
                 new DeckContourPoint(1m, 1m),
                 settings.BowRoundnessPercentage));
         }

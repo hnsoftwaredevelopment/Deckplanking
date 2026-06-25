@@ -24,6 +24,8 @@ The existing contour keeps using normalized deck coordinates where x=0 is stern 
 
 Bow rounding is implemented as sampled quadratic curve points instead of a native drawing-only Bezier path. This keeps preview clipping, hit testing, PNG export, PDF export, and print on the same polygon-based model.
 
+The bow curve uses enough sample points to avoid visibly coarse steps at high zoom levels. The lower bow side explicitly includes the lower bow-front point before returning toward the full-width deck side, so the lower curve mirrors the upper curve instead of cutting diagonally across the bow.
+
 For the upper bow side:
 
 - Start point: where the bow taper begins at full deck width.
