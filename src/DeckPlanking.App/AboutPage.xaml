@@ -14,7 +14,7 @@
                     StrokeThickness="1"
                     BackgroundColor="{DynamicResource AppSurfaceColor}">
                 <VerticalStackLayout Spacing="18">
-                    <Image Source="about_appicon.svg"
+                    <Image Source="about_appicon.png"
                            WidthRequest="96"
                            HeightRequest="96"
                            HorizontalOptions="Center" />
@@ -68,7 +68,7 @@
 
                     <VerticalStackLayout Spacing="8"
                                          HorizontalOptions="Center">
-                        <Image Source="hn_software_logo.svg"
+                        <Image Source="hn_software_logo.png"
                                WidthRequest="180"
                                HeightRequest="72"
                                Aspect="AspectFit"
