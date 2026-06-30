@@ -31,11 +31,13 @@
                                TextColor="{DynamicResource AppSecondaryTextColor}" />
                     </VerticalStackLayout>
 
-                    <Grid ColumnDefinitions="160,*"
+                    <Grid ColumnDefinitions="Auto,Auto"
                           RowDefinitions="Auto,Auto,Auto"
                           ColumnSpacing="14"
-                          RowSpacing="10">
+                          RowSpacing="10"
+                          HorizontalOptions="Center">
                         <Label Text="{loc:Translate Version}"
+                               HorizontalTextAlignment="End"
                                TextColor="{DynamicResource AppSecondaryTextColor}" />
                         <Label x:Name="VersionLabel"
                                Grid.Column="1"
@@ -44,6 +46,7 @@
 
                         <Label Grid.Row="1"
                                Text="{loc:Translate Platform}"
+                               HorizontalTextAlignment="End"
                                TextColor="{DynamicResource AppSecondaryTextColor}" />
                         <Label x:Name="PlatformLabel"
                                Grid.Row="1"
@@ -52,6 +55,7 @@
 
                         <Label Grid.Row="2"
                                Text="{loc:Translate OsVersion}"
+                               HorizontalTextAlignment="End"
                                TextColor="{DynamicResource AppSecondaryTextColor}" />
                         <Label x:Name="OsVersionLabel"
                                Grid.Row="2"
@@ -62,7 +66,7 @@
                     <Button ImageSource="feedback.svg"
                             Text="{loc:Translate FeedbackButton}"
                             Clicked="OnFeedbackClicked"
-                            HorizontalOptions="Start"
+                            HorizontalOptions="Center"
                             ToolTipProperties.Text="{loc:Translate FeedbackDescription}"
                             SemanticProperties.Description="{loc:Translate FeedbackDescription}" />
 
