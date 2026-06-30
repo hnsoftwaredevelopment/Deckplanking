@@ -66,9 +66,18 @@
                             ToolTipProperties.Text="{loc:Translate FeedbackDescription}"
                             SemanticProperties.Description="{loc:Translate FeedbackDescription}" />
 
-                    <Label Text="{loc:Translate AboutCopyright}"
-                           FontSize="12"
-                           TextColor="{DynamicResource AppSecondaryTextColor}" />
+                    <VerticalStackLayout Spacing="8"
+                                         HorizontalOptions="Center">
+                        <Image Source="hn_software_logo.svg"
+                               WidthRequest="180"
+                               HeightRequest="72"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center" />
+                        <Label Text="{loc:Translate AboutCopyright}"
+                               FontSize="12"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
         </Grid>

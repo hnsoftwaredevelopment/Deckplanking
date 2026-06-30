@@ -10,6 +10,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<AssemblyVersion>26.6.30.0</AssemblyVersion>
 		<SatelliteResourceLanguages>en;nl;de;fr;es;it</SatelliteResourceLanguages>
 
 		<!-- Enable XAML source generation for faster build times and improved performance.
@@ -55,12 +56,11 @@
 		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\SyncfusionLicense.txt')">$(MSBuildProjectDirectory)\..\..\docs\SyncfusionLicense.txt</SyncfusionLicenseFile>
 		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\synfusion.txt')">$(MSBuildProjectDirectory)\..\..\docs\synfusion.txt</SyncfusionLicenseFile>
 		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\syncfusion-license.txt')">$(MSBuildProjectDirectory)\..\..\syncfusion-license.txt</SyncfusionLicenseFile>
+		<AssemblyVersion>26.6.30.0</AssemblyVersion>
+		<FileVersion>26.6.30.0</FileVersion>
 	</PropertyGroup>
 
-	<UsingTask
-		TaskName="GenerateSyncfusionLicenseSourceTask"
-		TaskFactory="RoslynCodeTaskFactory"
-		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+	<UsingTask TaskName="GenerateSyncfusionLicenseSourceTask" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
 		<ParameterGroup>
 			<LicenseFile ParameterType="System.String" Required="false" />
 			<OutputFile ParameterType="System.String" Required="true" />
@@ -98,9 +98,7 @@ File.WriteAllText(OutputFile, source, new UTF8Encoding(encoderShouldEmitUTF8Iden
 	</UsingTask>
 
 	<Target Name="GenerateSyncfusionLicenseSource" BeforeTargets="PrepareForBuild">
-		<GenerateSyncfusionLicenseSourceTask
-			LicenseFile="$(SyncfusionLicenseFile)"
-			OutputFile="$(GeneratedSyncfusionLicenseFile)" />
+		<GenerateSyncfusionLicenseSourceTask LicenseFile="$(SyncfusionLicenseFile)" OutputFile="$(GeneratedSyncfusionLicenseFile)" />
 
 		<ItemGroup>
 			<Compile Include="$(GeneratedSyncfusionLicenseFile)" Visible="false" />
@@ -116,6 +114,7 @@ File.WriteAllText(OutputFile, source, new UTF8Encoding(encoderShouldEmitUTF8Iden
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Include="Resources\HN-Software Logo.svg" Link="Resources\Images\hn_software_logo.svg" />
 		
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
