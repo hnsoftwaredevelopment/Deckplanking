@@ -160,4 +160,6 @@
   <data name="FeedbackSent" xml:space="preserve"><value>Feedback is verstuurd.</value></data>
   <data name="FeedbackSentWithIssue" xml:space="preserve"><value>Feedback is verstuurd. GitHub issue: {0}</value></data>
   <data name="FeedbackSendFailed" xml:space="preserve"><value>Feedback kon niet worden verstuurd: {0}</value></data>
+  <data name="ShowTechnicalInformation" xml:space="preserve"><value>Technische informatie tonen</value></data>
+  <data name="HideTechnicalInformation" xml:space="preserve"><value>Technische informatie verbergen</value></data>
 </root>

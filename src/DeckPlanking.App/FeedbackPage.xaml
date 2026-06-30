@@ -28,7 +28,8 @@
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
                         <Picker x:Name="FeedbackTypePicker"
                                 Grid.Column="1"
-                                ItemDisplayBinding="{Binding DisplayName}" />
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnFeedbackTypeChanged" />
 
                         <Label Grid.Row="1"
                                Text="{loc:Translate FeedbackTitleLabel}"
@@ -92,6 +93,23 @@
                                Grid.Column="1"
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
                     </Grid>
+
+                    <Button x:Name="DiagnosticsToggleButton"
+                            Text="{loc:Translate ShowTechnicalInformation}"
+                            Clicked="OnDiagnosticsToggleClicked"
+                            HorizontalOptions="Start" />
+
+                    <Border x:Name="DiagnosticsPanel"
+                            IsVisible="False"
+                            Padding="12"
+                            Stroke="{DynamicResource AppAccentColor}"
+                            StrokeThickness="1"
+                            BackgroundColor="{DynamicResource AppBackgroundColor}">
+                        <Label x:Name="DiagnosticsLabel"
+                               FontFamily="Consolas"
+                               FontSize="13"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                    </Border>
 
                     <Button x:Name="SendFeedbackButton"
                             ImageSource="feedback.svg"

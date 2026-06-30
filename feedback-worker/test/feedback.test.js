@@ -40,6 +40,13 @@ test("builds issue title and body with application context", () => {
       platform: "Android",
       osVersion: "Android 15",
       language: "nl-NL"
+    },
+    diagnostics: {
+      architecture: "Arm64",
+      deviceType: "Phone",
+      unitSystem: "Metric",
+      theme: "Light",
+      screen: "1080x2340 @ 3.0"
     }
   });
 
@@ -50,6 +57,12 @@ test("builds issue title and body with application context", () => {
   assert.match(issue.body, /Platform: Android/);
   assert.match(issue.body, /OS version: Android 15/);
   assert.match(issue.body, /Language: nl-NL/);
+  assert.match(issue.body, /## Diagnostics/);
+  assert.match(issue.body, /Architecture: Arm64/);
+  assert.match(issue.body, /Device type: Phone/);
+  assert.match(issue.body, /Units: Metric/);
+  assert.match(issue.body, /Theme: Light/);
+  assert.match(issue.body, /Screen: 1080x2340 @ 3\.0/);
   assert.match(issue.body, /Name: Henk/);
   assert.match(issue.body, /Contact: henk@example.com/);
   assert.match(issue.body, /The bow is no longer visible\./);
@@ -65,4 +78,5 @@ test("builds feature request title", () => {
   const issue = buildGitHubIssue(payload);
 
   assert.equal(issue.title, "[Feature] Add exact print scale");
+  assert.doesNotMatch(issue.body, /## Diagnostics/);
 });

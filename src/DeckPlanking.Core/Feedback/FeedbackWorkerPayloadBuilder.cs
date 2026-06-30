@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DeckPlanking.Core.Feedback;
 
@@ -6,7 +7,8 @@ public static class FeedbackWorkerPayloadBuilder
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
     public static string BuildJson(FeedbackSubmission submission)
@@ -23,7 +25,15 @@ public static class FeedbackWorkerPayloadBuilder
                 submission.ApplicationContext.ApplicationVersion,
                 submission.ApplicationContext.Platform,
                 submission.ApplicationContext.OperatingSystemVersion,
-                submission.ApplicationContext.Language));
+                submission.ApplicationContext.Language),
+            submission.Type == FeedbackSubmissionType.Bug && submission.Diagnostics is not null
+                ? new FeedbackWorkerDiagnostics(
+                    submission.Diagnostics.Architecture,
+                    submission.Diagnostics.DeviceType,
+                    submission.Diagnostics.UnitSystem,
+                    submission.Diagnostics.Theme,
+                    submission.Diagnostics.Screen)
+                : null);
 
         return JsonSerializer.Serialize(payload, JsonOptions);
     }
@@ -48,11 +58,19 @@ public static class FeedbackWorkerPayloadBuilder
         string Description,
         string Name,
         string Contact,
-        FeedbackWorkerContext Context);
+        FeedbackWorkerContext Context,
+        FeedbackWorkerDiagnostics? Diagnostics);
 
     private sealed record FeedbackWorkerContext(
         string AppVersion,
         string Platform,
         string OsVersion,
         string Language);
+
+    private sealed record FeedbackWorkerDiagnostics(
+        string Architecture,
+        string DeviceType,
+        string UnitSystem,
+        string Theme,
+        string Screen);
 }

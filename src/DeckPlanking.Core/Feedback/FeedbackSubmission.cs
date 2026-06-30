@@ -6,4 +6,5 @@ public sealed record FeedbackSubmission(
     string Description,
     string? Name,
     string? Contact,
-    FeedbackApplicationContext ApplicationContext);
+    FeedbackApplicationContext ApplicationContext,
+    FeedbackDiagnostics? Diagnostics = null);

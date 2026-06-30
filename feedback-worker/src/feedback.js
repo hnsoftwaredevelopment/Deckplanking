@@ -46,7 +46,8 @@ export function parseFeedbackPayload(payload) {
       platform: normalizeOptionalText(payload.context?.platform),
       osVersion: normalizeOptionalText(payload.context?.osVersion),
       language: normalizeOptionalText(payload.context?.language)
-    }
+    },
+    diagnostics: payload.type === "bug" ? parseDiagnostics(payload.diagnostics) : null
   };
 }
 
@@ -63,6 +64,7 @@ export function buildGitHubIssue(payload) {
     `Platform: ${payload.context.platform || "Unknown"}`,
     `OS version: ${payload.context.osVersion || "Unknown"}`,
     `Language: ${payload.context.language || "Unknown"}`,
+    ...diagnosticLines(payload.diagnostics),
     ...optionalLine("Name", payload.name),
     ...optionalLine("Contact", payload.contact),
     "",
@@ -92,6 +94,37 @@ function normalizeOptionalText(value) {
 
 function optionalLine(label, value) {
   return value ? [`${label}: ${value}`] : [];
+}
+
+function parseDiagnostics(diagnostics) {
+  if (!diagnostics || typeof diagnostics !== "object" || Array.isArray(diagnostics)) {
+    return null;
+  }
+
+  return {
+    architecture: normalizeOptionalText(diagnostics.architecture),
+    deviceType: normalizeOptionalText(diagnostics.deviceType),
+    unitSystem: normalizeOptionalText(diagnostics.unitSystem),
+    theme: normalizeOptionalText(diagnostics.theme),
+    screen: normalizeOptionalText(diagnostics.screen)
+  };
+}
+
+function diagnosticLines(diagnostics) {
+  if (!diagnostics) {
+    return [];
+  }
+
+  return [
+    "",
+    "## Diagnostics",
+    "",
+    `Architecture: ${diagnostics.architecture || "Unknown"}`,
+    `Device type: ${diagnostics.deviceType || "Unknown"}`,
+    `Units: ${diagnostics.unitSystem || "Unknown"}`,
+    `Theme: ${diagnostics.theme || "Unknown"}`,
+    `Screen: ${diagnostics.screen || "Unknown"}`
+  ];
 }
 
 function capitalize(value) {

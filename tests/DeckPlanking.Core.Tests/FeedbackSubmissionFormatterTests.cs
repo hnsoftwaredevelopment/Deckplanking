@@ -56,4 +56,33 @@ public sealed class FeedbackSubmissionFormatterTests
         Assert.DoesNotContain("Name:", body);
         Assert.DoesNotContain("Contact:", body);
     }
+
+    [Fact]
+    public void FormatsDiagnosticsForUserReview()
+    {
+        var context = new FeedbackApplicationContext(
+            "Modelboat Deckplanking",
+            "26.06.30.001",
+            "Android",
+            "Android 15",
+            "nl-NL");
+        var diagnostics = new FeedbackDiagnostics(
+            "Arm64",
+            "Phone",
+            "Metric",
+            "Saffron",
+            "1080x2340 @ 3.0");
+
+        var text = FeedbackDiagnosticsFormatter.Format(context, diagnostics);
+
+        Assert.Contains("App version: 26.06.30.001", text);
+        Assert.Contains("Platform: Android", text);
+        Assert.Contains("OS version: Android 15", text);
+        Assert.Contains("Language: nl-NL", text);
+        Assert.Contains("Architecture: Arm64", text);
+        Assert.Contains("Device type: Phone", text);
+        Assert.Contains("Units: Metric", text);
+        Assert.Contains("Theme: Saffron", text);
+        Assert.Contains("Screen: 1080x2340 @ 3.0", text);
+    }
 }
