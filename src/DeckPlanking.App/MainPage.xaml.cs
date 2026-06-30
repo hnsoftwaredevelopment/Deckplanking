@@ -21,6 +21,7 @@ public partial class MainPage : ContentPage
     private double previousPinchScale = 1;
     private bool hasLoadedLastProjectSettings;
     private bool isApplyingProjectSettings;
+    private bool isInputsCollapsed;
     private DeckPlankingProjectSettings defaultProjectSettings = null!;
     private string? currentProjectFileName;
     private string? currentProjectFilePath;
@@ -193,6 +194,22 @@ public partial class MainPage : ContentPage
         await Shell.Current.GoToAsync(nameof(AboutPage));
     }
 
+    private void OnToggleInputsClicked(object? sender, EventArgs e)
+    {
+        isInputsCollapsed = !isInputsCollapsed;
+        UpdateInputsCollapsedState();
+    }
+
+    private void UpdateInputsCollapsedState()
+    {
+        InputsContent.IsVisible = !isInputsCollapsed;
+        CalculatedLengthPanel.IsVisible = !isInputsCollapsed;
+        ToggleInputsButton.Text = isInputsCollapsed ? "+" : "-";
+        var description = isInputsCollapsed ? T("ShowInputsDescription") : T("HideInputsDescription");
+        ToolTipProperties.SetText(ToggleInputsButton, description);
+        SemanticProperties.SetDescription(ToggleInputsButton, description);
+    }
+
     private void OnPatternTapped(object? sender, TappedEventArgs e)
     {
         var position = e.GetPosition(PatternGraphics);
@@ -214,6 +231,7 @@ public partial class MainPage : ContentPage
     {
         UpdateProjectUi();
         UpdateSegmentInspectionLabel();
+        UpdateInputsCollapsedState();
         UpdatePatternPreview();
     }
 

@@ -10,6 +10,8 @@
   <data name="SettingsButton" xml:space="preserve"><value>Parametres</value></data>
   <data name="IntroText" xml:space="preserve"><value>Mettez une latte grandeur reelle a l'echelle et preparez la longueur de coupe pour le motif choisi.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Entrees</value></data>
+  <data name="ShowInputsDescription" xml:space="preserve"><value>Afficher les entrees</value></data>
+  <data name="HideInputsDescription" xml:space="preserve"><value>Masquer les entrees</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Enregistrer le projet</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Enregistrer sous</value></data>
   <data name="RenameProject" xml:space="preserve"><value>Renommer</value></data>

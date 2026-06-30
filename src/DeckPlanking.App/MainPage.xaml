@@ -38,16 +38,33 @@
                         StrokeThickness="1"
                         BackgroundColor="{DynamicResource AppSurfaceColor}">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="{loc:Translate InputsHeader}"
-                               FontAttributes="Bold"
-                               FontSize="18"
-                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="12">
+                            <Label Text="{loc:Translate InputsHeader}"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Button x:Name="ToggleInputsButton"
+                                    Grid.Column="1"
+                                    Text="-"
+                                    Clicked="OnToggleInputsClicked"
+                                    WidthRequest="42"
+                                    HeightRequest="36"
+                                    MinimumWidthRequest="42"
+                                    MinimumHeightRequest="36"
+                                    Padding="0"
+                                    ToolTipProperties.Text="{loc:Translate HideInputsDescription}"
+                                    SemanticProperties.Description="{loc:Translate HideInputsDescription}" />
+                        </Grid>
 
-                        <Border Padding="12"
-                                Stroke="{DynamicResource AppSecondaryTextColor}"
-                                StrokeThickness="1"
-                                BackgroundColor="{DynamicResource AppBackgroundColor}">
-                            <VerticalStackLayout Spacing="8">
+                        <VerticalStackLayout x:Name="InputsContent"
+                                             Spacing="12">
+                            <Border Padding="12"
+                                    Stroke="{DynamicResource AppSecondaryTextColor}"
+                                    StrokeThickness="1"
+                                    BackgroundColor="{DynamicResource AppBackgroundColor}">
+                                <VerticalStackLayout Spacing="8">
                                 <Grid ColumnDefinitions="Auto,*"
                                       RowDefinitions="Auto,Auto"
                                       ColumnSpacing="10"
@@ -206,8 +223,8 @@
                                                  ToolTipProperties.Text="{loc:Translate DeleteProjectDescription}"
                                                  SemanticProperties.Description="{loc:Translate DeleteProjectDescription}" />
                                 </FlexLayout>
-                            </VerticalStackLayout>
-                        </Border>
+                                </VerticalStackLayout>
+                            </Border>
 
                         <Grid ColumnDefinitions="220,*,Auto"
                               RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
@@ -503,10 +520,12 @@
 
                         <Label Text="{Binding ValidationMessage}"
                                TextColor="#B3261E" />
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
 
-                <Border Grid.Row="1"
+                <Border x:Name="CalculatedLengthPanel"
+                        Grid.Row="1"
                         Padding="16"
                         Stroke="{DynamicResource AppAccentColor}"
                         StrokeThickness="1"

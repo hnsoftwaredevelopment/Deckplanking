@@ -67,9 +67,7 @@ public partial class FeedbackPage : ContentPage
                 return;
             }
 
-            StatusLabel.Text = string.IsNullOrWhiteSpace(result.IssueUrl)
-                ? T("FeedbackSent")
-                : string.Format(CultureInfo.CurrentCulture, T("FeedbackSentWithIssue"), result.IssueUrl);
+            StatusLabel.Text = T("FeedbackSent");
         }
         finally
         {

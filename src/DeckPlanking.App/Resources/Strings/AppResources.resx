@@ -10,6 +10,8 @@
   <data name="SettingsButton" xml:space="preserve"><value>Settings</value></data>
   <data name="IntroText" xml:space="preserve"><value>Scale a full-size plank and prepare the cut length for the selected butt-shift pattern.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Inputs</value></data>
+  <data name="ShowInputsDescription" xml:space="preserve"><value>Show inputs</value></data>
+  <data name="HideInputsDescription" xml:space="preserve"><value>Hide inputs</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Save project</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Save as</value></data>
   <data name="RenameProject" xml:space="preserve"><value>Rename</value></data>

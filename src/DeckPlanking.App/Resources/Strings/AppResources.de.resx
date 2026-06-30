@@ -10,6 +10,8 @@
   <data name="SettingsButton" xml:space="preserve"><value>Einstellungen</value></data>
   <data name="IntroText" xml:space="preserve"><value>Skaliere eine Planke in Originalgroesse und bereite die Schnittlaenge fuer das gewaehlte Versatzmuster vor.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Eingaben</value></data>
+  <data name="ShowInputsDescription" xml:space="preserve"><value>Eingaben anzeigen</value></data>
+  <data name="HideInputsDescription" xml:space="preserve"><value>Eingaben ausblenden</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Projekt speichern</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Speichern unter</value></data>
   <data name="RenameProject" xml:space="preserve"><value>Umbenennen</value></data>

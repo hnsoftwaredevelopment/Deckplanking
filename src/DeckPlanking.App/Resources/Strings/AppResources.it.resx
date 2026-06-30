@@ -10,6 +10,8 @@
   <data name="SettingsButton" xml:space="preserve"><value>Impostazioni</value></data>
   <data name="IntroText" xml:space="preserve"><value>Scala una tavola reale e prepara la lunghezza di taglio per il motivo scelto.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Input</value></data>
+  <data name="ShowInputsDescription" xml:space="preserve"><value>Mostra input</value></data>
+  <data name="HideInputsDescription" xml:space="preserve"><value>Nascondi input</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Salva progetto</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Salva con nome</value></data>
   <data name="RenameProject" xml:space="preserve"><value>Rinomina</value></data>

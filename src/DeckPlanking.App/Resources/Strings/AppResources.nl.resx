@@ -10,6 +10,8 @@
   <data name="SettingsButton" xml:space="preserve"><value>Instellingen</value></data>
   <data name="IntroText" xml:space="preserve"><value>Schaal een plank op ware grootte en bepaal de zaaglengte voor het gekozen verspringingspatroon.</value></data>
   <data name="InputsHeader" xml:space="preserve"><value>Invoer</value></data>
+  <data name="ShowInputsDescription" xml:space="preserve"><value>Invoer tonen</value></data>
+  <data name="HideInputsDescription" xml:space="preserve"><value>Invoer verbergen</value></data>
   <data name="SaveProject" xml:space="preserve"><value>Project opslaan</value></data>
   <data name="SaveProjectAs" xml:space="preserve"><value>Opslaan als</value></data>
   <data name="RenameProject" xml:space="preserve"><value>Hernoemen</value></data>
