@@ -22,7 +22,7 @@ Modelboat Deckplanking is a .NET MAUI application for designing model ship deck 
 - `src/DeckPlanking.App` contains the MAUI application.
 - `feedback-worker` contains the Cloudflare Worker that receives app feedback and creates GitHub issues.
 - `scripts` contains local build scripts for Windows and Android artifacts.
-- `installer` is reserved for the Windows installer scripts.
+- `Installer` contains the Windows Inno Setup installer scripts and installer images.
 
 ## Platform Targets
 

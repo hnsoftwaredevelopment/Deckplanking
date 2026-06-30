@@ -95,8 +95,8 @@ Optional Google Play signing secrets:
 ## 6. Windows Installer
 
 - [ ] Build the Windows artifact first.
-- [ ] Confirm `installer\Build-Installer.ps1` points to the intended `artifacts\windows\Deckplanking-YY.MM.DD.xxx` folder.
-- [ ] Confirm `installer\Installer.iss` uses the same artifact folder.
+- [ ] Confirm `Installer\Build-Installer.ps1` points to the intended `artifacts\windows\Deckplanking-YY.MM.DD.xxx` folder.
+- [ ] Confirm `Installer\Installer.iss` uses the same artifact folder.
 - [ ] Build the installer with Inno Setup.
 - [ ] Install on a clean Windows machine or VM.
 - [ ] Confirm Start Menu shortcut, taskbar icon, app icon, uninstall entry, and app launch.
