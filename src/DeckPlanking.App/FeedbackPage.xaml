@@ -93,9 +93,10 @@
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
                     </Grid>
 
-                    <Button ImageSource="feedback.svg"
-                            Text="{loc:Translate PrepareFeedbackButton}"
-                            Clicked="OnPrepareFeedbackClicked"
+                    <Button x:Name="SendFeedbackButton"
+                            ImageSource="feedback.svg"
+                            Text="{loc:Translate SendFeedbackButton}"
+                            Clicked="OnSendFeedbackClicked"
                             HorizontalOptions="Start" />
 
                     <Label x:Name="StatusLabel"
