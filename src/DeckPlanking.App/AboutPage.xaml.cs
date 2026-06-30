@@ -20,7 +20,8 @@ public partial class AboutPage : ContentPage
     internal static string GetApplicationVersion()
     {
         var assembly = typeof(App).Assembly;
-        return assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version
+        return assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+            ?? assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version
             ?? AppInfo.Current.VersionString;
     }
 }
