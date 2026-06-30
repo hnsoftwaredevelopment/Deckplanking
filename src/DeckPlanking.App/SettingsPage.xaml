@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:DeckPlanking.App.Localization"
+             x:Class="DeckPlanking.App.SettingsPage"
+             Title="{loc:Translate SettingsTitle}"
+             BackgroundColor="{DynamicResource AppBackgroundColor}">
+
+    <ScrollView>
+        <Grid Padding="24"
+              RowDefinitions="Auto"
+              MaximumWidthRequest="720">
+            <Border Padding="16"
+                    Stroke="{DynamicResource AppAccentColor}"
+                    StrokeThickness="1"
+                    BackgroundColor="{DynamicResource AppSurfaceColor}">
+                <VerticalStackLayout Spacing="18">
+                    <Label Text="{loc:Translate SettingsTitle}"
+                           Style="{StaticResource Headline}"
+                           TextColor="{DynamicResource AppPrimaryTextColor}"
+                           SemanticProperties.HeadingLevel="Level1" />
+
+                    <Grid ColumnDefinitions="180,*"
+                          RowDefinitions="Auto,Auto,Auto"
+                          ColumnSpacing="14"
+                          RowSpacing="12">
+                        <Label Text="{loc:Translate Language}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Picker x:Name="LanguagePicker"
+                                Grid.Column="1"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnLanguageChanged" />
+
+                        <Label Grid.Row="1"
+                               Text="{loc:Translate Theme}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Picker x:Name="ThemePicker"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnThemeChanged" />
+
+                        <Label Grid.Row="2"
+                               Text="{loc:Translate DisplayUnits}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Picker x:Name="DisplayUnitSystemPicker"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnDisplayUnitSystemChanged" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

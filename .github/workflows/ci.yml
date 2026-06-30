@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - codex/**
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test-dotnet:
+    name: .NET tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore tests\DeckPlanking.Core.Tests\DeckPlanking.Core.Tests.csproj
+
+      - name: Test
+        run: dotnet test tests\DeckPlanking.Core.Tests\DeckPlanking.Core.Tests.csproj -c Release --no-restore
+
+  test-feedback-worker:
+    name: Feedback worker tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: feedback-worker/package-lock.json
+
+      - name: Install dependencies
+        working-directory: feedback-worker
+        run: npm ci
+
+      - name: Test
+        working-directory: feedback-worker
+        run: npm test

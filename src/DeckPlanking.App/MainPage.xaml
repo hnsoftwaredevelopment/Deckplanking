@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:DeckPlanking.App.Localization"
+             xmlns:preview="clr-namespace:DeckPlanking.Core.Preview;assembly=DeckPlanking.Core"
+             x:Class="DeckPlanking.App.MainPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="about.png"
+                     Text="{loc:Translate AboutTitle}"
+                     Clicked="OnAboutClicked" />
+        <ToolbarItem IconImageSource="settings.png"
+                     Text="{loc:Translate SettingsButton}"
+                     Clicked="OnSettingsClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView BackgroundColor="{DynamicResource AppBackgroundColor}">
+        <Grid Padding="24"
+              RowDefinitions="Auto,Auto"
+              RowSpacing="18"
+              MaximumWidthRequest="980">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="{loc:Translate AppTitle}"
+                       Style="{StaticResource Headline}"
+                       TextColor="{DynamicResource AppPrimaryTextColor}"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="{loc:Translate IntroText}"
+                       Style="{StaticResource SubHeadline}"
+                       TextColor="{DynamicResource AppSecondaryTextColor}"
+                       SemanticProperties.HeadingLevel="Level2" />
+            </VerticalStackLayout>
+
+            <Grid Grid.Row="1"
+                  RowDefinitions="Auto,Auto,Auto"
+                  RowSpacing="16">
+                <Border Padding="16"
+                        Stroke="{DynamicResource AppAccentColor}"
+                        StrokeThickness="1"
+                        BackgroundColor="{DynamicResource AppSurfaceColor}">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="12">
+                            <Label Text="{loc:Translate InputsHeader}"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Button x:Name="ToggleInputsButton"
+                                    Grid.Column="1"
+                                    Text="-"
+                                    Clicked="OnToggleInputsClicked"
+                                    WidthRequest="42"
+                                    HeightRequest="36"
+                                    MinimumWidthRequest="42"
+                                    MinimumHeightRequest="36"
+                                    Padding="0"
+                                    ToolTipProperties.Text="{loc:Translate HideInputsDescription}"
+                                    SemanticProperties.Description="{loc:Translate HideInputsDescription}" />
+                        </Grid>
+
+                        <VerticalStackLayout x:Name="InputsContent"
+                                             Spacing="12">
+                            <Border Padding="12"
+                                    Stroke="{DynamicResource AppSecondaryTextColor}"
+                                    StrokeThickness="1"
+                                    BackgroundColor="{DynamicResource AppBackgroundColor}">
+                                <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="Auto,*"
+                                      RowDefinitions="Auto,Auto"
+                                      ColumnSpacing="10"
+                                      RowSpacing="4">
+                                    <Label Text="{loc:Translate CurrentProject}"
+                                           TextColor="{DynamicResource AppSecondaryTextColor}" />
+                                    <Label x:Name="ProjectNameLabel"
+                                           Grid.Column="1"
+                                           FontAttributes="Bold"
+                                           LineBreakMode="MiddleTruncation"
+                                           TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                    <Label x:Name="ProjectStatusLabel"
+                                           Grid.Row="1"
+                                           Grid.ColumnSpan="2"
+                                           TextColor="{DynamicResource AppSecondaryTextColor}" />
+                                </Grid>
+
+                                <FlexLayout Direction="Row"
+                                            Wrap="Wrap"
+                                            AlignItems="Center"
+                                            JustifyContent="Start">
+                                    <Button Text="&#xE710;"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="20"
+                                            Clicked="OnNewProjectClicked"
+                                            WidthRequest="42"
+                                            HeightRequest="42"
+                                            MinimumWidthRequest="42"
+                                            MinimumHeightRequest="42"
+                                            Padding="8"
+                                            Margin="0,0,8,8"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="0"
+                                            TextColor="{StaticResource Primary}"
+                                            IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                            ToolTipProperties.Text="{loc:Translate NewProjectDescription}"
+                                            SemanticProperties.Description="{loc:Translate NewProjectDescription}" />
+                                    <ImageButton Source="project_new.svg"
+                                                 Clicked="OnNewProjectClicked"
+                                                 WidthRequest="42"
+                                                 HeightRequest="42"
+                                                 Padding="8"
+                                                 Margin="0,0,8,8"
+                                                 BackgroundColor="Transparent"
+                                                 Aspect="AspectFit"
+                                                 IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                                 ToolTipProperties.Text="{loc:Translate NewProjectDescription}"
+                                                 SemanticProperties.Description="{loc:Translate NewProjectDescription}" />
+                                    <Button Text="&#xE838;"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="20"
+                                            Clicked="OnOpenProjectClicked"
+                                            WidthRequest="42"
+                                            HeightRequest="42"
+                                            MinimumWidthRequest="42"
+                                            MinimumHeightRequest="42"
+                                            Padding="8"
+                                            Margin="0,0,8,8"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="0"
+                                            TextColor="{StaticResource Primary}"
+                                            IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                            ToolTipProperties.Text="{loc:Translate OpenProjectDescription}"
+                                            SemanticProperties.Description="{loc:Translate OpenProjectDescription}" />
+                                    <ImageButton Source="project_open.svg"
+                                                 Clicked="OnOpenProjectClicked"
+                                                 WidthRequest="42"
+                                                 HeightRequest="42"
+                                                 Padding="8"
+                                                 Margin="0,0,8,8"
+                                                 BackgroundColor="Transparent"
+                                                 Aspect="AspectFit"
+                                                 IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                                 ToolTipProperties.Text="{loc:Translate OpenProjectDescription}"
+                                                 SemanticProperties.Description="{loc:Translate OpenProjectDescription}" />
+                                    <Button x:Name="SaveProjectButton"
+                                            Text="&#xE74E;"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="20"
+                                            Clicked="OnSaveProjectClicked"
+                                            WidthRequest="42"
+                                            HeightRequest="42"
+                                            MinimumWidthRequest="42"
+                                            MinimumHeightRequest="42"
+                                            Padding="8"
+                                            Margin="0,0,8,8"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="0"
+                                            TextColor="{StaticResource Primary}"
+                                            IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                            ToolTipProperties.Text="{loc:Translate SaveProjectDescription}"
+                                            SemanticProperties.Description="{loc:Translate SaveProjectDescription}" />
+                                    <ImageButton Source="project_save.svg"
+                                                 Clicked="OnSaveProjectClicked"
+                                                 WidthRequest="42"
+                                                 HeightRequest="42"
+                                                 Padding="8"
+                                                 Margin="0,0,8,8"
+                                                 BackgroundColor="Transparent"
+                                                 Aspect="AspectFit"
+                                                 IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                                 ToolTipProperties.Text="{loc:Translate SaveProjectDescription}"
+                                                 SemanticProperties.Description="{loc:Translate SaveProjectDescription}" />
+                                    <Button Text="&#xE70F;"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="20"
+                                            Clicked="OnRenameProjectClicked"
+                                            WidthRequest="42"
+                                            HeightRequest="42"
+                                            MinimumWidthRequest="42"
+                                            MinimumHeightRequest="42"
+                                            Padding="8"
+                                            Margin="0,0,8,8"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="0"
+                                            TextColor="{StaticResource Primary}"
+                                            IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                            ToolTipProperties.Text="{loc:Translate RenameProjectDescription}"
+                                            SemanticProperties.Description="{loc:Translate RenameProjectDescription}" />
+                                    <ImageButton Source="project_rename.svg"
+                                                 Clicked="OnRenameProjectClicked"
+                                                 WidthRequest="42"
+                                                 HeightRequest="42"
+                                                 Padding="8"
+                                                 Margin="0,0,8,8"
+                                                 BackgroundColor="Transparent"
+                                                 Aspect="AspectFit"
+                                                 IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                                 ToolTipProperties.Text="{loc:Translate RenameProjectDescription}"
+                                                 SemanticProperties.Description="{loc:Translate RenameProjectDescription}" />
+                                    <Button Text="&#xE74D;"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="20"
+                                            Clicked="OnDeleteProjectClicked"
+                                            WidthRequest="42"
+                                            HeightRequest="42"
+                                            MinimumWidthRequest="42"
+                                            MinimumHeightRequest="42"
+                                            Padding="8"
+                                            Margin="0,0,8,8"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="0"
+                                            TextColor="{StaticResource Primary}"
+                                            IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                            ToolTipProperties.Text="{loc:Translate DeleteProjectDescription}"
+                                            SemanticProperties.Description="{loc:Translate DeleteProjectDescription}" />
+                                    <ImageButton Source="project_delete.svg"
+                                                 Clicked="OnDeleteProjectClicked"
+                                                 WidthRequest="42"
+                                                 HeightRequest="42"
+                                                 Padding="8"
+                                                 Margin="0,0,8,8"
+                                                 BackgroundColor="Transparent"
+                                                 Aspect="AspectFit"
+                                                 IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                                 ToolTipProperties.Text="{loc:Translate DeleteProjectDescription}"
+                                                 SemanticProperties.Description="{loc:Translate DeleteProjectDescription}" />
+                                </FlexLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                        <Grid ColumnDefinitions="220,*,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                              ColumnSpacing="14"
+                              RowSpacing="8">
+                            <Label Text="{loc:Translate FullSizePlankLength}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Column="1"
+                                   Text="{Binding RealPlankLength, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="1"
+                                   Text="{loc:Translate LengthUnit}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="1"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding LengthUnits}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedLengthUnit}" />
+
+                            <Label Grid.Row="2"
+                                   Text="{loc:Translate ScaleMode}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="2"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding ScaleModes}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedScaleMode}" />
+
+                            <Label Grid.Row="3"
+                                   Text="{loc:Translate ScaleDecimal}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsDecimalScale}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="3"
+                                   Grid.Column="1"
+                                   Text="{Binding DecimalScale, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsDecimalScale}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="3"
+                                   Text="{loc:Translate InchesPerRealFoot}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsImperialScale}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="3"
+                                   Grid.Column="1"
+                                   Text="{Binding ImperialInchesPerFoot, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsImperialScale}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="4"
+                                   Text="{loc:Translate DeckLength}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="4"
+                                   Grid.Column="1"
+                                   Text="{Binding DeckLengthInput, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="4"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="5"
+                                   Text="{loc:Translate DeckShape}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="5"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding DeckShapes}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedDeckShape}" />
+
+                            <Label Grid.Row="6"
+                                   Text="{loc:Translate BowWidthPercentage}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="6"
+                                   Grid.Column="1"
+                                   Text="{Binding BowWidthPercentage, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="6"
+                                   Grid.Column="2"
+                                   Text="%"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="7"
+                                   Text="{loc:Translate BowTaperLengthPercentage}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="7"
+                                   Grid.Column="1"
+                                   Text="{Binding BowTaperLengthPercentage, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="7"
+                                   Grid.Column="2"
+                                   Text="%"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="8"
+                                   Text="{loc:Translate BowRoundnessPercentage}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="8"
+                                   Grid.Column="1"
+                                   Text="{Binding BowRoundnessPercentage, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="8"
+                                   Grid.Column="2"
+                                   Text="%"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsBowWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="9"
+                                   Text="{loc:Translate SternWidthPercentage}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="9"
+                                   Grid.Column="1"
+                                   Text="{Binding SternWidthPercentage, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="9"
+                                   Grid.Column="2"
+                                   Text="%"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="10"
+                                   Text="{loc:Translate SternTaperLengthPercentage}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="10"
+                                   Grid.Column="1"
+                                   Text="{Binding SternTaperLengthPercentage, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="10"
+                                   Grid.Column="2"
+                                   Text="%"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="11"
+                                   Text="{loc:Translate SternRoundnessPercentage}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="11"
+                                   Grid.Column="1"
+                                   Text="{Binding SternRoundnessPercentage, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="11"
+                                   Grid.Column="2"
+                                   Text="%"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsSternWidthPercentageVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="12"
+                                   Text="{loc:Translate RowInput}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="12"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding RowInputModes}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedRowInputMode}" />
+
+                            <Label Grid.Row="13"
+                                   Text="{loc:Translate DeckWidth}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="13"
+                                   Grid.Column="1"
+                                   Text="{Binding DeckWidthInput, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="13"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="14"
+                                   Text="{loc:Translate PlankWidth}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="14"
+                                   Grid.Column="1"
+                                   Text="{Binding PlankWidthInput, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="14"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsWidthBasedRowInput}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="15"
+                                   Text="{loc:Translate KingPlankWidth}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsKingPlankWidthVisible}"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="15"
+                                   Grid.Column="1"
+                                   Text="{Binding KingPlankWidthInput, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsVisible="{Binding IsKingPlankWidthVisible}"
+                                   ClearButtonVisibility="WhileEditing" />
+                            <Label Grid.Row="15"
+                                   Grid.Column="2"
+                                   Text="{Binding DimensionInputUnitText}"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding IsKingPlankWidthVisible}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="16"
+                                   Text="{loc:Translate Rows}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="16"
+                                   Grid.Column="1"
+                                   Text="{Binding RowCount, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   IsEnabled="{Binding IsManualRowInput}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="17"
+                                   Text="{loc:Translate StartPoint}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Entry Grid.Row="17"
+                                   Grid.Column="1"
+                                   Text="{Binding StartPoint, Mode=TwoWay}"
+                                   Keyboard="Numeric"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Label Grid.Row="18"
+                                   Grid.Column="1"
+                                   Grid.ColumnSpan="2"
+                                   Text="{Binding StartPointHelpText}"
+                                   FontSize="12"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+
+                            <Label Grid.Row="19"
+                                   Text="{loc:Translate ShiftPattern}"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                            <Picker Grid.Row="19"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Patterns}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    SelectedItem="{Binding SelectedPattern}" />
+                        </Grid>
+
+                        <Label Text="{Binding ValidationMessage}"
+                               TextColor="#B3261E" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="CalculatedLengthPanel"
+                        Grid.Row="1"
+                        Padding="16"
+                        Stroke="{DynamicResource AppAccentColor}"
+                        StrokeThickness="1"
+                        BackgroundColor="{DynamicResource AppSurfaceColor}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="{loc:Translate CalculatedPlankLength}"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto,Auto"
+                              RowSpacing="12">
+                            <Label Text="{loc:Translate CutLength}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding CutLengthText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                            <Label Grid.Row="1"
+                                   Text="{loc:Translate SegmentLength}"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding SegmentLengthText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="2"
+                        Padding="16"
+                        Stroke="{DynamicResource AppAccentColor}"
+                        StrokeThickness="1"
+                        BackgroundColor="{DynamicResource AppSurfaceColor}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="{loc:Translate PatternPreview}"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                        <VerticalStackLayout Spacing="6">
+                            <FlexLayout Direction="Row"
+                                        Wrap="Wrap"
+                                        AlignItems="Center"
+                                        JustifyContent="Start">
+                                <Button Text="&#xE71F;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="20"
+                                        Clicked="OnZoomOutClicked"
+                                        WidthRequest="42"
+                                        HeightRequest="36"
+                                        MinimumWidthRequest="42"
+                                        MinimumHeightRequest="36"
+                                        Padding="0"
+                                        Margin="0,0,6,6"
+                                        BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                        ToolTipProperties.Text="{loc:Translate ZoomOutDescription}"
+                                        SemanticProperties.Description="{loc:Translate ZoomOutDescription}" />
+                                <ImageButton Source="preview_zoom_out.svg"
+                                             Clicked="OnZoomOutClicked"
+                                             WidthRequest="42"
+                                             HeightRequest="36"
+                                             Padding="7"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                             ToolTipProperties.Text="{loc:Translate ZoomOutDescription}"
+                                             SemanticProperties.Description="{loc:Translate ZoomOutDescription}" />
+                                <Button Text="&#xE8A3;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="20"
+                                        Clicked="OnZoomInClicked"
+                                        WidthRequest="42"
+                                        HeightRequest="36"
+                                        MinimumWidthRequest="42"
+                                        MinimumHeightRequest="36"
+                                        Padding="0"
+                                        Margin="0,0,6,6"
+                                        BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                        ToolTipProperties.Text="{loc:Translate ZoomInDescription}"
+                                        SemanticProperties.Description="{loc:Translate ZoomInDescription}" />
+                                <ImageButton Source="preview_zoom_in.svg"
+                                             Clicked="OnZoomInClicked"
+                                             WidthRequest="42"
+                                             HeightRequest="36"
+                                             Padding="7"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                             ToolTipProperties.Text="{loc:Translate ZoomInDescription}"
+                                             SemanticProperties.Description="{loc:Translate ZoomInDescription}" />
+                                <Button Text="&#xE72C;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="20"
+                                        Clicked="OnResetViewportClicked"
+                                        WidthRequest="42"
+                                        HeightRequest="36"
+                                        MinimumWidthRequest="42"
+                                        MinimumHeightRequest="36"
+                                        Padding="0"
+                                        Margin="0,0,6,6"
+                                        BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                        ToolTipProperties.Text="{loc:Translate ResetDescription}"
+                                        SemanticProperties.Description="{loc:Translate ResetDescription}" />
+                                <ImageButton Source="preview_reset.svg"
+                                             Clicked="OnResetViewportClicked"
+                                             WidthRequest="42"
+                                             HeightRequest="36"
+                                             Padding="7"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                             ToolTipProperties.Text="{loc:Translate ResetDescription}"
+                                             SemanticProperties.Description="{loc:Translate ResetDescription}" />
+                                <Button Text="PNG"
+                                        FontSize="11"
+                                        FontAttributes="Bold"
+                                        Clicked="OnExportPngClicked"
+                                        WidthRequest="42"
+                                        HeightRequest="36"
+                                        MinimumWidthRequest="42"
+                                        MinimumHeightRequest="36"
+                                        Padding="0"
+                                        Margin="0,0,6,6"
+                                        BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                        ToolTipProperties.Text="{loc:Translate ExportPngDescription}"
+                                        SemanticProperties.Description="{loc:Translate ExportPngDescription}" />
+                                <ImageButton Source="export_png.svg"
+                                             Clicked="OnExportPngClicked"
+                                             WidthRequest="42"
+                                             HeightRequest="36"
+                                             Padding="7"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                             ToolTipProperties.Text="{loc:Translate ExportPngDescription}"
+                                             SemanticProperties.Description="{loc:Translate ExportPngDescription}" />
+                                <Button Text="PDF"
+                                        FontSize="11"
+                                        FontAttributes="Bold"
+                                        Clicked="OnExportPdfClicked"
+                                        WidthRequest="42"
+                                        HeightRequest="36"
+                                        MinimumWidthRequest="42"
+                                        MinimumHeightRequest="36"
+                                        Padding="0"
+                                        Margin="0,0,6,6"
+                                        BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                        ToolTipProperties.Text="{loc:Translate ExportPdfDescription}"
+                                        SemanticProperties.Description="{loc:Translate ExportPdfDescription}" />
+                                <ImageButton Source="export_pdf.svg"
+                                             Clicked="OnExportPdfClicked"
+                                             WidthRequest="42"
+                                             HeightRequest="36"
+                                             Padding="7"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                             ToolTipProperties.Text="{loc:Translate ExportPdfDescription}"
+                                             SemanticProperties.Description="{loc:Translate ExportPdfDescription}" />
+                                <Button Text="&#xE749;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="20"
+                                        Clicked="OnPrintClicked"
+                                        WidthRequest="42"
+                                        HeightRequest="36"
+                                        MinimumWidthRequest="42"
+                                        MinimumHeightRequest="36"
+                                        Padding="0"
+                                        Margin="0,0,6,6"
+                                        BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnPlatform WinUI=True, Default=False}"
+                                        ToolTipProperties.Text="{loc:Translate PrintDescription}"
+                                        SemanticProperties.Description="{loc:Translate PrintDescription}" />
+                                <ImageButton Source="preview_print.svg"
+                                             Clicked="OnPrintClicked"
+                                             WidthRequest="42"
+                                             HeightRequest="36"
+                                             Padding="7"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             IsVisible="{OnPlatform WinUI=False, Default=True}"
+                                             ToolTipProperties.Text="{loc:Translate PrintDescription}"
+                                             SemanticProperties.Description="{loc:Translate PrintDescription}" />
+                                <HorizontalStackLayout Spacing="6"
+                                                       VerticalOptions="Center"
+                                                       Margin="0,0,6,6">
+                                    <Label Text="{loc:Translate KingPlank}"
+                                           VerticalOptions="Center"
+                                           TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                    <Switch IsToggled="{Binding UseKingPlank, Mode=TwoWay}"
+                                            VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </FlexLayout>
+
+                            <HorizontalStackLayout Spacing="6"
+                                                   HorizontalOptions="Start">
+                                <Label Text="{loc:Translate Orientation}"
+                                       VerticalOptions="Center"
+                                       TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                <Picker ItemsSource="{Binding DeckOrientations}"
+                                        ItemDisplayBinding="{Binding DisplayName}"
+                                        SelectedItem="{Binding SelectedDeckOrientation}"
+                                        WidthRequest="116"
+                                        VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <FlexLayout Direction="Row"
+                                        Wrap="Wrap"
+                                        AlignItems="Center"
+                                        JustifyContent="Start">
+                                <Label Text="{loc:Translate Trenails}"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,6,6"
+                                       TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                <ImageButton Source="trenail_none.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.None}"
+                                             Opacity="{Binding NoTrenailsOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="{loc:Translate NoTrenails}" />
+                                <ImageButton Source="trenail_two.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.TwoPerPlankEnd}"
+                                             Opacity="{Binding TwoTrenailsOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="{loc:Translate TwoTrenailsPerPlankEnd}" />
+                                <ImageButton Source="trenail_center.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.OneCentered}"
+                                             Opacity="{Binding OneCenteredTrenailOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="{loc:Translate OneCenteredTrenail}" />
+                                <ImageButton Source="trenail_alternating.png"
+                                             Command="{Binding SelectTrenailPatternCommand}"
+                                             CommandParameter="{x:Static preview:TrenailPatternKind.OneAlternating}"
+                                             Opacity="{Binding OneAlternatingTrenailOpacity}"
+                                             WidthRequest="58"
+                                             HeightRequest="36"
+                                             Padding="4"
+                                             Margin="0,0,6,6"
+                                             BackgroundColor="Transparent"
+                                             Aspect="AspectFit"
+                                             SemanticProperties.Description="{loc:Translate OneAlternatingTrenail}" />
+                            </FlexLayout>
+                        </VerticalStackLayout>
+
+                        <Border Padding="0"
+                                Stroke="{DynamicResource AppAccentColor}"
+                                StrokeThickness="1"
+                                HeightRequest="340"
+                                BackgroundColor="#FFF7EC">
+                            <GraphicsView x:Name="PatternGraphics"
+                                          HeightRequest="340">
+                                <GraphicsView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPatternTapped" />
+                                    <PanGestureRecognizer PanUpdated="OnPatternPanUpdated" />
+                                    <PinchGestureRecognizer PinchUpdated="OnPatternPinchUpdated" />
+                                </GraphicsView.GestureRecognizers>
+                            </GraphicsView>
+                        </Border>
+
+                        <Label x:Name="SegmentInspectionLabel"
+                               IsVisible="False"
+                               TextColor="{DynamicResource AppPrimaryTextColor}"
+                               FontAttributes="Bold"
+                               LineBreakMode="WordWrap" />
+
+                        <Button Text="{Binding SeamTableToggleText}"
+                                Command="{Binding ToggleSeamTableCommand}"
+                                HorizontalOptions="Start"
+                                Padding="12,8"
+                                MinimumHeightRequest="36" />
+
+                        <Grid ColumnDefinitions="70,90,*"
+                              ColumnSpacing="10"
+                              IsVisible="{Binding IsSeamTableVisible}">
+                            <Label Text="{loc:Translate Row}"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+                            <Label Grid.Column="1"
+                                   Text="{loc:Translate Offset}"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+                            <Label Grid.Column="2"
+                                   Text="{Binding SeamPositionsHeaderText}"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        </Grid>
+
+                        <CollectionView ItemsSource="{Binding PatternRows}"
+                                        HeightRequest="220"
+                                        IsVisible="{Binding IsSeamTableVisible}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="70,90,*"
+                                          ColumnSpacing="10"
+                                          Padding="0,4">
+                                        <Label Text="{Binding RowNumber}"
+                                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding SeamOffsetSegments}"
+                                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                        <Label Grid.Column="2"
+                                               Text="{Binding SeamPositionsText}"
+                                               LineBreakMode="TailTruncation"
+                                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollView>
+</ContentPage>

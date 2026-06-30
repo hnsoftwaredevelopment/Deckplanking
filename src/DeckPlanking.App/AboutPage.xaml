@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:DeckPlanking.App.Localization"
+             x:Class="DeckPlanking.App.AboutPage"
+             Title="{loc:Translate AboutTitle}"
+             BackgroundColor="{DynamicResource AppBackgroundColor}">
+
+    <ScrollView>
+        <Grid Padding="24"
+              MaximumWidthRequest="720">
+            <Border Padding="18"
+                    Stroke="{DynamicResource AppAccentColor}"
+                    StrokeThickness="1"
+                    BackgroundColor="{DynamicResource AppSurfaceColor}">
+                <VerticalStackLayout Spacing="18">
+                    <Image Source="about_appicon.png"
+                           WidthRequest="96"
+                           HeightRequest="96"
+                           HorizontalOptions="Center" />
+
+                    <VerticalStackLayout Spacing="4"
+                                         HorizontalOptions="Center">
+                        <Label Text="{loc:Translate AppTitle}"
+                               FontAttributes="Bold"
+                               FontSize="24"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Label Text="{loc:Translate AboutSubtitle}"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="Auto,Auto"
+                          RowDefinitions="Auto,Auto,Auto"
+                          ColumnSpacing="14"
+                          RowSpacing="10"
+                          HorizontalOptions="Center">
+                        <Label Text="{loc:Translate Version}"
+                               HorizontalTextAlignment="End"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        <Label x:Name="VersionLabel"
+                               Grid.Column="1"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                        <Label Grid.Row="1"
+                               Text="{loc:Translate Platform}"
+                               HorizontalTextAlignment="End"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        <Label x:Name="PlatformLabel"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                        <Label Grid.Row="2"
+                               Text="{loc:Translate OsVersion}"
+                               HorizontalTextAlignment="End"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        <Label x:Name="OsVersionLabel"
+                               Grid.Row="2"
+                               Grid.Column="1"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                    </Grid>
+
+                    <Button ImageSource="feedback.svg"
+                            Text="{loc:Translate FeedbackButton}"
+                            Clicked="OnFeedbackClicked"
+                            HorizontalOptions="Center"
+                            ToolTipProperties.Text="{loc:Translate FeedbackDescription}"
+                            SemanticProperties.Description="{loc:Translate FeedbackDescription}" />
+
+                    <VerticalStackLayout Spacing="8"
+                                         HorizontalOptions="Center">
+                        <Image Source="hn_software_logo.png"
+                               WidthRequest="180"
+                               HeightRequest="72"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center" />
+                        <Label Text="{loc:Translate AboutCopyright}"
+                               FontSize="12"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

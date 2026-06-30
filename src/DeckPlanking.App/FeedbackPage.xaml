@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:DeckPlanking.App.Localization"
+             x:Class="DeckPlanking.App.FeedbackPage"
+             Title="{loc:Translate FeedbackTitle}"
+             BackgroundColor="{DynamicResource AppBackgroundColor}">
+
+    <ScrollView>
+        <Grid Padding="24"
+              MaximumWidthRequest="760">
+            <Border Padding="16"
+                    Stroke="{DynamicResource AppAccentColor}"
+                    StrokeThickness="1"
+                    BackgroundColor="{DynamicResource AppSurfaceColor}">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="{loc:Translate FeedbackTitle}"
+                           Style="{StaticResource Headline}"
+                           TextColor="{DynamicResource AppPrimaryTextColor}"
+                           SemanticProperties.HeadingLevel="Level1" />
+
+                    <Grid ColumnDefinitions="160,*"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          ColumnSpacing="14"
+                          RowSpacing="10">
+                        <Label Text="{loc:Translate FeedbackType}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Picker x:Name="FeedbackTypePicker"
+                                Grid.Column="1"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnFeedbackTypeChanged" />
+
+                        <Label Grid.Row="1"
+                               Text="{loc:Translate FeedbackTitleLabel}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Entry x:Name="TitleEntry"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               ClearButtonVisibility="WhileEditing" />
+
+                        <Label Grid.Row="2"
+                               Text="{loc:Translate FeedbackDescriptionLabel}"
+                               VerticalOptions="Start"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Editor x:Name="DescriptionEditor"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                AutoSize="TextChanges"
+                                MinimumHeightRequest="130" />
+
+                        <Label Grid.Row="3"
+                               Text="{loc:Translate FeedbackName}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Entry x:Name="NameEntry"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               ClearButtonVisibility="WhileEditing" />
+
+                        <Label Grid.Row="4"
+                               Text="{loc:Translate FeedbackContact}"
+                               VerticalOptions="Center"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                        <Entry x:Name="ContactEntry"
+                               Grid.Row="4"
+                               Grid.Column="1"
+                               Keyboard="Email"
+                               ClearButtonVisibility="WhileEditing" />
+
+                        <Label Grid.Row="5"
+                               Text="{loc:Translate Version}"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        <Label x:Name="VersionLabel"
+                               Grid.Row="5"
+                               Grid.Column="1"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                        <Label Grid.Row="6"
+                               Text="{loc:Translate Platform}"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        <Label x:Name="PlatformLabel"
+                               Grid.Row="6"
+                               Grid.Column="1"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+
+                        <Label Grid.Row="7"
+                               Text="{loc:Translate OsVersion}"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                        <Label x:Name="OsVersionLabel"
+                               Grid.Row="7"
+                               Grid.Column="1"
+                               TextColor="{DynamicResource AppPrimaryTextColor}" />
+                    </Grid>
+
+                    <Button x:Name="DiagnosticsToggleButton"
+                            Text="{loc:Translate ShowTechnicalInformation}"
+                            Clicked="OnDiagnosticsToggleClicked"
+                            HorizontalOptions="Start" />
+
+                    <Border x:Name="DiagnosticsPanel"
+                            IsVisible="False"
+                            Padding="12"
+                            Stroke="{DynamicResource AppAccentColor}"
+                            StrokeThickness="1"
+                            BackgroundColor="{DynamicResource AppBackgroundColor}">
+                        <Label x:Name="DiagnosticsLabel"
+                               FontFamily="Consolas"
+                               FontSize="13"
+                               TextColor="{DynamicResource AppSecondaryTextColor}" />
+                    </Border>
+
+                    <Button x:Name="SendFeedbackButton"
+                            ImageSource="feedback.svg"
+                            Text="{loc:Translate SendFeedbackButton}"
+                            Clicked="OnSendFeedbackClicked"
+                            HorizontalOptions="Start" />
+
+                    <Label x:Name="StatusLabel"
+                           TextColor="{DynamicResource AppSecondaryTextColor}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

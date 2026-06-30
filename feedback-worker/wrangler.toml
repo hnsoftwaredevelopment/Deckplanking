@@ -1,0 +1,8 @@
+name = "deckplanking-feedback"
+main = "src/index.js"
+compatibility_date = "2026-06-30"
+workers_dev = true
+
+[vars]
+GITHUB_OWNER = "hnsoftwaredevelopment"
+GITHUB_REPO = "Deckplanking"

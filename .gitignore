@@ -1,0 +1,19 @@
+bin/
+obj/
+artifacts/
+.vs/
+.idea/
+.superpowers/
+*.user
+*.suo
+
+# Local secrets
+syncfusion-license.txt
+SyncfusionLicense.txt
+synfusion.txt
+SynfusionLicense.txt
+docs/synfusion.txt
+docs/SynfusionLicense.txt
+docs/SyncfusionLicense.txt
+*.syncfusionlicense
+src/DeckPlanking.App/GeneratedSyncfusionLicense.g.cs

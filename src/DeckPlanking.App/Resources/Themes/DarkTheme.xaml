@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="AppBackgroundColor">#121416</Color>
+    <Color x:Key="AppSurfaceColor">#1E2428</Color>
+    <Color x:Key="AppPrimaryTextColor">#F2F5F7</Color>
+    <Color x:Key="AppSecondaryTextColor">#B7C0C8</Color>
+    <Color x:Key="AppAccentColor">#7BA7BC</Color>
+</ResourceDictionary>

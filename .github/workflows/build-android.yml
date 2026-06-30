@@ -1,0 +1,104 @@
+name: Build Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Optional version override in YY.MM.DD.xxx format
+        required: false
+        type: string
+
+jobs:
+  build:
+    name: Android APK and AAB
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Restore MAUI workloads
+        run: dotnet workload restore src\DeckPlanking.App\DeckPlanking.App.csproj
+
+      - name: Write Syncfusion license
+        shell: pwsh
+        env:
+          SYNCFUSION_LICENSE: ${{ secrets.SYNCFUSION_LICENSE }}
+        run: |
+          if (-not [string]::IsNullOrWhiteSpace($env:SYNCFUSION_LICENSE)) {
+            New-Item -ItemType Directory -Path docs -Force | Out-Null
+            Set-Content -LiteralPath docs\SyncfusionLicense.txt -Value $env:SYNCFUSION_LICENSE -NoNewline
+          }
+
+      - name: Write Android upload keystore
+        shell: pwsh
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if (-not [string]::IsNullOrWhiteSpace($env:ANDROID_KEYSTORE_BASE64)) {
+            New-Item -ItemType Directory -Path .secrets -Force | Out-Null
+            [IO.File]::WriteAllBytes(".secrets\android-upload.keystore", [Convert]::FromBase64String($env:ANDROID_KEYSTORE_BASE64))
+          }
+
+      - name: Build ARM64 APK
+        shell: pwsh
+        run: |
+          $version = "${{ inputs.version }}"
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            $version = "{0}.{1:000}" -f (Get-Date -Format 'yy.MM.dd'), [int]"${{ github.run_number }}"
+          }
+          .\scripts\build-android-arm64.ps1 -VersionOverride $version
+
+      - name: Build Play Store AAB
+        shell: pwsh
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          $version = "${{ inputs.version }}"
+          if (-not [string]::IsNullOrWhiteSpace($version)) {
+            $buildArguments = @{ VersionOverride = $version }
+          } else {
+            $buildArguments = @{ VersionOverride = ("{0}.{1:000}" -f (Get-Date -Format 'yy.MM.dd'), [int]"${{ github.run_number }}") }
+          }
+
+          $keystorePath = ".secrets\android-upload.keystore"
+          if ((Test-Path -LiteralPath $keystorePath) -and
+              -not [string]::IsNullOrWhiteSpace($env:ANDROID_KEYSTORE_PASSWORD) -and
+              -not [string]::IsNullOrWhiteSpace($env:ANDROID_KEY_ALIAS) -and
+              -not [string]::IsNullOrWhiteSpace($env:ANDROID_KEY_PASSWORD)) {
+            $buildArguments.KeystorePath = $keystorePath
+            $buildArguments.KeystorePassword = $env:ANDROID_KEYSTORE_PASSWORD
+            $buildArguments.KeyAlias = $env:ANDROID_KEY_ALIAS
+            $buildArguments.KeyPassword = $env:ANDROID_KEY_PASSWORD
+          }
+
+          .\scripts\build-android-playstore.ps1 @buildArguments
+
+      - name: Upload ARM64 APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deckplanking-android-arm64-apk
+          path: artifacts/android-arm64/**/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Play Store AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deckplanking-android-playstore-aab
+          path: artifacts/android-playstore/**/*.aab
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Modelboat Deckplanking</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Settings</value></data>
+  <data name="SettingsButton" xml:space="preserve"><value>Settings</value></data>
+  <data name="IntroText" xml:space="preserve"><value>Scale a full-size plank and prepare the cut length for the selected butt-shift pattern.</value></data>
+  <data name="InputsHeader" xml:space="preserve"><value>Inputs</value></data>
+  <data name="ShowInputsDescription" xml:space="preserve"><value>Show inputs</value></data>
+  <data name="HideInputsDescription" xml:space="preserve"><value>Hide inputs</value></data>
+  <data name="SaveProject" xml:space="preserve"><value>Save project</value></data>
+  <data name="SaveProjectAs" xml:space="preserve"><value>Save as</value></data>
+  <data name="RenameProject" xml:space="preserve"><value>Rename</value></data>
+  <data name="DeleteProject" xml:space="preserve"><value>Delete</value></data>
+  <data name="NewProject" xml:space="preserve"><value>New project</value></data>
+  <data name="OpenProject" xml:space="preserve"><value>Open project</value></data>
+  <data name="SaveProjectDescription" xml:space="preserve"><value>Save project settings</value></data>
+  <data name="SaveProjectAsDescription" xml:space="preserve"><value>Save project settings to a new file</value></data>
+  <data name="RenameProjectDescription" xml:space="preserve"><value>Rename the current project file</value></data>
+  <data name="DeleteProjectDescription" xml:space="preserve"><value>Delete the current project file</value></data>
+  <data name="NewProjectDescription" xml:space="preserve"><value>Start a new project</value></data>
+  <data name="OpenProjectDescription" xml:space="preserve"><value>Open saved project settings</value></data>
+  <data name="CurrentProject" xml:space="preserve"><value>Current project</value></data>
+  <data name="UntitledProject" xml:space="preserve"><value>Untitled project</value></data>
+  <data name="UnsavedProjectName" xml:space="preserve"><value>{0} *</value></data>
+  <data name="ProjectHasUnsavedChanges" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="ProjectNotSavedYet" xml:space="preserve"><value>Not saved yet</value></data>
+  <data name="ProjectSavedAt" xml:space="preserve"><value>Saved at {0}</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>The current project has unsaved changes. Discard them?</value></data>
+  <data name="DiscardChanges" xml:space="preserve"><value>Discard</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="ProjectNamePrompt" xml:space="preserve"><value>Project name</value></data>
+  <data name="ProjectRenameRequiresSaveTitle" xml:space="preserve"><value>Save project first</value></data>
+  <data name="ProjectRenameRequiresSaveMessage" xml:space="preserve"><value>Save the current project before renaming it.</value></data>
+  <data name="ProjectDeleteRequiresSaveTitle" xml:space="preserve"><value>No project file</value></data>
+  <data name="ProjectDeleteRequiresSaveMessage" xml:space="preserve"><value>This project has not been saved yet, so there is no project file to delete.</value></data>
+  <data name="DeleteProjectConfirmation" xml:space="preserve"><value>Delete the currently loaded project file '{0}'? This cannot be undone.</value></data>
+  <data name="ProjectCouldNotBeRenamed" xml:space="preserve"><value>Project could not be renamed</value></data>
+  <data name="ProjectCouldNotBeDeleted" xml:space="preserve"><value>Project could not be deleted</value></data>
+  <data name="FullSizePlankLength" xml:space="preserve"><value>Full-size plank length</value></data>
+  <data name="LengthUnit" xml:space="preserve"><value>Length unit</value></data>
+  <data name="ScaleMode" xml:space="preserve"><value>Scale mode</value></data>
+  <data name="ScaleDecimal" xml:space="preserve"><value>Scale 1:N</value></data>
+  <data name="InchesPerRealFoot" xml:space="preserve"><value>Inches per real foot</value></data>
+  <data name="DeckLength" xml:space="preserve"><value>Deck length</value></data>
+  <data name="DeckShape" xml:space="preserve"><value>Deck shape</value></data>
+  <data name="DeckShapeRectangular" xml:space="preserve"><value>Rectangular</value></data>
+  <data name="DeckShapeNarrowedBow" xml:space="preserve"><value>Narrowed at bow</value></data>
+  <data name="DeckShapeNarrowedBowAndStern" xml:space="preserve"><value>Narrowed at bow and stern</value></data>
+  <data name="BowWidthPercentage" xml:space="preserve"><value>Bow width</value></data>
+  <data name="SternWidthPercentage" xml:space="preserve"><value>Stern width</value></data>
+  <data name="BowTaperLengthPercentage" xml:space="preserve"><value>Bow taper length</value></data>
+  <data name="BowRoundnessPercentage" xml:space="preserve"><value>Bow rounding</value></data>
+  <data name="SternTaperLengthPercentage" xml:space="preserve"><value>Stern taper length</value></data>
+  <data name="SternRoundnessPercentage" xml:space="preserve"><value>Stern rounding</value></data>
+  <data name="RowInput" xml:space="preserve"><value>Row input</value></data>
+  <data name="DeckWidth" xml:space="preserve"><value>Deck width</value></data>
+  <data name="PlankWidth" xml:space="preserve"><value>Plank width</value></data>
+  <data name="KingPlankWidth" xml:space="preserve"><value>King plank width</value></data>
+  <data name="Rows" xml:space="preserve"><value>Rows</value></data>
+  <data name="StartPoint" xml:space="preserve"><value>Start point</value></data>
+  <data name="StartPointRelativeToKingPlank" xml:space="preserve"><value>Relative to the king plank.</value></data>
+  <data name="StartPointRelativeToCenterlineRow" xml:space="preserve"><value>Relative to the row next to the centerline.</value></data>
+  <data name="ShiftPattern" xml:space="preserve"><value>Shift pattern</value></data>
+  <data name="CalculatedPlankLength" xml:space="preserve"><value>Calculated plank length</value></data>
+  <data name="CutLength" xml:space="preserve"><value>Cut length</value></data>
+  <data name="SegmentLength" xml:space="preserve"><value>Segment length</value></data>
+  <data name="PatternPreview" xml:space="preserve"><value>Pattern preview</value></data>
+  <data name="Reset" xml:space="preserve"><value>Reset</value></data>
+  <data name="ZoomOutDescription" xml:space="preserve"><value>Zoom out</value></data>
+  <data name="ZoomInDescription" xml:space="preserve"><value>Zoom in</value></data>
+  <data name="ResetDescription" xml:space="preserve"><value>Reset preview zoom and position</value></data>
+  <data name="ExportPngDescription" xml:space="preserve"><value>Export preview as PNG</value></data>
+  <data name="ExportPdfDescription" xml:space="preserve"><value>Export preview as PDF</value></data>
+  <data name="Print" xml:space="preserve"><value>Print</value></data>
+  <data name="PrintDescription" xml:space="preserve"><value>Print preview</value></data>
+  <data name="PrintFailed" xml:space="preserve"><value>Print failed</value></data>
+  <data name="PrintPdfOpenedTitle" xml:space="preserve"><value>PDF opened</value></data>
+  <data name="PrintPdfOpenedMessage" xml:space="preserve"><value>Windows has no direct PDF print action configured, so the PDF has been opened. Use the print option in the PDF viewer.</value></data>
+  <data name="KingPlank" xml:space="preserve"><value>King plank</value></data>
+  <data name="Orientation" xml:space="preserve"><value>Orientation</value></data>
+  <data name="Trenails" xml:space="preserve"><value>Trenails</value></data>
+  <data name="NoTrenails" xml:space="preserve"><value>No trenails</value></data>
+  <data name="TwoTrenailsPerPlankEnd" xml:space="preserve"><value>Two trenails per plank end</value></data>
+  <data name="OneCenteredTrenail" xml:space="preserve"><value>One centered trenail per plank end</value></data>
+  <data name="OneAlternatingTrenail" xml:space="preserve"><value>One alternating trenail per plank end</value></data>
+  <data name="Row" xml:space="preserve"><value>Row</value></data>
+  <data name="Offset" xml:space="preserve"><value>Offset</value></data>
+  <data name="SeamsMillimeters" xml:space="preserve"><value>Seams (mm)</value></data>
+  <data name="Seams" xml:space="preserve"><value>Seams</value></data>
+  <data name="ShowSeamDetails" xml:space="preserve"><value>Show seam details</value></data>
+  <data name="HideSeamDetails" xml:space="preserve"><value>Hide seam details</value></data>
+  <data name="InspectionKingPlank" xml:space="preserve"><value>King plank</value></data>
+  <data name="InspectionUpperRow" xml:space="preserve"><value>Upper row {0}</value></data>
+  <data name="InspectionLowerRow" xml:space="preserve"><value>Lower row {0}</value></data>
+  <data name="InspectionRow" xml:space="preserve"><value>Row {0}</value></data>
+  <data name="SegmentInspectionText" xml:space="preserve"><value>{0}, segment {1}: {2} - {3}, length {4}</value></data>
+  <data name="PatternEvery2" xml:space="preserve"><value>Every 2</value></data>
+  <data name="PatternEvery3" xml:space="preserve"><value>Every 3</value></data>
+  <data name="PatternEvery4" xml:space="preserve"><value>Every 4</value></data>
+  <data name="PatternEvery5" xml:space="preserve"><value>Every 5</value></data>
+  <data name="BowLeft" xml:space="preserve"><value>Bow left</value></data>
+  <data name="SternLeft" xml:space="preserve"><value>Stern left</value></data>
+  <data name="Bow" xml:space="preserve"><value>Bow</value></data>
+  <data name="Stern" xml:space="preserve"><value>Stern</value></data>
+  <data name="Meters" xml:space="preserve"><value>Meters</value></data>
+  <data name="Feet" xml:space="preserve"><value>Feet</value></data>
+  <data name="DecimalScaleMode" xml:space="preserve"><value>Decimal scale 1:N</value></data>
+  <data name="ImperialScaleMode" xml:space="preserve"><value>Imperial inches per foot</value></data>
+  <data name="ManualRows" xml:space="preserve"><value>Manual rows</value></data>
+  <data name="FromDeckWidth" xml:space="preserve"><value>From deck width</value></data>
+  <data name="ValidationPositiveValues" xml:space="preserve"><value>Enter positive values for length, scale, and widths.</value></data>
+  <data name="Language" xml:space="preserve"><value>Language</value></data>
+  <data name="Theme" xml:space="preserve"><value>Theme</value></data>
+  <data name="DisplayUnits" xml:space="preserve"><value>Display units</value></data>
+  <data name="Metric" xml:space="preserve"><value>Metric</value></data>
+  <data name="Imperial" xml:space="preserve"><value>Imperial</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="ThemeBlue" xml:space="preserve"><value>Blue</value></data>
+  <data name="ThemeSaffron" xml:space="preserve"><value>Saffron</value></data>
+  <data name="ThemeDarkRed" xml:space="preserve"><value>Dark red</value></data>
+  <data name="ExportFailed" xml:space="preserve"><value>Export failed</value></data>
+  <data name="ExportSaved" xml:space="preserve"><value>Export saved</value></data>
+  <data name="SavedFileToLocation" xml:space="preserve"><value>Saved {0} to {1}.</value></data>
+  <data name="ProjectSaved" xml:space="preserve"><value>Project saved</value></data>
+  <data name="ProjectCouldNotBeSaved" xml:space="preserve"><value>Project could not be saved</value></data>
+  <data name="ProjectOpened" xml:space="preserve"><value>Project opened</value></data>
+  <data name="ProjectOpenedMessage" xml:space="preserve"><value>Project settings have been loaded.</value></data>
+  <data name="ProjectCouldNotBeOpened" xml:space="preserve"><value>Project could not be opened</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="FoundationStatus" xml:space="preserve"><value>Project foundation ready for scale and planking calculations.</value></data>
+  <data name="ShowTrenails" xml:space="preserve"><value>Trenails</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>About</value></data>
+  <data name="AboutSubtitle" xml:space="preserve"><value>Deck planking layout tool for model ship builders.</value></data>
+  <data name="AboutCopyright" xml:space="preserve"><value>HN Software Development</value></data>
+  <data name="Version" xml:space="preserve"><value>Version</value></data>
+  <data name="Platform" xml:space="preserve"><value>Platform</value></data>
+  <data name="OsVersion" xml:space="preserve"><value>OS version</value></data>
+  <data name="FeedbackButton" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackDescription" xml:space="preserve"><value>Report a bug or request a feature</value></data>
+  <data name="FeedbackTitle" xml:space="preserve"><value>Feedback</value></data>
+  <data name="FeedbackType" xml:space="preserve"><value>Type</value></data>
+  <data name="FeedbackTypeBug" xml:space="preserve"><value>Bug</value></data>
+  <data name="FeedbackTypeFeatureRequest" xml:space="preserve"><value>Feature request</value></data>
+  <data name="FeedbackTitleLabel" xml:space="preserve"><value>Title</value></data>
+  <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="FeedbackName" xml:space="preserve"><value>Name</value></data>
+  <data name="FeedbackContact" xml:space="preserve"><value>Contact</value></data>
+  <data name="FeedbackRequiredFields" xml:space="preserve"><value>Enter a title and description.</value></data>
+  <data name="SendFeedbackButton" xml:space="preserve"><value>Send feedback</value></data>
+  <data name="FeedbackSending" xml:space="preserve"><value>Sending feedback...</value></data>
+  <data name="FeedbackSent" xml:space="preserve"><value>Feedback has been sent.</value></data>
+  <data name="FeedbackSendFailed" xml:space="preserve"><value>Feedback could not be sent: {0}</value></data>
+  <data name="ShowTechnicalInformation" xml:space="preserve"><value>Show technical information</value></data>
+  <data name="HideTechnicalInformation" xml:space="preserve"><value>Hide technical information</value></data>
+</root>

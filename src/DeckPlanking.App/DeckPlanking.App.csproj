@@ -1,0 +1,147 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<AssemblyName>Deckplanking</AssemblyName>
+		<RootNamespace>DeckPlanking.App</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyVersion>26.6.30.0</AssemblyVersion>
+		<SatelliteResourceLanguages>en;nl;de;fr;es;it</SatelliteResourceLanguages>
+
+		<!-- Enable XAML source generation for faster build times and improved performance.
+		     This generates C# code from XAML at compile time instead of runtime inflation.
+		     To disable, remove this line.
+		     For individual files, you can override by setting Inflator metadata:
+		       <MauiXaml Update="MyPage.xaml" Inflator="Default" /> (reverts to defaults: Runtime for Debug, XamlC for Release)
+		       <MauiXaml Update="MyPage.xaml" Inflator="Runtime" /> (force runtime inflation) -->
+		<MauiXamlInflator>SourceGen</MauiXamlInflator>
+
+		<!-- Display name -->
+		<ApplicationTitle>Modelboat Deckplanking</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>nl.hnsoftwaredevelopment.deckplanking</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<WindowsPackageType>None</WindowsPackageType>
+		<ApplicationIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">Resources\AppIcon\appicon.ico</ApplicationIcon>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<RuntimeIdentifiers Condition="'$(TargetFramework)' == 'net10.0-android'">android-arm64;android-x64</RuntimeIdentifiers>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|AnyCPU'">
+		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|AnyCPU'">
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<DebugSymbols>False</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GeneratedSyncfusionLicenseFile>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\GeneratedSyncfusionLicense.g.cs</GeneratedSyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\SynfusionLicense.txt')">$(MSBuildProjectDirectory)\..\..\docs\SynfusionLicense.txt</SyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\SyncfusionLicense.txt')">$(MSBuildProjectDirectory)\..\..\docs\SyncfusionLicense.txt</SyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\docs\synfusion.txt')">$(MSBuildProjectDirectory)\..\..\docs\synfusion.txt</SyncfusionLicenseFile>
+		<SyncfusionLicenseFile Condition="'$(SyncfusionLicenseFile)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\syncfusion-license.txt')">$(MSBuildProjectDirectory)\..\..\syncfusion-license.txt</SyncfusionLicenseFile>
+		<AssemblyVersion>26.6.30.0</AssemblyVersion>
+		<FileVersion>26.6.30.0</FileVersion>
+	</PropertyGroup>
+
+	<UsingTask TaskName="GenerateSyncfusionLicenseSourceTask" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<LicenseFile ParameterType="System.String" Required="false" />
+			<OutputFile ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System" />
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.Text" />
+			<Code Type="Fragment" Language="cs"><![CDATA[
+var license = string.Empty;
+if (!string.IsNullOrWhiteSpace(LicenseFile) && File.Exists(LicenseFile))
+{
+    license = File.ReadAllText(LicenseFile).Trim();
+}
+
+var outputDirectory = Path.GetDirectoryName(OutputFile);
+if (!string.IsNullOrWhiteSpace(outputDirectory))
+{
+    Directory.CreateDirectory(outputDirectory);
+}
+
+var encodedLicense = Convert.ToBase64String(Encoding.UTF8.GetBytes(license));
+var source =
+    "using System;" + Environment.NewLine +
+    "using System.Text;" + Environment.NewLine +
+    "namespace DeckPlanking.App.Infrastructure;" + Environment.NewLine +
+    "internal static class SyncfusionBuildLicense" + Environment.NewLine +
+    "{" + Environment.NewLine +
+    "    public static string License => Encoding.UTF8.GetString(Convert.FromBase64String(\"" + encodedLicense + "\"));" + Environment.NewLine +
+    "}" + Environment.NewLine;
+
+File.WriteAllText(OutputFile, source, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+]]></Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="GenerateSyncfusionLicenseSource" BeforeTargets="PrepareForBuild">
+		<GenerateSyncfusionLicenseSourceTask LicenseFile="$(SyncfusionLicenseFile)" OutputFile="$(GeneratedSyncfusionLicenseFile)" />
+
+		<ItemGroup>
+			<Compile Include="$(GeneratedSyncfusionLicenseFile)" Visible="false" />
+		</ItemGroup>
+	</Target>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#fff6d5ff" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Include="Resources\HN-Software Logo.svg" Link="Resources\Images\hn_software_logo.svg" />
+		
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" Condition="'$(Configuration)' == 'Debug'" />
+		<PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="10.0.20" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="33.2.12" />
+		<PackageReference Include="Syncfusion.Pdf.Net.Core" Version="33.2.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DeckPlanking.Core\DeckPlanking.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Strings\AppResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>

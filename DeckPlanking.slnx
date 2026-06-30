@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DeckPlanking.App/DeckPlanking.App.csproj" />
+    <Project Path="src/DeckPlanking.Core/DeckPlanking.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DeckPlanking.Core.Tests/DeckPlanking.Core.Tests.csproj" />
+  </Folder>
+</Solution>
