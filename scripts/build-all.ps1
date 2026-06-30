@@ -13,3 +13,4 @@ $versionArgument = @{ VersionOverride = $buildVersion.DisplayVersion }
 
 & (Join-Path $PSScriptRoot 'build-windows.ps1') -Configuration $Configuration @versionArgument
 & (Join-Path $PSScriptRoot 'build-android-arm64.ps1') -Configuration $Configuration @versionArgument
+& (Join-Path $PSScriptRoot 'build-android-playstore.ps1') -Configuration $Configuration @versionArgument

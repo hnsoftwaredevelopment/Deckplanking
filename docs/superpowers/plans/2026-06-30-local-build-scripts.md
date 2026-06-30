@@ -25,10 +25,12 @@
 **Files:**
 - Create: `scripts/build-windows.ps1`
 - Create: `scripts/build-android-arm64.ps1`
+- Create: `scripts/build-android-playstore.ps1`
 - Create: `scripts/build-all.ps1`
 
 - [x] Publish Windows Release to `artifacts/windows/Deckplanking-YY.MM.DD.xxx`.
 - [x] Publish Android ARM64 Release APK to `artifacts/android-arm64/Deckplanking-YY.MM.DD.xxx`.
+- [x] Publish Android Play Store Release AAB to `artifacts/android-playstore/Deckplanking-YY.MM.DD.xxx`.
 - [x] Allow `-VersionOverride` for deterministic rebuilds.
 - [x] Run Windows cleanup after publish so only `en`, `nl`, `de`, `fr`, `es`, and `it` satellite language folders remain.
 
@@ -41,3 +43,4 @@
 - [x] Run Windows script and verify `Deckplanking.exe` exists.
 - [x] Verify Windows publish contains no unused satellite language directories.
 - [x] Run Android ARM64 script and verify the signed APK exists.
+- [x] Run Android Play Store script and verify the AAB exists.
