@@ -152,13 +152,10 @@
   <data name="FeedbackDescriptionLabel" xml:space="preserve"><value>Descrizione</value></data>
   <data name="FeedbackName" xml:space="preserve"><value>Nome</value></data>
   <data name="FeedbackContact" xml:space="preserve"><value>Contatto</value></data>
-  <data name="PrepareFeedbackButton" xml:space="preserve"><value>Prepara feedback</value></data>
   <data name="FeedbackRequiredFields" xml:space="preserve"><value>Inserisci un titolo e una descrizione.</value></data>
-  <data name="FeedbackPrepared" xml:space="preserve"><value>Il feedback e stato preparato e copiato negli appunti. L'invio automatico verra collegato in un passaggio successivo.</value></data>
   <data name="SendFeedbackButton" xml:space="preserve"><value>Invia feedback</value></data>
   <data name="FeedbackSending" xml:space="preserve"><value>Invio del feedback...</value></data>
   <data name="FeedbackSent" xml:space="preserve"><value>Il feedback e stato inviato.</value></data>
-  <data name="FeedbackSentWithIssue" xml:space="preserve"><value>Il feedback e stato inviato. Issue GitHub: {0}</value></data>
   <data name="FeedbackSendFailed" xml:space="preserve"><value>Impossibile inviare il feedback: {0}</value></data>
   <data name="ShowTechnicalInformation" xml:space="preserve"><value>Mostra informazioni tecniche</value></data>
   <data name="HideTechnicalInformation" xml:space="preserve"><value>Nascondi informazioni tecniche</value></data>
