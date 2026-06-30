@@ -83,14 +83,29 @@ function Remove-UnusedSatelliteLanguageDirectories {
         $keep[$language.ToLowerInvariant()] = $true
     }
 
-    Get-ChildItem -LiteralPath $PublishDirectory -Directory |
-        Where-Object {
-            $_.Name -match '^[a-z]{2}(-[A-Z]{2})?$' -and
-            -not $keep.ContainsKey($_.Name.ToLowerInvariant())
-        } |
-        ForEach-Object {
-            Remove-Item -LiteralPath $_.FullName -Recurse -Force
+    foreach ($directory in Get-ChildItem -LiteralPath $PublishDirectory -Directory) {
+        $directoryName = $directory.Name.ToLowerInvariant()
+        if ($keep.ContainsKey($directoryName)) {
+            continue
         }
+
+        $files = @(Get-ChildItem -LiteralPath $directory.FullName -File -Recurse -ErrorAction SilentlyContinue)
+        if ($files.Count -eq 0) {
+            continue
+        }
+
+        $containsOnlySatelliteResources = $true
+        foreach ($file in $files) {
+            if ($file.Extension -notin @('.mui', '.resources.dll')) {
+                $containsOnlySatelliteResources = $false
+                break
+            }
+        }
+
+        if ($containsOnlySatelliteResources) {
+            Remove-Item -LiteralPath $directory.FullName -Recurse -Force
+        }
+    }
 }
 
 function Write-BuildSummary {
