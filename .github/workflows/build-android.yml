@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Android APK and AAB
+    name: Android APKs and AAB
     runs-on: windows-latest
 
     steps:
@@ -60,6 +60,15 @@ jobs:
           }
           .\scripts\build-android-arm64.ps1 -VersionOverride $version
 
+      - name: Build universal APK
+        shell: pwsh
+        run: |
+          $version = "${{ inputs.version }}"
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            $version = "{0}.{1:000}" -f (Get-Date -Format 'yy.MM'), [int]"${{ github.run_number }}"
+          }
+          .\scripts\build-android-universal.ps1 -VersionOverride $version
+
       - name: Build Play Store AAB
         shell: pwsh
         env:
@@ -92,6 +101,14 @@ jobs:
         with:
           name: deckplanking-android-arm64-apk
           path: artifacts/android-arm64/**/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload universal APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deckplanking-android-universal-apk
+          path: artifacts/android-universal/**/*.apk
           if-no-files-found: error
           retention-days: 14
 

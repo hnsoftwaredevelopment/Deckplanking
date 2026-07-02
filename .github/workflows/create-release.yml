@@ -102,6 +102,10 @@ jobs:
         shell: pwsh
         run: .\scripts\build-android-arm64.ps1 -VersionOverride "${{ steps.version.outputs.version }}"
 
+      - name: Build Android universal APK
+        shell: pwsh
+        run: .\scripts\build-android-universal.ps1 -VersionOverride "${{ steps.version.outputs.version }}"
+
       - name: Build Play Store AAB
         if: ${{ inputs.build_playstore }}
         shell: pwsh
@@ -150,7 +154,8 @@ jobs:
 
           $assets = @(
             "artifacts/installer/DeckplankingSetup-$version.exe",
-            "artifacts/android-arm64/Deckplanking-$version/nl.hnsoftwaredevelopment.deckplanking-Signed.apk"
+            "artifacts/android-arm64/Deckplanking-$version/nl.hnsoftwaredevelopment.deckplanking-Signed.apk",
+            "artifacts/android-universal/Deckplanking-$version/Deckplanking-$version-universal.apk"
           )
 
           if ("${{ inputs.build_playstore }}" -eq "true") {

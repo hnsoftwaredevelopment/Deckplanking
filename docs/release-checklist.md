@@ -37,6 +37,12 @@ Pop-Location
 .\scripts\build-android-arm64.ps1
 ```
 
+- [ ] Build Android universal APK for direct user installation:
+
+```powershell
+.\scripts\build-android-universal.ps1
+```
+
 - [ ] Optional: build Google Play AAB:
 
 ```powershell
@@ -72,6 +78,7 @@ Pop-Location
 ## 4. Android Smoke Test
 
 - [ ] Install the ARM64 APK from `artifacts\android-arm64\Deckplanking-YY.MM.xxx` on a Samsung ARM64 device.
+- [ ] Install the universal APK from `artifacts\android-universal\Deckplanking-YY.MM.xxx` on another Android test device when available.
 - [ ] Confirm the app starts without closing.
 - [ ] Confirm About shows the expected version.
 - [ ] Save and reopen a project.
@@ -115,4 +122,4 @@ Optional Google Play signing secrets:
 - [ ] Summarize user-visible changes.
 - [ ] Mention known limitations, such as Google Play availability if the AAB is not being published yet.
 - [ ] Confirm the GitHub release tag uses `vYY.MM.xxx`.
-- [ ] Attach Windows installer, Android ARM64 APK, and optional Play Store AAB to the GitHub release.
+- [ ] Attach Windows installer, Android ARM64 APK, Android universal APK, and optional Play Store AAB to the GitHub release.
