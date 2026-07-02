@@ -19,6 +19,11 @@ if (Test-Path -LiteralPath $publishDirectory) {
 
 New-Item -ItemType Directory -Path $publishDirectory -Force | Out-Null
 
+& dotnet clean $projectPath -f net10.0-windows10.0.19041.0 -c $Configuration
+if ($LASTEXITCODE -ne 0) {
+    throw "Windows clean failed with exit code $LASTEXITCODE."
+}
+
 $arguments = @(
     'publish',
     $projectPath,
@@ -26,7 +31,7 @@ $arguments = @(
     '-c', $Configuration,
     '-p:WindowsPackageType=None',
     "-p:PublishDir=$publishDirectory\"
-) + (Get-VersionMSBuildArguments -BuildVersion $buildVersion)
+) + (Get-VersionMSBuildArguments -BuildVersion $buildVersion -ApplicationDisplayVersion '1.0.0')
 
 & dotnet @arguments
 if ($LASTEXITCODE -ne 0) {

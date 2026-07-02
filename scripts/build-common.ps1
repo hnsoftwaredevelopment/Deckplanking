@@ -19,7 +19,6 @@ function Get-NextBuildVersion {
         return [pscustomobject]@{
             DisplayVersion = $VersionOverride
             AssemblyVersion = '{0}.{1}.{2}.{3}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2], [int]$parts[3]
-            MauiApplicationDisplayVersion = '{0}.{1}.{2}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2]
             BuildNumber = [int]$parts[3]
         }
     }
@@ -49,14 +48,14 @@ function Get-NextBuildVersion {
     return [pscustomobject]@{
         DisplayVersion = $displayVersion
         AssemblyVersion = '{0}.{1}.{2}.{3}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2], [int]$parts[3]
-        MauiApplicationDisplayVersion = '{0}.{1}.{2}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2]
         BuildNumber = $buildNumber
     }
 }
 
 function Get-VersionMSBuildArguments {
     param(
-        [Parameter(Mandatory = $true)] $BuildVersion
+        [Parameter(Mandatory = $true)] $BuildVersion,
+        [string] $ApplicationDisplayVersion = $BuildVersion.DisplayVersion
     )
 
     return @(
@@ -65,7 +64,7 @@ function Get-VersionMSBuildArguments {
         "-p:Version=$($BuildVersion.DisplayVersion)",
         "-p:InformationalVersion=$($BuildVersion.DisplayVersion)",
         '-p:IncludeSourceRevisionInInformationalVersion=false',
-        "-p:ApplicationDisplayVersion=$($BuildVersion.MauiApplicationDisplayVersion)",
+        "-p:ApplicationDisplayVersion=$ApplicationDisplayVersion",
         "-p:ApplicationVersion=$($BuildVersion.BuildNumber)"
     )
 }
@@ -73,7 +72,7 @@ function Get-VersionMSBuildArguments {
 function Remove-UnusedSatelliteLanguageDirectories {
     param(
         [Parameter(Mandatory = $true)] [string] $PublishDirectory,
-        [string[]] $KeepLanguages = @('en', 'nl', 'de', 'fr', 'es', 'it')
+        [string[]] $KeepLanguages = @('en', 'en-us', 'en-gb', 'nl', 'nl-nl', 'de', 'de-de', 'fr', 'fr-fr', 'es', 'es-es', 'it', 'it-it')
     )
 
     if (-not (Test-Path -LiteralPath $PublishDirectory)) {
