@@ -23,6 +23,7 @@ Modelboat Deckplanking is a .NET MAUI application for designing model ship deck 
 - `feedback-worker` contains the Cloudflare Worker that receives app feedback and creates GitHub issues.
 - `scripts` contains local build scripts for Windows and Android artifacts.
 - `Installer` contains the Windows Inno Setup installer scripts and installer images.
+- `docs/user-guide` contains the multilingual user documentation.
 
 ## Platform Targets
 
@@ -38,6 +39,7 @@ Run the build scripts from the repository root.
 .\scripts\build-windows.ps1
 .\scripts\build-android-arm64.ps1
 .\scripts\build-android-playstore.ps1
+.\Installer\Build-Installer.ps1
 ```
 
 Or build all artifacts with one shared version:
@@ -51,6 +53,7 @@ The scripts write output to `artifacts`:
 - `artifacts/windows/Deckplanking-YY.MM.DD.xxx`
 - `artifacts/android-arm64/Deckplanking-YY.MM.DD.xxx`
 - `artifacts/android-playstore/Deckplanking-YY.MM.DD.xxx`
+- `artifacts/installer/DeckplankingSetup-YY.MM.DD.xxx.exe`
 
 Use `-VersionOverride` for a deterministic build:
 
@@ -90,6 +93,8 @@ The repository contains these workflows:
 - `CI`: runs .NET core tests and feedback worker tests.
 - `Build Windows`: manually publishes a Windows artifact.
 - `Build Android`: manually publishes the ARM64 APK and Play Store AAB artifacts.
+- `Build Android ARM64`: manually publishes only the ARM64 APK for device testing.
+- `Build Installer`: manually publishes a Windows artifact and creates an Inno Setup installer.
 
 Build workflows use `YY.MM.DD.xxx` versions. On GitHub, `xxx` is based on the workflow run number unless a version override is supplied manually.
 
