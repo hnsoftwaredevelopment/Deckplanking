@@ -1,0 +1,59 @@
+name: Build Android ARM64
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Optional version override in YY.MM.DD.xxx format
+        required: false
+        type: string
+
+jobs:
+  build:
+    name: Android ARM64 APK
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Restore MAUI workloads
+        run: dotnet workload restore src\DeckPlanking.App\DeckPlanking.App.csproj
+
+      - name: Write Syncfusion license
+        shell: pwsh
+        env:
+          SYNCFUSION_LICENSE: ${{ secrets.SYNCFUSION_LICENSE }}
+        run: |
+          if (-not [string]::IsNullOrWhiteSpace($env:SYNCFUSION_LICENSE)) {
+            New-Item -ItemType Directory -Path docs -Force | Out-Null
+            Set-Content -LiteralPath docs\SyncfusionLicense.txt -Value $env:SYNCFUSION_LICENSE -NoNewline
+          }
+
+      - name: Build ARM64 APK
+        shell: pwsh
+        run: |
+          $version = "${{ inputs.version }}"
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            $version = "{0}.{1:000}" -f (Get-Date -Format 'yy.MM.dd'), [int]"${{ github.run_number }}"
+          }
+          .\scripts\build-android-arm64.ps1 -VersionOverride $version
+
+      - name: Upload ARM64 APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deckplanking-android-arm64-apk
+          path: artifacts/android-arm64/**/*.apk
+          if-no-files-found: error
+          retention-days: 14

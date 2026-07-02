@@ -19,6 +19,7 @@ function Get-NextBuildVersion {
         return [pscustomobject]@{
             DisplayVersion = $VersionOverride
             AssemblyVersion = '{0}.{1}.{2}.{3}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2], [int]$parts[3]
+            MauiApplicationDisplayVersion = '{0}.{1}.{2}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2]
             BuildNumber = [int]$parts[3]
         }
     }
@@ -48,6 +49,7 @@ function Get-NextBuildVersion {
     return [pscustomobject]@{
         DisplayVersion = $displayVersion
         AssemblyVersion = '{0}.{1}.{2}.{3}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2], [int]$parts[3]
+        MauiApplicationDisplayVersion = '{0}.{1}.{2}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2]
         BuildNumber = $buildNumber
     }
 }
@@ -63,7 +65,7 @@ function Get-VersionMSBuildArguments {
         "-p:Version=$($BuildVersion.DisplayVersion)",
         "-p:InformationalVersion=$($BuildVersion.DisplayVersion)",
         '-p:IncludeSourceRevisionInInformationalVersion=false',
-        "-p:ApplicationDisplayVersion=$($BuildVersion.DisplayVersion)",
+        "-p:ApplicationDisplayVersion=$($BuildVersion.MauiApplicationDisplayVersion)",
         "-p:ApplicationVersion=$($BuildVersion.BuildNumber)"
     )
 }
