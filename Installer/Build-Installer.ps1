@@ -56,7 +56,7 @@ $WindowsArtifactPath = (Resolve-Path -LiteralPath $WindowsArtifactPath).Path
 $installerDir = (Resolve-Path -LiteralPath $installerDir).Path
 $setupIconPath = Join-Path $repoRoot "src\DeckPlanking.App\Resources\AppIcon\appicon.ico"
 $artifactVersion = Split-Path -Leaf $WindowsArtifactPath
-if ($artifactVersion -match '^Deckplanking-(?<Version>\d{2}\.\d{2}\.\d{2}\.\d+)$') {
+if ($artifactVersion -match '^Deckplanking-(?<Version>\d{2}\.\d{2}\.\d+)$') {
     $artifactVersion = $Matches.Version
 } else {
     $artifactVersion = (Get-Item -LiteralPath (Join-Path $WindowsArtifactPath "Deckplanking.exe")).VersionInfo.ProductVersion

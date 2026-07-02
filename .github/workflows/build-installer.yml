@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Optional version override in YY.MM.DD.xxx format
+        description: Optional version override in YY.MM.xxx format
         required: false
         type: string
 
@@ -44,7 +44,7 @@ jobs:
         run: |
           $version = "${{ inputs.version }}"
           if ([string]::IsNullOrWhiteSpace($version)) {
-            $version = "{0}.{1:000}" -f (Get-Date -Format 'yy.MM.dd'), [int]"${{ github.run_number }}"
+            $version = "{0}.{1:000}" -f (Get-Date -Format 'yy.MM'), [int]"${{ github.run_number }}"
           }
           .\Installer\Build-Installer.ps1 -VersionOverride $version
 

@@ -45,7 +45,7 @@ $arguments = @(
     '-c', $Configuration,
     '-p:WindowsPackageType=None',
     "-p:PublishDir=$publishDirectory\"
-) + (Get-VersionMSBuildArguments -BuildVersion $buildVersion -ApplicationDisplayVersion '1.0.0')
+) + (Get-VersionMSBuildArguments -BuildVersion $buildVersion)
 
 & dotnet @arguments
 if ($LASTEXITCODE -ne 0) {
