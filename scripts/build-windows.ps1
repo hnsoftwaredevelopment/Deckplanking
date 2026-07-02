@@ -19,6 +19,25 @@ if (Test-Path -LiteralPath $publishDirectory) {
 
 New-Item -ItemType Directory -Path $publishDirectory -Force | Out-Null
 
+$projectDirectory = Split-Path -Parent $projectPath
+$windowsBuildDirectories = @(
+    (Join-Path $projectDirectory "bin\$Configuration\net10.0-windows10.0.19041.0"),
+    (Join-Path $projectDirectory "obj\$Configuration\net10.0-windows10.0.19041.0")
+)
+
+foreach ($directory in $windowsBuildDirectories) {
+    if (-not (Test-Path -LiteralPath $directory)) {
+        continue
+    }
+
+    $resolvedDirectory = (Resolve-Path -LiteralPath $directory).Path
+    if (-not $resolvedDirectory.StartsWith($projectDirectory, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to clean outside the app project directory: $resolvedDirectory"
+    }
+
+    Remove-Item -LiteralPath $resolvedDirectory -Recurse -Force
+}
+
 $arguments = @(
     'publish',
     $projectPath,

@@ -11,52 +11,58 @@ function Get-NextBuildVersion {
     )
 
     if (-not [string]::IsNullOrWhiteSpace($VersionOverride)) {
-        if ($VersionOverride -notmatch '^\d{2}\.\d{2}\.\d{2}\.\d{1,5}$') {
-            throw "VersionOverride must use YY.MM.DD.xxx, for example 26.06.30.001."
+        if ($VersionOverride -notmatch '^\d{2}\.\d{2}\.\d{1,5}$') {
+            throw "VersionOverride must use YY.MM.xxx, for example 26.07.001."
         }
 
         $parts = $VersionOverride.Split('.')
+        $year = [int]$parts[0]
+        $month = [int]$parts[1]
+        $buildNumber = [int]$parts[2]
         return [pscustomobject]@{
             DisplayVersion = $VersionOverride
-            AssemblyVersion = '{0}.{1}.{2}.{3}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2], [int]$parts[3]
-            MauiApplicationDisplayVersion = '{0}.{1}.{2}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2]
-            BuildNumber = [int]$parts[3]
+            AssemblyVersion = '{0}.{1}.0.{2}' -f $year, $month, $buildNumber
+            ApplicationVersion = ($year * 100000) + ($month * 1000) + $buildNumber
+            BuildNumber = $buildNumber
         }
     }
 
     $root = Get-RepositoryRoot
     $artifactsDirectory = Join-Path $root 'artifacts'
     $statePath = Join-Path $artifactsDirectory 'build-version-state.json'
-    $today = Get-Date -Format 'yy.MM.dd'
+    $monthKey = Get-Date -Format 'yy.MM'
     $buildNumber = 1
 
     if (Test-Path -LiteralPath $statePath) {
         $state = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
-        if ($state.date -eq $today) {
+        if ($state.month -eq $monthKey) {
             $buildNumber = [int]$state.build + 1
         }
     }
 
     New-Item -ItemType Directory -Path $artifactsDirectory -Force | Out-Null
     [pscustomobject]@{
-        date = $today
+        month = $monthKey
         build = $buildNumber
     } | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
 
-    $displayVersion = '{0}.{1:000}' -f $today, $buildNumber
+    $displayVersion = '{0}.{1:000}' -f $monthKey, $buildNumber
     $parts = $displayVersion.Split('.')
+    $year = [int]$parts[0]
+    $month = [int]$parts[1]
 
     return [pscustomobject]@{
         DisplayVersion = $displayVersion
-        AssemblyVersion = '{0}.{1}.{2}.{3}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2], [int]$parts[3]
-        MauiApplicationDisplayVersion = '{0}.{1}.{2}' -f [int]$parts[0], [int]$parts[1], [int]$parts[2]
+        AssemblyVersion = '{0}.{1}.0.{2}' -f $year, $month, $buildNumber
+        ApplicationVersion = ($year * 100000) + ($month * 1000) + $buildNumber
         BuildNumber = $buildNumber
     }
 }
 
 function Get-VersionMSBuildArguments {
     param(
-        [Parameter(Mandatory = $true)] $BuildVersion
+        [Parameter(Mandatory = $true)] $BuildVersion,
+        [string] $ApplicationDisplayVersion = $BuildVersion.DisplayVersion
     )
 
     return @(
@@ -65,15 +71,15 @@ function Get-VersionMSBuildArguments {
         "-p:Version=$($BuildVersion.DisplayVersion)",
         "-p:InformationalVersion=$($BuildVersion.DisplayVersion)",
         '-p:IncludeSourceRevisionInInformationalVersion=false',
-        "-p:ApplicationDisplayVersion=$($BuildVersion.MauiApplicationDisplayVersion)",
-        "-p:ApplicationVersion=$($BuildVersion.BuildNumber)"
+        "-p:ApplicationDisplayVersion=$ApplicationDisplayVersion",
+        "-p:ApplicationVersion=$($BuildVersion.ApplicationVersion)"
     )
 }
 
 function Remove-UnusedSatelliteLanguageDirectories {
     param(
         [Parameter(Mandatory = $true)] [string] $PublishDirectory,
-        [string[]] $KeepLanguages = @('en', 'nl', 'de', 'fr', 'es', 'it')
+        [string[]] $KeepLanguages = @('en', 'en-us', 'en-gb', 'nl', 'nl-nl', 'de', 'de-de', 'fr', 'fr-fr', 'es', 'es-es', 'it', 'it-it')
     )
 
     if (-not (Test-Path -LiteralPath $PublishDirectory)) {

@@ -122,6 +122,7 @@ File.WriteAllText(OutputFile, source, new UTF8Encoding(encoderShouldEmitUTF8Iden
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+		<MauiAsset Include="..\..\docs\user-guide\user-guide.*.md" LogicalName="UserGuide/%(Filename)%(Extension)" />
 	</ItemGroup>
 
 	<ItemGroup>

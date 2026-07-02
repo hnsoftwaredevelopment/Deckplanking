@@ -7,7 +7,7 @@ Use this checklist before publishing a Windows installer, Android test APK, or G
 - [ ] Confirm the working tree contains only intended changes.
 - [ ] Confirm `docs/SyncfusionLicense.txt` or another supported local Syncfusion license file exists for local builds.
 - [ ] Confirm GitHub secret `SYNCFUSION_LICENSE` exists before using GitHub build workflows.
-- [ ] Confirm the target version uses `YY.MM.DD.xxx`.
+- [ ] Confirm the target version uses `YY.MM.xxx`.
 
 ## 2. Local Verification
 
@@ -37,6 +37,12 @@ Pop-Location
 .\scripts\build-android-arm64.ps1
 ```
 
+- [ ] Build Android universal APK for direct user installation:
+
+```powershell
+.\scripts\build-android-universal.ps1
+```
+
 - [ ] Optional: build Google Play AAB:
 
 ```powershell
@@ -45,15 +51,22 @@ Pop-Location
 
 ## 3. Windows Smoke Test
 
-- [ ] Start `Deckplanking.exe` from `artifacts\windows\Deckplanking-YY.MM.DD.xxx`.
+- [ ] Start `Deckplanking.exe` from `artifacts\windows\Deckplanking-YY.MM.xxx`.
 - [ ] Confirm the app opens without errors.
 - [ ] Confirm About shows the expected version.
 - [ ] Confirm only these language/resource directories remain in the Windows artifact:
   - `de`
+  - `de-DE`
+  - `en-GB`
+  - `en-us`
   - `es`
+  - `es-ES`
   - `fr`
+  - `fr-FR`
   - `it`
+  - `it-IT`
   - `nl`
+  - `nl-NL`
   - `Microsoft.UI.Xaml`
   - `NpuDetect`
 - [ ] Save and reopen a project.
@@ -64,7 +77,8 @@ Pop-Location
 
 ## 4. Android Smoke Test
 
-- [ ] Install the ARM64 APK from `artifacts\android-arm64\Deckplanking-YY.MM.DD.xxx` on a Samsung ARM64 device.
+- [ ] Install the ARM64 APK from `artifacts\android-arm64\Deckplanking-YY.MM.xxx` on a Samsung ARM64 device.
+- [ ] Install the universal APK from `artifacts\android-universal\Deckplanking-YY.MM.xxx` on another Android test device when available.
 - [ ] Confirm the app starts without closing.
 - [ ] Confirm About shows the expected version.
 - [ ] Save and reopen a project.
@@ -79,6 +93,7 @@ Pop-Location
 - [ ] Confirm the `CI` workflow succeeds.
 - [ ] Run `Build Windows` manually when a Windows artifact is needed.
 - [ ] Run `Build Android` manually when Android APK/AAB artifacts are needed.
+- [ ] Run `Create Release` manually when GitHub release assets should be published.
 - [ ] Download GitHub artifacts and confirm they contain the same files as local builds.
 
 Required GitHub secrets:
@@ -95,7 +110,7 @@ Optional Google Play signing secrets:
 ## 6. Windows Installer
 
 - [ ] Build the Windows artifact first.
-- [ ] Confirm `Installer\Build-Installer.ps1` points to the intended `artifacts\windows\Deckplanking-YY.MM.DD.xxx` folder.
+- [ ] Confirm `Installer\Build-Installer.ps1` points to the intended `artifacts\windows\Deckplanking-YY.MM.xxx` folder.
 - [ ] Confirm `Installer\Installer.iss` uses the same artifact folder.
 - [ ] Build the installer with Inno Setup.
 - [ ] Install on a clean Windows machine or VM.
@@ -106,4 +121,5 @@ Optional Google Play signing secrets:
 
 - [ ] Summarize user-visible changes.
 - [ ] Mention known limitations, such as Google Play availability if the AAB is not being published yet.
-- [ ] Attach Windows installer, Windows zip artifact if needed, Android ARM64 APK, and optional Play Store AAB to the release.
+- [ ] Confirm the GitHub release tag uses `vYY.MM.xxx`.
+- [ ] Attach Windows installer, Android ARM64 APK, Android universal APK, and optional Play Store AAB to the GitHub release.

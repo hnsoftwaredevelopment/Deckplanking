@@ -159,4 +159,9 @@
   <data name="FeedbackSendFailed" xml:space="preserve"><value>Feedback kon niet worden verstuurd: {0}</value></data>
   <data name="ShowTechnicalInformation" xml:space="preserve"><value>Technische informatie tonen</value></data>
   <data name="HideTechnicalInformation" xml:space="preserve"><value>Technische informatie verbergen</value></data>
+  <data name="UserGuideTitle" xml:space="preserve"><value>Gebruikershandleiding</value></data>
+  <data name="UserGuideButton" xml:space="preserve"><value>Handleiding</value></data>
+  <data name="UserGuideDescription" xml:space="preserve"><value>Gebruikershandleiding openen</value></data>
+  <data name="UserGuideLoadFailed" xml:space="preserve"><value>Handleiding kon niet worden geladen</value></data>
+  <data name="Close" xml:space="preserve"><value>Sluiten</value></data>
 </root>

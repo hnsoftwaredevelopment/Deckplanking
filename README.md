@@ -38,6 +38,7 @@ Run the build scripts from the repository root.
 ```powershell
 .\scripts\build-windows.ps1
 .\scripts\build-android-arm64.ps1
+.\scripts\build-android-universal.ps1
 .\scripts\build-android-playstore.ps1
 .\Installer\Build-Installer.ps1
 ```
@@ -50,15 +51,16 @@ Or build all artifacts with one shared version:
 
 The scripts write output to `artifacts`:
 
-- `artifacts/windows/Deckplanking-YY.MM.DD.xxx`
-- `artifacts/android-arm64/Deckplanking-YY.MM.DD.xxx`
-- `artifacts/android-playstore/Deckplanking-YY.MM.DD.xxx`
-- `artifacts/installer/DeckplankingSetup-YY.MM.DD.xxx.exe`
+- `artifacts/windows/Deckplanking-YY.MM.xxx`
+- `artifacts/android-arm64/Deckplanking-YY.MM.xxx`
+- `artifacts/android-universal/Deckplanking-YY.MM.xxx`
+- `artifacts/android-playstore/Deckplanking-YY.MM.xxx`
+- `artifacts/installer/DeckplankingSetup-YY.MM.xxx.exe`
 
 Use `-VersionOverride` for a deterministic build:
 
 ```powershell
-.\scripts\build-windows.ps1 -VersionOverride 26.06.30.001
+.\scripts\build-windows.ps1 -VersionOverride 26.07.001
 ```
 
 ## Syncfusion License
@@ -76,6 +78,8 @@ Do not commit Syncfusion license files. In GitHub Actions, use the `SYNCFUSION_L
 
 `scripts/build-android-arm64.ps1` creates an ARM64 APK for direct device testing.
 
+`scripts/build-android-universal.ps1` creates a larger APK for direct installation on most Android devices.
+
 `scripts/build-android-playstore.ps1` creates an AAB for Google Play. For a real Play Store upload, provide signing values through parameters or environment variables:
 
 ```powershell
@@ -92,11 +96,11 @@ The repository contains these workflows:
 
 - `CI`: runs .NET core tests and feedback worker tests.
 - `Build Windows`: manually publishes a Windows artifact.
-- `Build Android`: manually publishes the ARM64 APK and Play Store AAB artifacts.
+- `Build Android`: manually publishes the ARM64 APK, universal APK, and Play Store AAB artifacts.
 - `Build Android ARM64`: manually publishes only the ARM64 APK for device testing.
 - `Build Installer`: manually publishes a Windows artifact and creates an Inno Setup installer.
 
-Build workflows use `YY.MM.DD.xxx` versions. On GitHub, `xxx` is based on the workflow run number unless a version override is supplied manually.
+Build workflows use `YY.MM.xxx` versions. On GitHub, `xxx` is based on the workflow run number unless a version override is supplied manually.
 
 ## Build Output Notes
 
