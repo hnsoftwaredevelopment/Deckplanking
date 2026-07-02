@@ -159,4 +159,9 @@
   <data name="FeedbackSendFailed" xml:space="preserve"><value>Impossibile inviare il feedback: {0}</value></data>
   <data name="ShowTechnicalInformation" xml:space="preserve"><value>Mostra informazioni tecniche</value></data>
   <data name="HideTechnicalInformation" xml:space="preserve"><value>Nascondi informazioni tecniche</value></data>
+  <data name="UserGuideTitle" xml:space="preserve"><value>Guida utente</value></data>
+  <data name="UserGuideButton" xml:space="preserve"><value>Guida</value></data>
+  <data name="UserGuideDescription" xml:space="preserve"><value>Apri la guida utente</value></data>
+  <data name="UserGuideLoadFailed" xml:space="preserve"><value>Impossibile caricare la guida utente</value></data>
+  <data name="Close" xml:space="preserve"><value>Chiudi</value></data>
 </root>

@@ -17,6 +17,11 @@ public partial class AboutPage : ContentPage
         await Shell.Current.GoToAsync(nameof(FeedbackPage));
     }
 
+    private async void OnUserGuideClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new UserGuidePage());
+    }
+
     internal static string GetApplicationVersion()
     {
         var assembly = typeof(App).Assembly;

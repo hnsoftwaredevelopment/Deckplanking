@@ -63,12 +63,23 @@
                                TextColor="{DynamicResource AppPrimaryTextColor}" />
                     </Grid>
 
-                    <Button ImageSource="feedback.svg"
-                            Text="{loc:Translate FeedbackButton}"
-                            Clicked="OnFeedbackClicked"
-                            HorizontalOptions="Center"
-                            ToolTipProperties.Text="{loc:Translate FeedbackDescription}"
-                            SemanticProperties.Description="{loc:Translate FeedbackDescription}" />
+                    <FlexLayout Direction="Row"
+                                Wrap="Wrap"
+                                JustifyContent="Center"
+                                AlignItems="Center">
+                        <Button ImageSource="user_guide.svg"
+                                Text="{loc:Translate UserGuideButton}"
+                                Clicked="OnUserGuideClicked"
+                                Margin="6"
+                                ToolTipProperties.Text="{loc:Translate UserGuideDescription}"
+                                SemanticProperties.Description="{loc:Translate UserGuideDescription}" />
+                        <Button ImageSource="feedback.svg"
+                                Text="{loc:Translate FeedbackButton}"
+                                Clicked="OnFeedbackClicked"
+                                Margin="6"
+                                ToolTipProperties.Text="{loc:Translate FeedbackDescription}"
+                                SemanticProperties.Description="{loc:Translate FeedbackDescription}" />
+                    </FlexLayout>
 
                     <VerticalStackLayout Spacing="8"
                                          HorizontalOptions="Center">

@@ -159,4 +159,9 @@
   <data name="FeedbackSendFailed" xml:space="preserve"><value>Feedback could not be sent: {0}</value></data>
   <data name="ShowTechnicalInformation" xml:space="preserve"><value>Show technical information</value></data>
   <data name="HideTechnicalInformation" xml:space="preserve"><value>Hide technical information</value></data>
+  <data name="UserGuideTitle" xml:space="preserve"><value>User guide</value></data>
+  <data name="UserGuideButton" xml:space="preserve"><value>User guide</value></data>
+  <data name="UserGuideDescription" xml:space="preserve"><value>Open the user guide</value></data>
+  <data name="UserGuideLoadFailed" xml:space="preserve"><value>User guide could not be loaded</value></data>
+  <data name="Close" xml:space="preserve"><value>Close</value></data>
 </root>
